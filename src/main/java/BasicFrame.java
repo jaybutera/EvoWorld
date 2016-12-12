@@ -5,24 +5,23 @@ import javax.swing.JFrame;
 import java.awt.*;
 
 public class BasicFrame implements GLEventListener {
-
-    @Override
-    public void display(GLAutoDrawable arg0) {
+    // Initiates OpenGL rendering
+    public void display(GLAutoDrawable drawable) {
         // method body
     }
 
-    @Override
-    public void dispose(GLAutoDrawable arg0) {
-        //method body
+    // Release all OpenGL resources in the context
+    public void dispose(GLAutoDrawable drawable) {
+        drawable.destroy();
     }
 
-    @Override
-    public void init(GLAutoDrawable arg0) {
+    // Called after context initialized
+    public void init(GLAutoDrawable drawable) {
         // method body
     }
 
-    @Override
-    public void reshape(GLAutoDrawable arg0, int arg1, int arg2, int arg3, int arg4) {
+    // Called after window transformations (position/size)
+    public void reshape(GLAutoDrawable drawable, int arg1, int arg2, int arg3, int arg4) {
         // method body
     }
 
