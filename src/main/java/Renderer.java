@@ -1,6 +1,5 @@
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
-//import net.java.games.jogl.*;
 
 import java.awt.*;
 

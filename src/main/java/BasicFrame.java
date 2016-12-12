@@ -27,7 +27,7 @@ public class BasicFrame implements GLEventListener {
 
     public static void main(String[] args) {
 
-        //getting the capabilities object of GL2 profile
+        // Use capabilities OpenGL 2 profile
         final GLProfile profile = GLProfile.get(GLProfile.GL2);
         GLCapabilities capabilities = new GLCapabilities(profile);
 
@@ -38,11 +38,13 @@ public class BasicFrame implements GLEventListener {
         glcanvas.setSize(400, 400);
 
         //creating frame
-        final Frame frame = new Frame (" Basic Frame");
+        final JFrame frame = new JFrame (" Basic Frame");
 
-        //adding canvas to frame
-        frame.add(glcanvas);
-        frame.setSize( 640, 480 );
+        // Add canvas to frame
+        frame.getContentPane().add(glcanvas);
+        // Make frame full screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        frame.setSize(screenSize.width, screenSize.height);
         frame.setVisible(true);
     }
 
