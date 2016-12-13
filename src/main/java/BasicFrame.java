@@ -7,7 +7,12 @@ import java.awt.*;
 public class BasicFrame implements GLEventListener {
     // Initiates OpenGL rendering
     public void display(GLAutoDrawable drawable) {
-        // method body
+        final GL2 gl = drawable.getGL().getGL2();
+
+        gl.glBegin (GL2.GL_LINES);//static field
+        gl.glVertex3f(0.50f,-0.50f,0);
+        gl.glVertex3f(-0.50f,0.50f,0);
+        gl.glEnd();
     }
 
     // Release all OpenGL resources in the context

@@ -1,3 +1,4 @@
+import org.jbox2d.callbacks.DebugDraw;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -13,6 +14,7 @@ public class TestWorld {
     private World world;
     private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
+    private Renderer renderer;
 
     public Body[] d_bodies; // List of bodies in world
 
@@ -39,6 +41,8 @@ public class TestWorld {
         // Initialize world with no gravity
         Vec2 gravity = new Vec2((float) 0.0, (float) 0.0);
         world = new World(gravity);
+        world.setDebugDraw(renderer);
+        renderer.setFlags(DebugDraw.e_shapeBit);
 
         // Make a body definition for dynamic bodies
         bodyDef = new BodyDef();
