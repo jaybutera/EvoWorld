@@ -2,9 +2,9 @@ import com.jogamp.opengl.*;
 import com.jogamp.opengl.awt.GLCanvas;
 import org.jbox2d.callbacks.DebugDraw;
 import org.jbox2d.common.Color3f;
-import org.jbox2d.common.IViewportTransform;
 import org.jbox2d.common.Transform;
 import org.jbox2d.common.Vec2;
+import org.jbox2d.particle.ParticleColor;
 
 
 public class Renderer extends DebugDraw {
@@ -15,6 +15,6 @@ public class Renderer extends DebugDraw {
     public void drawSolidCircle(Vec2 center, float radius, Vec2 axis, Color3f color) {}
     public void drawString(float x, float y, String s, Color3f color) {}
     public void drawTransform(Transform xf) {}
-
-    //Renderer (IViewportTransform viewport) { super(viewport); }
+    public void drawParticles(Vec2[] centers, float radius, ParticleColor[] colors, int count) {}
+    public void drawParticlesWireframe(Vec2[] centers, float radius, ParticleColor[] colors, int count) {}
 }

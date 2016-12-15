@@ -21,6 +21,7 @@ public class TestWorld {
     public TestWorld (int nb) {
         num_bodies = nb;
         d_bodies = new Body[num_bodies];
+        renderer = new Renderer();
     }
 
     public void step  () {
