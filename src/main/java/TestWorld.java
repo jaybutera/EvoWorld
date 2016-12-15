@@ -1,4 +1,6 @@
+import javafx.scene.shape.Circle;
 import org.jbox2d.callbacks.DebugDraw;
+import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -52,11 +54,11 @@ public class TestWorld {
 
         // Body Fixture gives a shape to a body.
         // In this case a box
-        PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(1,1);
+        CircleShape circleShape = new CircleShape();
+        circleShape.m_radius = 1;
 
         FixtureDef boxFixtureDef = new FixtureDef();
-        boxFixtureDef.shape = boxShape;
+        boxFixtureDef.shape = circleShape;
         boxFixtureDef.density = 1;
         boxFixtureDef.friction = 0.1f;
 
