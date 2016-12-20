@@ -42,6 +42,13 @@ public class DisplayManager {
             throw new IllegalStateException("Unable to initialize GLFW");
         }
 
+        // Change to OpenGL 3 (necessary on mac osx)
+        glfwDefaultWindowHints();
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+        glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);
+
         // Create window
         window = glfwCreateWindow(WIDTH, HEIGHT, "Simple example", NULL, NULL);
         if (window == NULL) {
