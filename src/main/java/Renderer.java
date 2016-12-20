@@ -13,6 +13,7 @@ public class Renderer {
         GL30.glBindVertexArray( model.getVaoID() );
         // 0th index of VAO contains VBO
         GL20.glEnableVertexAttribArray(0);
+        GL11.glDrawElements(GL11.GL_TRIANGLES, model.getVertexCount(), GL11.GL_UNSIGNED_INT, 0);
         // Render from beginning
         GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertexCount());
         GL20.glDisableVertexAttribArray(0);

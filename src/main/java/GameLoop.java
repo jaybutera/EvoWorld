@@ -12,12 +12,14 @@ public class GameLoop {
                 -.5f, .5f, 0f,
                 -.5f, -.5f, 0f,
                 .5f, -.5f, 0f,
-                .5f, -.5f, 0f,
-                .5f, .5f, 0f,
-                -.5f, .5f, 0f
         };
 
-        RawModel model = load.loadToVAO(v);
+        int[] indices = {
+                0,1,3,
+                3,1,2
+        };
+
+        RawModel model = load.loadToVAO(v, indices);
 
         while ( dm.windowShouldClose() ) {
             renderer.prepare();
