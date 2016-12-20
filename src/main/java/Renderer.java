@@ -1,20 +1,23 @@
-import com.jogamp.opengl.*;
-import com.jogamp.opengl.awt.GLCanvas;
-import org.jbox2d.callbacks.DebugDraw;
-import org.jbox2d.common.Color3f;
-import org.jbox2d.common.Transform;
-import org.jbox2d.common.Vec2;
-import org.jbox2d.particle.ParticleColor;
+import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GL30;
 
+public class Renderer {
+    public void prepare () {
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
+        GL11.glClearColor(1,0,0,1);
+    }
 
-public class Renderer extends DebugDraw {
-    public void drawSolidPolygon (Vec2[] vertices, int vertexCount, final Color3f color) {}
-    public void drawPoint (Vec2 argPoint, float argRadiusOnScreen, Color3f argColor) {}
-    public void drawCircle (Vec2 center, float radius, Color3f color) {}
-    public void drawSegment(Vec2 p1, Vec2 p2, Color3f color) {}
-    public void drawSolidCircle(Vec2 center, float radius, Vec2 axis, Color3f color) {}
-    public void drawString(float x, float y, String s, Color3f color) {}
-    public void drawTransform(Transform xf) {}
-    public void drawParticles(Vec2[] centers, float radius, ParticleColor[] colors, int count) {}
-    public void drawParticlesWireframe(Vec2[] centers, float radius, ParticleColor[] colors, int count) {}
+    public void render (RawModel model) {
+        // Bind VAO to use
+        GL30.glBindVertexArray( model.getVaoID() );
+        // 0th index of VAO contains VBO
+        GL20.glEnableVertexAttribArray(0);
+        // Render from beginning
+        GL11.glDrawArrays(GL11.GL_TRIANGLES, 0, model.getVertexCount());
+        GL20.glDisableVertexAttribArray(0);
+
+        // Unbind
+        GL30.glBindVertexArray(0);
+    }
 }
