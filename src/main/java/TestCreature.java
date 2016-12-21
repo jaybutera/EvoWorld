@@ -7,6 +7,15 @@ public class TestCreature extends Creature {
         return null;
     }
 
+    public void action (float[] a) {
+        // Needs implementation
+    }
+
+    public float[] observation () {
+        // Needs implementation
+        return null;
+    }
+
     public void display (GL2 gl) {
         gl.glBegin (GL2.GL_LINES);//static field
         gl.glVertex2f(0.50f,-0.50f);
