@@ -79,60 +79,6 @@ public class DisplayManager {
     }
 
     public void updateDisplay () {
-        /* Declare buffers for using inside the loop */
-        /*
-        IntBuffer width = BufferUtils.createIntBuffer(1);
-        IntBuffer height = BufferUtils.createIntBuffer(1);
-
-        while (!glfwWindowShouldClose(window)) {
-
-            float ratio;
-
-            // Get width and height to calcualte the ratio
-            glfwGetFramebufferSize(window, width, height);
-            ratio = width.get() / (float) height.get();
-
-            // Rewind buffers for next get
-            width.rewind();
-            height.rewind();
-
-            // Set viewport and clear screen
-            glViewport(0, 0, width.get(), height.get());
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            // Set ortographic projection
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glOrtho(-ratio, ratio, -1f, 1f, 1f, -1f);
-            glMatrixMode(GL_MODELVIEW);
-
-            // Rotate matrix
-            glLoadIdentity();
-            glRotatef((float) glfwGetTime() * 50f, 0f, 0f, 1f);
-
-            // Render triangle
-            glBegin(GL_TRIANGLES);
-            glColor3f(1f, 0f, 0f);
-            glVertex3f(-0.6f, -0.4f, 0f);
-            glColor3f(0f, 1f, 0f);
-            glVertex3f(0.6f, -0.4f, 0f);
-            glColor3f(0f, 0f, 1f);
-            glVertex3f(0f, 0.6f, 0f);
-            glEnd();
-
-            // Swap buffers and poll Events
-            glfwSwapBuffers(window);
-            glfwPollEvents();
-
-            // Flip buffers for next loop
-            width.flip();
-            height.flip();
-        }
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-        */
-
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
 
         glfwSwapBuffers(window); // swap the color buffers
