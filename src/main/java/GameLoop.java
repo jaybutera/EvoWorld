@@ -1,4 +1,7 @@
-import com.jogamp.newt.Display;
+import renderEngine.DisplayManager;
+import renderEngine.Loader;
+import renderEngine.RawModel;
+import renderEngine.Renderer;
 import shaders.StaticShader;
 
 public class GameLoop {

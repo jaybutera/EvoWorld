@@ -1,14 +1,12 @@
-import javafx.scene.shape.Circle;
-import org.jbox2d.callbacks.DebugDraw;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
-import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
+import renderEngine.Renderer;
 
 public class TestWorld {
     private BodyDef bodyDef;
@@ -16,14 +14,12 @@ public class TestWorld {
     private World world;
     private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
-    private Renderer renderer;
 
     public Body[] d_bodies; // List of bodies in world
 
     public TestWorld (int nb) {
         num_bodies = nb;
         d_bodies = new Body[num_bodies];
-        renderer = new Renderer();
     }
 
     public void step  () {
@@ -44,8 +40,6 @@ public class TestWorld {
         // Initialize world with no gravity
         Vec2 gravity = new Vec2((float) 0.0, (float) 0.0);
         world = new World(gravity);
-        world.setDebugDraw(renderer);
-        renderer.setFlags(DebugDraw.e_shapeBit);
 
         // Make a body definition for dynamic bodies
         bodyDef = new BodyDef();
