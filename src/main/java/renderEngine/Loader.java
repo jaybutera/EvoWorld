@@ -38,7 +38,9 @@ public class Loader {
 
     // Create a VBO
     private void storeDataInAttributeList (int attributeNumber, float[] data) {
+        // Create empty VBO
         int vboID = GL15.glGenBuffers();
+        // Prepare for writing
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vboID);
 
         vbos.add(vboID);
@@ -48,18 +50,8 @@ public class Loader {
         GL15.glBufferData(GL15.GL_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
         GL20.glVertexAttribPointer(attributeNumber, dim, GL11.GL_FLOAT, false,0,0);
 
-        // Unbind VBO
+        // Unbind VBO (finished writing)
         GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, 0);
-    }
-
-    private FloatBuffer storeDataInFloatBuffer (float[] data) {
-        FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
-        buffer.put(data);
-
-        // Ready to read
-        buffer.flip();
-
-        return buffer;
     }
 
     // Bind index list to VBO
@@ -72,13 +64,29 @@ public class Loader {
         GL15.glBufferData(GL15.GL_ELEMENT_ARRAY_BUFFER, buffer, GL15.GL_STATIC_DRAW);
     }
 
-    public IntBuffer storeDataInIntBuffer(int[] data) {
+    //------------------------------
+    // Write data data to VRAM (VBO)
+    //------------------------------
+
+    private FloatBuffer storeDataInFloatBuffer (float[] data) {
+        FloatBuffer buffer = BufferUtils.createFloatBuffer(data.length);
+        buffer.put(data);
+
+        // Ready to read
+        buffer.flip();
+
+        return buffer;
+    }
+
+    private IntBuffer storeDataInIntBuffer(int[] data) {
         IntBuffer buffer = BufferUtils.createIntBuffer(data.length);
         buffer.put(data);
         buffer.flip();
 
         return buffer;
     }
+
+    //------------------------------
 
     public void cleanUp () {
         // Remove vertex lists from VRAM

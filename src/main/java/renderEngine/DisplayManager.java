@@ -81,7 +81,7 @@ public class DisplayManager {
     }
 
     public void updateDisplay () {
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // clear the framebuffer
+        glClear(GL_COLOR_BUFFER_BIT /*| GL_DEPTH_BUFFER_BIT*/); // clear the framebuffer
 
         glfwSwapBuffers(window); // swap the color buffers
 
@@ -93,5 +93,6 @@ public class DisplayManager {
 
     public void closeDisplay () {
         glfwTerminate();
+        errorCallback.free();
     }
 }
