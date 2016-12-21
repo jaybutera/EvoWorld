@@ -1,6 +1,9 @@
+package renderEngine;
+
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.opengl.GL30;
+import renderEngine.RawModel;
 
 public class Renderer {
     public void prepare () {
