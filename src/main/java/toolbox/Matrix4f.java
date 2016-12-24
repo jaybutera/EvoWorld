@@ -241,6 +241,32 @@ public class Matrix4f {
         return result;
     }
 
+    public void store (FloatBuffer buffer) {
+        // Col 1
+        this.m00 = buffer.get(0);
+        this.m10 = buffer.get(1);
+        this.m20 = buffer.get(2);
+        this.m30 = buffer.get(3);
+
+        // Col 2
+        this.m01 = buffer.get(4);
+        this.m11 = buffer.get(5);
+        this.m21 = buffer.get(6);
+        this.m31 = buffer.get(7);
+
+        // Col 3
+        this.m02 = buffer.get(8);
+        this.m12 = buffer.get(9);
+        this.m22 = buffer.get(10);
+        this.m32 = buffer.get(11);
+
+        // Col 4
+        this.m03 = buffer.get(12);
+        this.m13 = buffer.get(13);
+        this.m23 = buffer.get(14);
+        this.m33 = buffer.get(15);
+    }
+
     /**
      * Returns the Buffer representation of this vector.
      *
