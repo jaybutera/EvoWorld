@@ -11,5 +11,7 @@ public class Maths {
                                                           float scale) {
         Matrix4f matrix = new Matrix4f();
         matrix.setIdentity();
+        
+        return matrix;
     }
 }

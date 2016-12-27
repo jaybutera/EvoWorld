@@ -1,8 +1,15 @@
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GLAutoDrawable;
 
+import toolbox.Vector3f;
+
 public class TestCreature extends Creature {
-    public byte[] serialize () {
+    public TestCreature(Vector3f position, Vector3f rotation, float scale) {
+		super(position, rotation, scale);
+		// TODO Auto-generated constructor stub
+	}
+
+	public byte[] serialize () {
         // Can leave implementation empty for now
         return null;
     }
