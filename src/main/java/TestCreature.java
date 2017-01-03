@@ -1,7 +1,7 @@
 import toolbox.Vector3f;
 
 public class TestCreature extends Creature {
-    public TestCreature(Vector3f position, Vector3f rotation, float scale) {
+    public TestCreature(Vector3f position, float rotation, float scale) {
 		super(position, rotation, scale);
 		// TODO Auto-generated constructor stub
 	}

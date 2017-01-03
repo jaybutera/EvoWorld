@@ -4,7 +4,7 @@ import server.messages.PBCreatureOuterClass.PBCreature;
 public abstract class Creature extends DynamicEntity {
 	private int id;
 
-    public Creature(Vector3f position, Vector3f rotation, float scale) {
+    public Creature(Vector3f position, float rotation, float scale) {
 		super(position, rotation, scale);
 		// TODO Auto-generated constructor stub
 	}
@@ -15,6 +15,8 @@ public abstract class Creature extends DynamicEntity {
 				.setId(id)
 				.setX(position.x)
 				.setY(position.y)
+				.setR(rotation)
+				.setS(scale)
 				.build();
 
 		System.out.println(c_serial.toString());

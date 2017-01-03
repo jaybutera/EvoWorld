@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-package messages;
+package server.messages;
 
 message PBCreature {
     // Id
@@ -12,6 +12,9 @@ message PBCreature {
 
     // Rotation
     required float r = 4;
+
+    // Scale
+    required float s = 5;
 
     // Color
     // required ubyte r = 5;

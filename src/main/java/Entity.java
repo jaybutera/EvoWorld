@@ -2,10 +2,10 @@ import toolbox.Vector3f;
 
 public abstract class Entity implements Networked {
     protected Vector3f position;
-    private Vector3f rotation;
-    private float scale;
+    protected float rotation;
+    protected float scale;
 
-    public Entity (Vector3f position, Vector3f rotation, float scale) {
+    public Entity (Vector3f position, float rotation, float scale) {
         this.position = position;
         this.rotation = rotation;
         this.scale = scale;
@@ -15,8 +15,8 @@ public abstract class Entity implements Networked {
         position.add(d_pos);
     }
 
-    public void changeRot(Vector3f d_rot) {
-        rotation.add(d_rot);
+    public void changeRot(float d_rot) {
+        rotation = (rotation + d_rot) % 1.0f;
     }
 
     // --------------------
@@ -31,11 +31,11 @@ public abstract class Entity implements Networked {
         this.position = position;
     }
 
-    public Vector3f getRotation() {
+    public float getRotation() {
         return rotation;
     }
 
-    public void setRotation(Vector3f rotation) {
+    public void setRotation(float rotation) {
         this.rotation = rotation;
     }
 
