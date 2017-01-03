@@ -1,49 +1,24 @@
+import org.jbox2d.common.Vec2;
 import toolbox.Vector3f;
 
 public abstract class Entity implements Networked {
-    protected Vector3f position;
-    protected float rotation;
-    protected float scale;
+    abstract public void changePos (Vec2 d_pos);
 
-    public Entity (Vector3f position, float rotation, float scale) {
-        this.position = position;
-        this.rotation = rotation;
-        this.scale = scale;
-    }
-
-    public void changePos (Vector3f d_pos) {
-        position.add(d_pos);
-    }
-
-    public void changeRot(float d_rot) {
-        rotation = (rotation + d_rot) % 1.0f;
-    }
+    abstract public void changeRot(float d_rot);
 
     // --------------------
     // Accessors & Mutators
     // --------------------
 
-    public Vector3f getPosition() {
-        return position;
-    }
+    abstract public Vec2 getPosition();
 
-    public void setPosition(Vector3f position) {
-        this.position = position;
-    }
+    abstract public void setPosition(Vec2 position);
 
-    public float getRotation() {
-        return rotation;
-    }
+    abstract public float getRotation();
 
-    public void setRotation(float rotation) {
-        this.rotation = rotation;
-    }
+    abstract public void setRotation(float rotation);
 
-    public float getScale() {
-        return scale;
-    }
+    abstract public float getScale();
 
-    public void setScale(float scale) {
-        this.scale = scale;
-    }
+    abstract public void setScale(float scale);
 }
