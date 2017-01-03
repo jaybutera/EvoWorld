@@ -6,6 +6,7 @@ import shaders.StaticShader;
 
 public class GameLoop {
     public static void main (String[] args) {
+        /*
         DisplayManager dm = new DisplayManager();
         dm.createDisplay();
 
@@ -26,17 +27,31 @@ public class GameLoop {
         };
 
         RawModel model = load.loadToVAO(v, indices);
+        */
+        TestWorld world = new TestWorld(2);
+        world.create();
 
-        while ( dm.windowShouldClose() ) {
+        //while ( dm.windowShouldClose() ) {
+        for (int i = 0; i < 100; i++)
+        {
+            world.step();
+
+            for (int j = 0; j < world.d_bodies.length; j++)
+                System.out.println(world.d_bodies[j].);
+                //System.out.println(world.d_bodies[j].getPosition().x + ", " + world.d_bodies[j].getPosition().y);
+            /*
             renderer.prepare();
             shader.start();
             renderer.render(model);
             shader.stop();
             dm.updateDisplay();
+            */
         }
 
+        /*
         shader.cleanUp();
         load.cleanUp();
         dm.closeDisplay();
+        */
     }
 }

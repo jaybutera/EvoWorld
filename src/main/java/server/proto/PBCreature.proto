@@ -1,0 +1,17 @@
+syntax = "proto2";
+
+package messages;
+
+message PBCreature {
+    // Id
+    required uint32 id = 1;
+
+    // Position
+    required float x = 2;
+    required float y= 3;
+
+    // Color
+    // required ubyte r = 4;
+    // required ubyte g = 5;
+    // required ubyte b = 6;
+}

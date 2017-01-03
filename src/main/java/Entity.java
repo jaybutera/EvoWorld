@@ -1,7 +1,7 @@
 import toolbox.Vector3f;
 
 public abstract class Entity implements Networked {
-    private Vector3f position;
+    protected Vector3f position;
     private Vector3f rotation;
     private float scale;
 
