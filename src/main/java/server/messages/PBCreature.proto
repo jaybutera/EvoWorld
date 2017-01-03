@@ -8,10 +8,13 @@ message PBCreature {
 
     // Position
     required float x = 2;
-    required float y= 3;
+    required float y = 3;
+
+    // Rotation
+    required float r = 4;
 
     // Color
-    // required ubyte r = 4;
-    // required ubyte g = 5;
-    // required ubyte b = 6;
+    // required ubyte r = 5;
+    // required ubyte g = 6;
+    // required ubyte b = 7;
 }
