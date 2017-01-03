@@ -15,17 +15,17 @@ public class TestWorld {
     private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
 
-    public Body[] d_bodies; // List of bodies in world
+    public Creature[] d_bodies; // List of bodies in world
 
     public TestWorld (int nb) {
         num_bodies = nb;
-        d_bodies = new Body[num_bodies];
+        d_bodies = new Creature[num_bodies];
     }
 
     public void step  () {
         // Apply forces to dynamic bodies (collied them)
-        d_bodies[0].applyForce( new Vec2(0,50), d_bodies[0].getWorldCenter() );
-        d_bodies[1].applyForce( new Vec2(0,-50), d_bodies[1].getWorldCenter() );
+        d_bodies[0].body.applyForce( new Vec2(0,50), d_bodies[0].body.getWorldCenter() );
+        d_bodies[1].body.applyForce( new Vec2(0,-50), d_bodies[1].body.getWorldCenter() );
 
         // Perform a time step in the physics simulation
         world.step(timeStep, 3, 3);
@@ -61,10 +61,11 @@ public class TestWorld {
             // Place bodies into world spaced 10 at a time
             // along the y-coordinate
             bodyDef.position.set(0, i * 10);
-            d_bodies[i] = world.createBody(bodyDef);
+            Body new_body = world.createBody(bodyDef);
+            // Assign body definition to body
+            new_body.createFixture(boxFixtureDef);
 
-            // Attach body fixture to body
-            d_bodies[i].createFixture(boxFixtureDef);
+            d_bodies[i] = new TestCreature(new_body, 1f);
         }
     }
  }

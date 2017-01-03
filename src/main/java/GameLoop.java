@@ -37,8 +37,8 @@ public class GameLoop {
             world.step();
 
             for (int j = 0; j < world.d_bodies.length; j++)
-                System.out.println(world.d_bodies[j].);
-                //System.out.println(world.d_bodies[j].getPosition().x + ", " + world.d_bodies[j].getPosition().y);
+                System.out.println(world.d_bodies[j].serialize().toString());
+                //System.out.println(world.d_bodies[j].body.getPosition().x + ", " + world.d_bodies[j].body.getPosition().y);
             /*
             renderer.prepare();
             shader.start();

@@ -1,12 +1,22 @@
+import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.BodyDef;
+import org.jbox2d.dynamics.BodyType;
+import org.jbox2d.dynamics.FixtureDef;
 import toolbox.Vector3f;
 import server.messages.PBCreatureOuterClass.PBCreature;
 
 public abstract class Creature extends DynamicEntity {
 	private int id;
 
+	/*
     public Creature(Vector3f position, float rotation, float scale) {
 		super(position, rotation, scale);
-		// TODO Auto-generated constructor stub
+	}
+	*/
+
+	public Creature (Body body, float scale) {
+		super(body, scale);
 	}
 
 	public byte[] serialize () {
