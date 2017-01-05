@@ -3,6 +3,8 @@
 
 package server.messages;
 
+import com.google.protobuf.Message;
+
 public final class PBCreatureOuterClass {
   private PBCreatureOuterClass() {}
   public static void registerAllExtensions(
@@ -835,6 +837,11 @@ public final class PBCreatureOuterClass {
         return super.mergeUnknownFields(unknownFields);
       }
 
+	public Object setS(float scale) {
+		// not sure what S is
+		return this;
+	}
+
 
       // @@protoc_insertion_point(builder_scope:messages.PBCreature)
     }
@@ -871,6 +878,11 @@ public final class PBCreatureOuterClass {
     public messages.PBCreatureOuterClass.PBCreature getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
+	@Override
+	public Message getDefaultInstanceForType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
   }
 

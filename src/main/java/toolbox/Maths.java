@@ -9,7 +9,7 @@ public class Maths {
         Matrix4f matrix = new Matrix4f();
         matrix.setIdentity();
 
-        matrix.translate(translation);
+        matrix.translate(rx, ry, rz);
 
         matrix.rotate((float)Math.toRadians(rx), 1,0,0);
         matrix.rotate((float)Math.toRadians(rx), 0,1,0);
