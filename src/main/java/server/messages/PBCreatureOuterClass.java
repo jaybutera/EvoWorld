@@ -15,7 +15,7 @@ public final class PBCreatureOuterClass {
         (com.google.protobuf.ExtensionRegistryLite) registry);
   }
   public interface PBCreatureOrBuilder extends
-      // @@protoc_insertion_point(interface_extends:messages.PBCreature)
+      // @@protoc_insertion_point(interface_extends:server.messages.PBCreature)
       com.google.protobuf.MessageOrBuilder {
 
     /**
@@ -77,13 +77,30 @@ public final class PBCreatureOuterClass {
      * <code>required float r = 4;</code>
      */
     float getR();
+
+    /**
+     * <pre>
+     * Scale
+     * </pre>
+     *
+     * <code>required float s = 5;</code>
+     */
+    boolean hasS();
+    /**
+     * <pre>
+     * Scale
+     * </pre>
+     *
+     * <code>required float s = 5;</code>
+     */
+    float getS();
   }
   /**
-   * Protobuf type {@code messages.PBCreature}
+   * Protobuf type {@code server.messages.PBCreature}
    */
   public  static final class PBCreature extends
       com.google.protobuf.GeneratedMessageV3 implements
-      // @@protoc_insertion_point(message_implements:messages.PBCreature)
+      // @@protoc_insertion_point(message_implements:server.messages.PBCreature)
       PBCreatureOrBuilder {
     // Use PBCreature.newBuilder() to construct.
     private PBCreature(com.google.protobuf.GeneratedMessageV3.Builder<?> builder) {
@@ -94,6 +111,7 @@ public final class PBCreatureOuterClass {
       x_ = 0F;
       y_ = 0F;
       r_ = 0F;
+      s_ = 0F;
     }
 
     @java.lang.Override
@@ -144,6 +162,11 @@ public final class PBCreatureOuterClass {
               r_ = input.readFloat();
               break;
             }
+            case 45: {
+              bitField0_ |= 0x00000010;
+              s_ = input.readFloat();
+              break;
+            }
           }
         }
       } catch (com.google.protobuf.InvalidProtocolBufferException e) {
@@ -158,14 +181,14 @@ public final class PBCreatureOuterClass {
     }
     public static final com.google.protobuf.Descriptors.Descriptor
         getDescriptor() {
-      return messages.PBCreatureOuterClass.internal_static_messages_PBCreature_descriptor;
+      return server.messages.PBCreatureOuterClass.internal_static_server_messages_PBCreature_descriptor;
     }
 
     protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
         internalGetFieldAccessorTable() {
-      return messages.PBCreatureOuterClass.internal_static_messages_PBCreature_fieldAccessorTable
+      return server.messages.PBCreatureOuterClass.internal_static_server_messages_PBCreature_fieldAccessorTable
           .ensureFieldAccessorsInitialized(
-              messages.PBCreatureOuterClass.PBCreature.class, messages.PBCreatureOuterClass.PBCreature.Builder.class);
+              server.messages.PBCreatureOuterClass.PBCreature.class, server.messages.PBCreatureOuterClass.PBCreature.Builder.class);
     }
 
     private int bitField0_;
@@ -253,6 +276,29 @@ public final class PBCreatureOuterClass {
       return r_;
     }
 
+    public static final int S_FIELD_NUMBER = 5;
+    private float s_;
+    /**
+     * <pre>
+     * Scale
+     * </pre>
+     *
+     * <code>required float s = 5;</code>
+     */
+    public boolean hasS() {
+      return ((bitField0_ & 0x00000010) == 0x00000010);
+    }
+    /**
+     * <pre>
+     * Scale
+     * </pre>
+     *
+     * <code>required float s = 5;</code>
+     */
+    public float getS() {
+      return s_;
+    }
+
     private byte memoizedIsInitialized = -1;
     public final boolean isInitialized() {
       byte isInitialized = memoizedIsInitialized;
@@ -275,6 +321,10 @@ public final class PBCreatureOuterClass {
         memoizedIsInitialized = 0;
         return false;
       }
+      if (!hasS()) {
+        memoizedIsInitialized = 0;
+        return false;
+      }
       memoizedIsInitialized = 1;
       return true;
     }
@@ -292,6 +342,9 @@ public final class PBCreatureOuterClass {
       }
       if (((bitField0_ & 0x00000008) == 0x00000008)) {
         output.writeFloat(4, r_);
+      }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        output.writeFloat(5, s_);
       }
       unknownFields.writeTo(output);
     }
@@ -317,6 +370,10 @@ public final class PBCreatureOuterClass {
         size += com.google.protobuf.CodedOutputStream
           .computeFloatSize(4, r_);
       }
+      if (((bitField0_ & 0x00000010) == 0x00000010)) {
+        size += com.google.protobuf.CodedOutputStream
+          .computeFloatSize(5, s_);
+      }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
       return size;
@@ -328,10 +385,10 @@ public final class PBCreatureOuterClass {
       if (obj == this) {
        return true;
       }
-      if (!(obj instanceof messages.PBCreatureOuterClass.PBCreature)) {
+      if (!(obj instanceof server.messages.PBCreatureOuterClass.PBCreature)) {
         return super.equals(obj);
       }
-      messages.PBCreatureOuterClass.PBCreature other = (messages.PBCreatureOuterClass.PBCreature) obj;
+      server.messages.PBCreatureOuterClass.PBCreature other = (server.messages.PBCreatureOuterClass.PBCreature) obj;
 
       boolean result = true;
       result = result && (hasId() == other.hasId());
@@ -359,6 +416,13 @@ public final class PBCreatureOuterClass {
             java.lang.Float.floatToIntBits(getR())
             == java.lang.Float.floatToIntBits(
                 other.getR()));
+      }
+      result = result && (hasS() == other.hasS());
+      if (hasS()) {
+        result = result && (
+            java.lang.Float.floatToIntBits(getS())
+            == java.lang.Float.floatToIntBits(
+                other.getS()));
       }
       result = result && unknownFields.equals(other.unknownFields);
       return result;
@@ -390,63 +454,68 @@ public final class PBCreatureOuterClass {
         hash = (53 * hash) + java.lang.Float.floatToIntBits(
             getR());
       }
+      if (hasS()) {
+        hash = (37 * hash) + S_FIELD_NUMBER;
+        hash = (53 * hash) + java.lang.Float.floatToIntBits(
+            getS());
+      }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
       return hash;
     }
 
-    public static messages.PBCreatureOuterClass.PBCreature parseFrom(
+    public static server.messages.PBCreatureOuterClass.PBCreature parseFrom(
         com.google.protobuf.ByteString data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static messages.PBCreatureOuterClass.PBCreature parseFrom(
+    public static server.messages.PBCreatureOuterClass.PBCreature parseFrom(
         com.google.protobuf.ByteString data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static messages.PBCreatureOuterClass.PBCreature parseFrom(byte[] data)
+    public static server.messages.PBCreatureOuterClass.PBCreature parseFrom(byte[] data)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data);
     }
-    public static messages.PBCreatureOuterClass.PBCreature parseFrom(
+    public static server.messages.PBCreatureOuterClass.PBCreature parseFrom(
         byte[] data,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws com.google.protobuf.InvalidProtocolBufferException {
       return PARSER.parseFrom(data, extensionRegistry);
     }
-    public static messages.PBCreatureOuterClass.PBCreature parseFrom(java.io.InputStream input)
+    public static server.messages.PBCreatureOuterClass.PBCreature parseFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static messages.PBCreatureOuterClass.PBCreature parseFrom(
+    public static server.messages.PBCreatureOuterClass.PBCreature parseFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input, extensionRegistry);
     }
-    public static messages.PBCreatureOuterClass.PBCreature parseDelimitedFrom(java.io.InputStream input)
+    public static server.messages.PBCreatureOuterClass.PBCreature parseDelimitedFrom(java.io.InputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input);
     }
-    public static messages.PBCreatureOuterClass.PBCreature parseDelimitedFrom(
+    public static server.messages.PBCreatureOuterClass.PBCreature parseDelimitedFrom(
         java.io.InputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseDelimitedWithIOException(PARSER, input, extensionRegistry);
     }
-    public static messages.PBCreatureOuterClass.PBCreature parseFrom(
+    public static server.messages.PBCreatureOuterClass.PBCreature parseFrom(
         com.google.protobuf.CodedInputStream input)
         throws java.io.IOException {
       return com.google.protobuf.GeneratedMessageV3
           .parseWithIOException(PARSER, input);
     }
-    public static messages.PBCreatureOuterClass.PBCreature parseFrom(
+    public static server.messages.PBCreatureOuterClass.PBCreature parseFrom(
         com.google.protobuf.CodedInputStream input,
         com.google.protobuf.ExtensionRegistryLite extensionRegistry)
         throws java.io.IOException {
@@ -458,7 +527,7 @@ public final class PBCreatureOuterClass {
     public static Builder newBuilder() {
       return DEFAULT_INSTANCE.toBuilder();
     }
-    public static Builder newBuilder(messages.PBCreatureOuterClass.PBCreature prototype) {
+    public static Builder newBuilder(server.messages.PBCreatureOuterClass.PBCreature prototype) {
       return DEFAULT_INSTANCE.toBuilder().mergeFrom(prototype);
     }
     public Builder toBuilder() {
@@ -473,22 +542,22 @@ public final class PBCreatureOuterClass {
       return builder;
     }
     /**
-     * Protobuf type {@code messages.PBCreature}
+     * Protobuf type {@code server.messages.PBCreature}
      */
     public static final class Builder extends
         com.google.protobuf.GeneratedMessageV3.Builder<Builder> implements
-        // @@protoc_insertion_point(builder_implements:messages.PBCreature)
-        messages.PBCreatureOuterClass.PBCreatureOrBuilder {
+        // @@protoc_insertion_point(builder_implements:server.messages.PBCreature)
+        server.messages.PBCreatureOuterClass.PBCreatureOrBuilder {
       public static final com.google.protobuf.Descriptors.Descriptor
           getDescriptor() {
-        return messages.PBCreatureOuterClass.internal_static_messages_PBCreature_descriptor;
+        return server.messages.PBCreatureOuterClass.internal_static_server_messages_PBCreature_descriptor;
       }
 
       protected com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
           internalGetFieldAccessorTable() {
-        return messages.PBCreatureOuterClass.internal_static_messages_PBCreature_fieldAccessorTable
+        return server.messages.PBCreatureOuterClass.internal_static_server_messages_PBCreature_fieldAccessorTable
             .ensureFieldAccessorsInitialized(
-                messages.PBCreatureOuterClass.PBCreature.class, messages.PBCreatureOuterClass.PBCreature.Builder.class);
+                server.messages.PBCreatureOuterClass.PBCreature.class, server.messages.PBCreatureOuterClass.PBCreature.Builder.class);
       }
 
       // Construct using server.messages.PBCreatureOuterClass.PBCreature.newBuilder()
@@ -516,28 +585,30 @@ public final class PBCreatureOuterClass {
         bitField0_ = (bitField0_ & ~0x00000004);
         r_ = 0F;
         bitField0_ = (bitField0_ & ~0x00000008);
+        s_ = 0F;
+        bitField0_ = (bitField0_ & ~0x00000010);
         return this;
       }
 
       public com.google.protobuf.Descriptors.Descriptor
           getDescriptorForType() {
-        return messages.PBCreatureOuterClass.internal_static_messages_PBCreature_descriptor;
+        return server.messages.PBCreatureOuterClass.internal_static_server_messages_PBCreature_descriptor;
       }
 
-      public messages.PBCreatureOuterClass.PBCreature getDefaultInstanceForType() {
-        return messages.PBCreatureOuterClass.PBCreature.getDefaultInstance();
+      public server.messages.PBCreatureOuterClass.PBCreature getDefaultInstanceForType() {
+        return server.messages.PBCreatureOuterClass.PBCreature.getDefaultInstance();
       }
 
-      public messages.PBCreatureOuterClass.PBCreature build() {
-        messages.PBCreatureOuterClass.PBCreature result = buildPartial();
+      public server.messages.PBCreatureOuterClass.PBCreature build() {
+        server.messages.PBCreatureOuterClass.PBCreature result = buildPartial();
         if (!result.isInitialized()) {
           throw newUninitializedMessageException(result);
         }
         return result;
       }
 
-      public messages.PBCreatureOuterClass.PBCreature buildPartial() {
-        messages.PBCreatureOuterClass.PBCreature result = new messages.PBCreatureOuterClass.PBCreature(this);
+      public server.messages.PBCreatureOuterClass.PBCreature buildPartial() {
+        server.messages.PBCreatureOuterClass.PBCreature result = new server.messages.PBCreatureOuterClass.PBCreature(this);
         int from_bitField0_ = bitField0_;
         int to_bitField0_ = 0;
         if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
@@ -556,6 +627,10 @@ public final class PBCreatureOuterClass {
           to_bitField0_ |= 0x00000008;
         }
         result.r_ = r_;
+        if (((from_bitField0_ & 0x00000010) == 0x00000010)) {
+          to_bitField0_ |= 0x00000010;
+        }
+        result.s_ = s_;
         result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
@@ -588,16 +663,16 @@ public final class PBCreatureOuterClass {
         return (Builder) super.addRepeatedField(field, value);
       }
       public Builder mergeFrom(com.google.protobuf.Message other) {
-        if (other instanceof messages.PBCreatureOuterClass.PBCreature) {
-          return mergeFrom((messages.PBCreatureOuterClass.PBCreature)other);
+        if (other instanceof server.messages.PBCreatureOuterClass.PBCreature) {
+          return mergeFrom((server.messages.PBCreatureOuterClass.PBCreature)other);
         } else {
           super.mergeFrom(other);
           return this;
         }
       }
 
-      public Builder mergeFrom(messages.PBCreatureOuterClass.PBCreature other) {
-        if (other == messages.PBCreatureOuterClass.PBCreature.getDefaultInstance()) return this;
+      public Builder mergeFrom(server.messages.PBCreatureOuterClass.PBCreature other) {
+        if (other == server.messages.PBCreatureOuterClass.PBCreature.getDefaultInstance()) return this;
         if (other.hasId()) {
           setId(other.getId());
         }
@@ -609,6 +684,9 @@ public final class PBCreatureOuterClass {
         }
         if (other.hasR()) {
           setR(other.getR());
+        }
+        if (other.hasS()) {
+          setS(other.getS());
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -628,6 +706,9 @@ public final class PBCreatureOuterClass {
         if (!hasR()) {
           return false;
         }
+        if (!hasS()) {
+          return false;
+        }
         return true;
       }
 
@@ -635,11 +716,11 @@ public final class PBCreatureOuterClass {
           com.google.protobuf.CodedInputStream input,
           com.google.protobuf.ExtensionRegistryLite extensionRegistry)
           throws java.io.IOException {
-        messages.PBCreatureOuterClass.PBCreature parsedMessage = null;
+        server.messages.PBCreatureOuterClass.PBCreature parsedMessage = null;
         try {
           parsedMessage = PARSER.parsePartialFrom(input, extensionRegistry);
         } catch (com.google.protobuf.InvalidProtocolBufferException e) {
-          parsedMessage = (messages.PBCreatureOuterClass.PBCreature) e.getUnfinishedMessage();
+          parsedMessage = (server.messages.PBCreatureOuterClass.PBCreature) e.getUnfinishedMessage();
           throw e.unwrapIOException();
         } finally {
           if (parsedMessage != null) {
@@ -825,6 +906,54 @@ public final class PBCreatureOuterClass {
         onChanged();
         return this;
       }
+
+      private float s_ ;
+      /**
+       * <pre>
+       * Scale
+       * </pre>
+       *
+       * <code>required float s = 5;</code>
+       */
+      public boolean hasS() {
+        return ((bitField0_ & 0x00000010) == 0x00000010);
+      }
+      /**
+       * <pre>
+       * Scale
+       * </pre>
+       *
+       * <code>required float s = 5;</code>
+       */
+      public float getS() {
+        return s_;
+      }
+      /**
+       * <pre>
+       * Scale
+       * </pre>
+       *
+       * <code>required float s = 5;</code>
+       */
+      public Builder setS(float value) {
+        bitField0_ |= 0x00000010;
+        s_ = value;
+        onChanged();
+        return this;
+      }
+      /**
+       * <pre>
+       * Scale
+       * </pre>
+       *
+       * <code>required float s = 5;</code>
+       */
+      public Builder clearS() {
+        bitField0_ = (bitField0_ & ~0x00000010);
+        s_ = 0F;
+        onChanged();
+        return this;
+      }
       public final Builder setUnknownFields(
           final com.google.protobuf.UnknownFieldSet unknownFields) {
         return super.setUnknownFields(unknownFields);
@@ -836,16 +965,16 @@ public final class PBCreatureOuterClass {
       }
 
 
-      // @@protoc_insertion_point(builder_scope:messages.PBCreature)
+      // @@protoc_insertion_point(builder_scope:server.messages.PBCreature)
     }
 
-    // @@protoc_insertion_point(class_scope:messages.PBCreature)
-    private static final messages.PBCreatureOuterClass.PBCreature DEFAULT_INSTANCE;
+    // @@protoc_insertion_point(class_scope:server.messages.PBCreature)
+    private static final server.messages.PBCreatureOuterClass.PBCreature DEFAULT_INSTANCE;
     static {
-      DEFAULT_INSTANCE = new messages.PBCreatureOuterClass.PBCreature();
+      DEFAULT_INSTANCE = new server.messages.PBCreatureOuterClass.PBCreature();
     }
 
-    public static messages.PBCreatureOuterClass.PBCreature getDefaultInstance() {
+    public static server.messages.PBCreatureOuterClass.PBCreature getDefaultInstance() {
       return DEFAULT_INSTANCE;
     }
 
@@ -868,17 +997,17 @@ public final class PBCreatureOuterClass {
       return PARSER;
     }
 
-    public messages.PBCreatureOuterClass.PBCreature getDefaultInstanceForType() {
+    public server.messages.PBCreatureOuterClass.PBCreature getDefaultInstanceForType() {
       return DEFAULT_INSTANCE;
     }
 
   }
 
   private static final com.google.protobuf.Descriptors.Descriptor
-    internal_static_messages_PBCreature_descriptor;
+    internal_static_server_messages_PBCreature_descriptor;
   private static final 
     com.google.protobuf.GeneratedMessageV3.FieldAccessorTable
-      internal_static_messages_PBCreature_fieldAccessorTable;
+      internal_static_server_messages_PBCreature_fieldAccessorTable;
 
   public static com.google.protobuf.Descriptors.FileDescriptor
       getDescriptor() {
@@ -888,9 +1017,9 @@ public final class PBCreatureOuterClass {
       descriptor;
   static {
     java.lang.String[] descriptorData = {
-      "\n\020PBCreature.proto\022\010messages\"9\n\nPBCreatu" +
-      "re\022\n\n\002id\030\001 \002(\r\022\t\n\001x\030\002 \002(\002\022\t\n\001y\030\003 \002(\002\022\t\n\001" +
-      "r\030\004 \002(\002"
+      "\n\020PBCreature.proto\022\017server.messages\"D\n\nP" +
+      "BCreature\022\n\n\002id\030\001 \002(\r\022\t\n\001x\030\002 \002(\002\022\t\n\001y\030\003 " +
+      "\002(\002\022\t\n\001r\030\004 \002(\002\022\t\n\001s\030\005 \002(\002"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =
         new com.google.protobuf.Descriptors.FileDescriptor.    InternalDescriptorAssigner() {
@@ -904,12 +1033,12 @@ public final class PBCreatureOuterClass {
       .internalBuildGeneratedFileFrom(descriptorData,
         new com.google.protobuf.Descriptors.FileDescriptor[] {
         }, assigner);
-    internal_static_messages_PBCreature_descriptor =
+    internal_static_server_messages_PBCreature_descriptor =
       getDescriptor().getMessageTypes().get(0);
-    internal_static_messages_PBCreature_fieldAccessorTable = new
+    internal_static_server_messages_PBCreature_fieldAccessorTable = new
       com.google.protobuf.GeneratedMessageV3.FieldAccessorTable(
-        internal_static_messages_PBCreature_descriptor,
-        new java.lang.String[] { "Id", "X", "Y", "R", });
+        internal_static_server_messages_PBCreature_descriptor,
+        new java.lang.String[] { "Id", "X", "Y", "R", "S", });
   }
 
   // @@protoc_insertion_point(outer_class_scope)
