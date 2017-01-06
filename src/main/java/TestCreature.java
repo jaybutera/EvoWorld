@@ -7,7 +7,12 @@ public class TestCreature extends Creature {
     }
 
     public void action (float[] a) {
-        // Needs implementation
+        if(a.length != 2) {
+        	System.out.println("Float array for action array is incorrect size");
+        	return;
+        }
+        // apply force at index 0
+        // apply force at index 1
     }
 
     public float[] observation () {
