@@ -1,0 +1,11 @@
+syntax = "proto2";
+
+package server.messages;
+
+import "PBCreature.proto";
+import "PBFood.proto";
+
+message PBGameState {
+    optional PBCreature creature_stat = 1;
+    optional PBFood food_stat = 2;
+}
