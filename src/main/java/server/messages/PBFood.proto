@@ -1,0 +1,13 @@
+syntax = "proto2";
+
+package server.messages;
+
+message PBFood {
+    required uint32 id = 1;
+
+    // Position
+    required float x = 2;
+    required float y = 3;
+
+    required uint32 action = 4;
+}
