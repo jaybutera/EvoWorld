@@ -24,10 +24,15 @@ public class PetriWorld {
 
     public void step  () {
         // Apply forces to dynamic bodies
-        d_bodies[0].body.applyForce( new Vec2(0,50), d_bodies[0].body.getWorldCenter() );
-        d_bodies[1].body.applyForce( new Vec2(0,-50), d_bodies[1].body.getWorldCenter() );
-
-        // Perform a time step in the physics simulation
+        //d_bodies[0].body.applyForce( new Vec2(0,50), d_bodies[0].body.getWorldCenter() );
+        //d_bodies[1].body.applyForce( new Vec2(0,-50), d_bodies[1].body.getWorldCenter() );
+        
+    	for(int x = 0; x < num_bodies; x++) {
+        	float forces[] = {(float)Math.random()*10, (float)Math.random()*10};
+    		d_bodies[x].action(forces);
+    	}
+    	
+    	// Perform a time step in the physics simulation
         world.step(timeStep, 3, 3);
     }
 

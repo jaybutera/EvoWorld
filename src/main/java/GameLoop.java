@@ -28,7 +28,7 @@ public class GameLoop {
 
         RawModel model = load.loadToVAO(v, indices);
         */
-        TestWorld world = new TestWorld(2);
+        PetriWorld world = new PetriWorld(1);
         world.create();
 
         //while ( dm.windowShouldClose() ) {
