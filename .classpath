@@ -23,5 +23,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="libraries/jbox2d-library-2.2.1.2-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="libraries/boxwrap2d.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
