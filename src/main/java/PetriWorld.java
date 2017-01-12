@@ -28,8 +28,11 @@ public class PetriWorld {
         //d_bodies[1].body.applyForce( new Vec2(0,-50), d_bodies[1].body.getWorldCenter() );
         
     	for(int x = 0; x < num_bodies; x++) {
-        	float forces[] = {(float)Math.random()*10, (float)Math.random()*10};
-    		d_bodies[x].action(forces);
+    		int xDirection = (int)(Math.pow(-1, (int)(Math.random()*10))); // positive or negative direction
+    		int yDirection = (int)(Math.pow(-1, (int)(Math.random()*10)));
+        	float forces[] = {(float)Math.random()*10*xDirection, (float)Math.random()*10*yDirection};
+        	
+        	d_bodies[x].action(forces);
     	}
     	
     	// Perform a time step in the physics simulation

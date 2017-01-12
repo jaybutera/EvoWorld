@@ -6,8 +6,6 @@ public class TestCreature extends Creature {
         super(body, scale);
     }
 
-    //Physics phys = new Physics(processing.core.PApplet);
-
     public void action (float[] a) {
         if(a.length != 2) {
             System.out.println("Float array for action array is incorrect size");
@@ -20,9 +18,9 @@ public class TestCreature extends Creature {
         Vec2 move = new Vec2(a[0], a[1]);
 
         // apply force at index 0
-        this.body.applyForce(move, new Vec2(0, -0.5f));
+        this.body.applyForce(move, new Vec2(0, -1f));
         // apply force at index 1
-        this.body.applyForce(move, new Vec2(0, 0.5f));
+        this.body.applyForce(move, new Vec2(0, 1f));
     }
 
     public float[] observation () {
