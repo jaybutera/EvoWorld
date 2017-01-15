@@ -8,4 +8,10 @@ public class serverDebugHandler extends ChannelInboundHandlerAdapter {
     public void channelActive (final ChannelHandlerContext ctx) {
         System.out.println("Client connected");
     }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        System.out.println("Received message");
+        ctx.fireChannelRead(msg);
+    }
 }
