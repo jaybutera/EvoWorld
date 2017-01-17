@@ -1,10 +1,9 @@
 package server.messages.netty;
 
+import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
+import io.netty.channel.*;
+import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -23,14 +22,12 @@ import server.messages.PBCreatureOuterClass;
 import java.io.IOException;
 
 public class StateServer {
-    private int port;
+    private static int FRONT_PORT = 8000;
+    private static String BACK_HOST = "localhost";
+    private static int BACK_PORT = 8002;
 
     public static void main(String[] args) throws Exception {
-        new StateServer(8000).run();
-    }
-
-    public StateServer (int port) {
-        this.port = port;
+        new StateServer().run();
     }
 
     public void run() throws Exception {
@@ -42,11 +39,14 @@ public class StateServer {
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class);
 
+
             // ===========================================================
             // 1. define a separate thread pool to execute handlers with
             //    slow business logic. e.g database operation
             // ===========================================================
             //final EventExecutorGroup group = new DefaultEventExecutorGroup(1500); //thread pool of 1500
+
+            StateHandler stateHandler = new StateHandler();
 
             bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
                 @Override
@@ -59,7 +59,7 @@ public class StateServer {
                     //pipeline.addLast(new StringDecoder());
                     pipeline.addLast(new ProtobufVarint32FrameDecoder());
                     pipeline.addLast(new ProtobufDecoder(PBCreatureOuterClass.PBCreature.getDefaultInstance()));
-                    pipeline.addLast(new StateHandler());
+                    pipeline.addLast(stateHandler);
 
                     //===========================================================
                     // 2. run handler with slow business logic
@@ -72,9 +72,37 @@ public class StateServer {
             .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             // Bind and start to accept incoming connections.
-            ChannelFuture f = bootstrap.bind(port).sync();
+            bootstrap.bind(FRONT_PORT).sync()
+                    .channel().closeFuture().sync();
 
-            f.channel().closeFuture().sync();
+
+
+            // Construct connection to backend (physics engine client)
+            // -------------------------------------------------------
+            final Channel back_channel;
+            final EventLoop back_group = new DefaultEventLoop();
+
+            Bootstrap back_connection = new Bootstrap()
+                    .group(back_group)
+                    .handler(new StateProxyBackendHandler(stateHandler.getChannels()))
+                    .channel(NioServerSocketChannel.class)
+                    .option(ChannelOption.AUTO_READ, false);
+
+            ChannelFuture f = back_connection.connect(BACK_HOST, BACK_PORT);
+            back_channel = f.channel();
+
+            f.addListener(new ChannelFutureListener() {
+                @Override
+                public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                    if (channelFuture.isSuccess()) {
+                        back_channel.read();
+                    }
+                    else {
+                        back_channel.close();
+                    }
+                }
+            });
+            // -------------------------------------------------------
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();

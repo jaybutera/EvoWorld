@@ -11,9 +11,9 @@ import io.netty.util.ReferenceCounted;
 import server.messages.PBCreatureOuterClass;
 
 public class StateHandler extends SimpleChannelInboundHandler<PBCreatureOuterClass.PBCreature> {
-    /*
     private static final ChannelGroup channels = new DefaultChannelGroup();
 
+    /*
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         channels.add( ctx.channel() );
@@ -26,9 +26,13 @@ public class StateHandler extends SimpleChannelInboundHandler<PBCreatureOuterCla
     */
 
     @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+        //channels.add(ctx.channel());
+    }
+
+    @Override
     public void channelRead0(ChannelHandlerContext ctx, PBCreatureOuterClass.PBCreature msg) {
         //ByteBuf in = (ByteBuf) msg;
-        System.out.println("read:");
 
         try {
             /*
@@ -48,5 +52,9 @@ public class StateHandler extends SimpleChannelInboundHandler<PBCreatureOuterCla
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         cause.printStackTrace();
         ctx.close();
+    }
+
+    public ChannelGroup getChannels () {
+        return channels;
     }
 }
