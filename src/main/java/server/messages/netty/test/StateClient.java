@@ -8,6 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import server.messages.PBCreatureOuterClass;
+import java.util.Random;
 
 import java.util.concurrent.TimeUnit;
 
@@ -43,14 +44,16 @@ public class StateClient {
 
             Channel channel = bootstrap.connect(host, port).sync().channel();
 
-            // Simulated game loop
             int id = 0;
+            Random r = new Random();
+
+            // Simulated game loop
             while (true) {
                 PBCreatureOuterClass.PBCreature c = PBCreatureOuterClass.PBCreature.newBuilder()
                         .setId(id++)
-                        .setR(3.2f)
-                        .setX(.2f).setY(.9f)
-                        .setS(5.1f)
+                        .setR(r.nextFloat()) // 0-1
+                        .setX(r.nextFloat() * 10).setY(r.nextFloat() * 10) // 0-10
+                        .setS(r.nextFloat()) /// 0-1
                         .build();
 
                 ChannelFuture f = channel.writeAndFlush(c);

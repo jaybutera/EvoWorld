@@ -46,6 +46,7 @@ public class StateServer {
 
                                 @Override
                                 public void channelRead0 (ChannelHandlerContext ctx, PBCreatureOuterClass.PBCreature msg) {
+                                    /*
                                     try {
                                         System.out.println("Writing out...");
                                         channels.writeAndFlush(msg);
@@ -53,6 +54,7 @@ public class StateServer {
                                     finally {
                                         ReferenceCountUtil.release(msg);
                                     }
+                                    */
                                 }
 
                                 @Override
