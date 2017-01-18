@@ -1,13 +1,15 @@
-package server.messages.netty;
+package server.messages.netty.test;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
+import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.protobuf.ProtobufEncoder;
+import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import server.messages.PBCreatureOuterClass;
+import java.util.Random;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 
 public class StateClient {
@@ -30,21 +32,30 @@ public class StateClient {
             Bootstrap bootstrap = new Bootstrap()
                     .group(group)
                     .channel(NioSocketChannel.class)
-                    .handler(new StateClientInitializer());
+                    .handler(new ChannelInitializer< SocketChannel > () {
+                @Override
+                protected void initChannel (SocketChannel arg0) throws Exception {
+                    ChannelPipeline pipeline = arg0.pipeline();
+
+                    pipeline.addLast(new ProtobufVarint32LengthFieldPrepender());
+                    pipeline.addLast(new ProtobufEncoder());
+                }
+            });
 
             Channel channel = bootstrap.connect(host, port).sync().channel();
-            //BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
 
+            int id = 0;
+            Random r = new Random();
+
+            // Simulated game loop
             while (true) {
                 PBCreatureOuterClass.PBCreature c = PBCreatureOuterClass.PBCreature.newBuilder()
-                        .setId(1)
-                        .setR(3.2f)
-                        .setX(.2f).setY(.9f)
-                        .setS(5.1f)
+                        .setId(id++)
+                        .setR(r.nextFloat()) // 0-1
+                        .setX(r.nextFloat() * 10).setY(r.nextFloat() * 10) // 0-10
+                        .setS(r.nextFloat()) /// 0-1
                         .build();
 
-                //String s = in.readLine() + "\n";
-                //System.out.println(s);
                 ChannelFuture f = channel.writeAndFlush(c);
 
                 f.addListener(new ChannelFutureListener() {
