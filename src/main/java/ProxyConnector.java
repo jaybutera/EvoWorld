@@ -20,7 +20,7 @@ public class ProxyConnector {
         group = new NioEventLoopGroup();
     }
 
-    public void connect () throws Exception {
+    public boolean connect () throws Exception {
         try {
             Bootstrap bootstrap = new Bootstrap()
                     .group(group)
@@ -36,10 +36,14 @@ public class ProxyConnector {
                     });
 
             channel = bootstrap.connect(host, port).sync().channel();
+
+            return true;
         }
         catch (Exception e) {
             System.out.println(e.toString());
             e.printStackTrace();
+
+            return false;
         }
     }
 

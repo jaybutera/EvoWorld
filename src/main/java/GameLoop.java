@@ -10,7 +10,14 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class GameLoop {
+    private ProxyConnector connector;
+    private PetriWorld world;
+
     public static void main (String[] args) {
+        new GameLoop().run();
+    }
+
+    public void run () {
         /*
         DisplayManager dm = new DisplayManager();
         dm.createDisplay();
@@ -33,13 +40,14 @@ public class GameLoop {
 
         RawModel model = load.loadToVAO(v, indices);
         */
-        PetriWorld world = new PetriWorld(1);
+        world = new PetriWorld(1);
         world.create();
 
         // Connect to proxy server to update player clients of game state
-        ProxyConnector connector = new ProxyConnector("127.0.0.1", 8000);
+        connector = new ProxyConnector("127.0.0.1", 8000);
+        boolean connected = false;
         try {
-            connector.connect();
+            connected = connector.connect();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -56,22 +64,8 @@ public class GameLoop {
             world.step();
 
             // Update proxy server
-            ArrayList<PBCreatureOuterClass.PBCreature> creatures = new ArrayList<>();
-            for (Creature c : world.d_bodies)
-                creatures.add( c.serialize() );
-
-            try {
-                connector.send(
-                        PBGameStateOuterClass.PBGameState.newBuilder()
-                                .addAllCreatureStat(creatures)
-                                //.addAllFoodStat(null)
-                                .build()
-                );
-            }
-            catch (Exception e) {
-                System.out.println("Failed to send game state to server");
-                e.printStackTrace();
-            }
+            if (connected)
+                send();
 
             for (int j = 0; j < world.d_bodies.length; j++)
                 System.out.println(world.d_bodies[j].serialize().toString());
@@ -98,5 +92,24 @@ public class GameLoop {
         load.cleanUp();
         dm.closeDisplay();
         */
+    }
+
+    public void send () {
+        ArrayList<PBCreatureOuterClass.PBCreature> creatures = new ArrayList<>();
+        for (Creature c : world.d_bodies)
+            creatures.add( c.serialize() );
+
+        try {
+            connector.send(
+                    PBGameStateOuterClass.PBGameState.newBuilder()
+                            .addAllCreatureStat(creatures)
+                            //.addAllFoodStat(null)
+                            .build()
+            );
+        }
+        catch (Exception e) {
+            System.out.println("Failed to send game state to server");
+            e.printStackTrace();
+        }
     }
 }
