@@ -13,6 +13,7 @@ public class StateProxyBackendHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        System.out.println(msg.toString());
         channels.writeAndFlush(msg);
     }
 }

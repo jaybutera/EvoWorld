@@ -22,9 +22,9 @@ import server.messages.PBCreatureOuterClass;
 import java.io.IOException;
 
 public class StateServer {
-    private static int FRONT_PORT = 8000;
+    private static int FRONT_PORT = 8002;
     private static String BACK_HOST = "localhost";
-    private static int BACK_PORT = 8002;
+    private static int BACK_PORT = 8000;
 
     public static void main(String[] args) throws Exception {
         new StateServer().run();
@@ -84,7 +84,27 @@ public class StateServer {
 
             Bootstrap back_connection = new Bootstrap()
                     .group(back_group)
-                    .handler(new StateProxyBackendHandler(stateHandler.getChannels()))
+                    .handler(new ChannelInitializer<SocketChannel>() {
+                        @Override
+                        protected void initChannel(SocketChannel ch) throws Exception {
+                            ChannelPipeline pipeline = ch.pipeline();
+
+                            //pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
+                            pipeline.addLast(new serverDebugHandler());
+                            //pipeline.addLast(new LineBasedFrameDecoder(80));
+                            //pipeline.addLast(new StringDecoder());
+                            pipeline.addLast(new ProtobufVarint32FrameDecoder());
+                            pipeline.addLast(new ProtobufDecoder(PBCreatureOuterClass.PBCreature.getDefaultInstance()));
+                            pipeline.addLast(new StateProxyBackendHandler(stateHandler.getChannels()));
+
+                            //===========================================================
+                            // 2. run handler with slow business logic
+                            //    in separate thread from I/O thread
+                            //===========================================================
+                            //pipeline.addLast(group,"serverHandler",new ServerHandler());
+                        }
+                    })
+                    //.handler(new StateProxyBackendHandler(stateHandler.getChannels()))
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.AUTO_READ, false);
 

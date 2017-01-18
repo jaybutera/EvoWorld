@@ -8,10 +8,11 @@ import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.util.ReferenceCountUtil;
 import io.netty.util.ReferenceCounted;
+import io.netty.util.concurrent.GlobalEventExecutor;
 import server.messages.PBCreatureOuterClass;
 
 public class StateHandler extends SimpleChannelInboundHandler<PBCreatureOuterClass.PBCreature> {
-    private static final ChannelGroup channels = new DefaultChannelGroup();
+    private static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
     /*
     @Override
