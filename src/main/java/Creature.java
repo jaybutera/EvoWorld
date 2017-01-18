@@ -15,14 +15,15 @@ public abstract class Creature extends DynamicEntity {
 		super(body, scale);
 	}
 
-	public PBCreature.Builder serialize () {
+	public PBCreature serialize () {
 		Vec2 position = body.getPosition();
-		PBCreature.Builder c_serial = PBCreature.newBuilder()
+		PBCreature c_serial = PBCreature.newBuilder()
 				.setId(id)
 				.setX(position.x)
 				.setY(position.y)
 				.setR(body.getAngle())
-				.setS(scale);
+				.setS(scale)
+				.build();
 
 		return c_serial;
 	}

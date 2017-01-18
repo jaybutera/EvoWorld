@@ -2,7 +2,12 @@ import renderEngine.DisplayManager;
 import renderEngine.Loader;
 import renderEngine.RawModel;
 import renderEngine.Renderer;
+import server.messages.PBCreatureOuterClass;
+import server.messages.PBGameStateOuterClass;
 import shaders.StaticShader;
+
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class GameLoop {
     public static void main (String[] args) {
@@ -31,10 +36,42 @@ public class GameLoop {
         PetriWorld world = new PetriWorld(1);
         world.create();
 
+        // Connect to proxy server to update player clients of game state
+        ProxyConnector connector = new ProxyConnector("127.0.0.1", 8000);
+        try {
+            connector.connect();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        //----------------
+        // Main Game Loop
+        //----------------
+
         //while ( dm.windowShouldClose() ) {
         for (int i = 0; i < 100; i++)
         {
+            // Perform physical update
             world.step();
+
+            // Update proxy server
+            ArrayList<PBCreatureOuterClass.PBCreature> creatures = new ArrayList<>();
+            for (Creature c : world.d_bodies)
+                creatures.add( c.serialize() );
+
+            try {
+                connector.send(
+                        PBGameStateOuterClass.PBGameState.newBuilder()
+                                .addAllCreatureStat(creatures)
+                                //.addAllFoodStat(null)
+                                .build()
+                );
+            }
+            catch (Exception e) {
+                System.out.println("Failed to send game state to server");
+                e.printStackTrace();
+            }
 
             for (int j = 0; j < world.d_bodies.length; j++)
                 System.out.println(world.d_bodies[j].serialize().toString());
@@ -46,6 +83,14 @@ public class GameLoop {
             shader.stop();
             dm.updateDisplay();
             */
+
+            try {
+                TimeUnit.MILLISECONDS.sleep(500);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+                System.exit(-1);
+            }
         }
 
         /*
