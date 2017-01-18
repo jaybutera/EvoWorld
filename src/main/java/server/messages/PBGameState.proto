@@ -6,6 +6,6 @@ import "PBCreature.proto";
 import "PBFood.proto";
 
 message PBGameState {
-    optional PBCreature creature_stat = 1;
-    optional PBFood food_stat = 2;
+    repeated PBCreature creature_stat = 1;
+    repeated PBFood food_stat = 2;
 }
