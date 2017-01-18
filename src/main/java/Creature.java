@@ -4,6 +4,7 @@ import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
 import org.jbox2d.dynamics.FixtureDef;
+import server.messages.PBCreatureOuterClass;
 import toolbox.Vector3f;
 import server.messages.PBCreatureOuterClass.PBCreature;
 
@@ -14,19 +15,16 @@ public abstract class Creature extends DynamicEntity {
 		super(body, scale);
 	}
 
-	public byte[] serialize () {
+	public PBCreature.Builder serialize () {
 		Vec2 position = body.getPosition();
-		PBCreature c_serial = PBCreature.newBuilder()
+		PBCreature.Builder c_serial = PBCreature.newBuilder()
 				.setId(id)
 				.setX(position.x)
 				.setY(position.y)
 				.setR(body.getAngle())
-				.setS(scale)
-				.build();
+				.setS(scale);
 
-		System.out.println(c_serial.toString());
-
-		return c_serial.toByteArray();
+		return c_serial;
 	}
 
 	public abstract void action (float[] a);

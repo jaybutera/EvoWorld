@@ -19,30 +19,52 @@ public final class PBGameStateOuterClass {
       com.google.protobuf.MessageOrBuilder {
 
     /**
-     * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
      */
-    boolean hasCreatureStat();
+    java.util.List<server.messages.PBCreatureOuterClass.PBCreature> 
+        getCreatureStatList();
     /**
-     * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
      */
-    server.messages.PBCreatureOuterClass.PBCreature getCreatureStat();
+    server.messages.PBCreatureOuterClass.PBCreature getCreatureStat(int index);
     /**
-     * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
      */
-    server.messages.PBCreatureOuterClass.PBCreatureOrBuilder getCreatureStatOrBuilder();
+    int getCreatureStatCount();
+    /**
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+     */
+    java.util.List<? extends server.messages.PBCreatureOuterClass.PBCreatureOrBuilder> 
+        getCreatureStatOrBuilderList();
+    /**
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+     */
+    server.messages.PBCreatureOuterClass.PBCreatureOrBuilder getCreatureStatOrBuilder(
+        int index);
 
     /**
-     * <code>optional .server.messages.PBFood food_stat = 2;</code>
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
      */
-    boolean hasFoodStat();
+    java.util.List<server.messages.PBFoodOuterClass.PBFood> 
+        getFoodStatList();
     /**
-     * <code>optional .server.messages.PBFood food_stat = 2;</code>
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
      */
-    server.messages.PBFoodOuterClass.PBFood getFoodStat();
+    server.messages.PBFoodOuterClass.PBFood getFoodStat(int index);
     /**
-     * <code>optional .server.messages.PBFood food_stat = 2;</code>
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
      */
-    server.messages.PBFoodOuterClass.PBFoodOrBuilder getFoodStatOrBuilder();
+    int getFoodStatCount();
+    /**
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+     */
+    java.util.List<? extends server.messages.PBFoodOuterClass.PBFoodOrBuilder> 
+        getFoodStatOrBuilderList();
+    /**
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+     */
+    server.messages.PBFoodOuterClass.PBFoodOrBuilder getFoodStatOrBuilder(
+        int index);
   }
   /**
    * Protobuf type {@code server.messages.PBGameState}
@@ -56,6 +78,8 @@ public final class PBGameStateOuterClass {
       super(builder);
     }
     private PBGameState() {
+      creatureStat_ = java.util.Collections.emptyList();
+      foodStat_ = java.util.Collections.emptyList();
     }
 
     @java.lang.Override
@@ -87,29 +111,21 @@ public final class PBGameStateOuterClass {
               break;
             }
             case 10: {
-              server.messages.PBCreatureOuterClass.PBCreature.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000001) == 0x00000001)) {
-                subBuilder = creatureStat_.toBuilder();
+              if (!((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+                creatureStat_ = new java.util.ArrayList<server.messages.PBCreatureOuterClass.PBCreature>();
+                mutable_bitField0_ |= 0x00000001;
               }
-              creatureStat_ = input.readMessage(server.messages.PBCreatureOuterClass.PBCreature.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(creatureStat_);
-                creatureStat_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000001;
+              creatureStat_.add(
+                  input.readMessage(server.messages.PBCreatureOuterClass.PBCreature.PARSER, extensionRegistry));
               break;
             }
             case 18: {
-              server.messages.PBFoodOuterClass.PBFood.Builder subBuilder = null;
-              if (((bitField0_ & 0x00000002) == 0x00000002)) {
-                subBuilder = foodStat_.toBuilder();
+              if (!((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+                foodStat_ = new java.util.ArrayList<server.messages.PBFoodOuterClass.PBFood>();
+                mutable_bitField0_ |= 0x00000002;
               }
-              foodStat_ = input.readMessage(server.messages.PBFoodOuterClass.PBFood.PARSER, extensionRegistry);
-              if (subBuilder != null) {
-                subBuilder.mergeFrom(foodStat_);
-                foodStat_ = subBuilder.buildPartial();
-              }
-              bitField0_ |= 0x00000002;
+              foodStat_.add(
+                  input.readMessage(server.messages.PBFoodOuterClass.PBFood.PARSER, extensionRegistry));
               break;
             }
           }
@@ -120,6 +136,12 @@ public final class PBGameStateOuterClass {
         throw new com.google.protobuf.InvalidProtocolBufferException(
             e).setUnfinishedMessage(this);
       } finally {
+        if (((mutable_bitField0_ & 0x00000001) == 0x00000001)) {
+          creatureStat_ = java.util.Collections.unmodifiableList(creatureStat_);
+        }
+        if (((mutable_bitField0_ & 0x00000002) == 0x00000002)) {
+          foodStat_ = java.util.Collections.unmodifiableList(foodStat_);
+        }
         this.unknownFields = unknownFields.build();
         makeExtensionsImmutable();
       }
@@ -136,47 +158,74 @@ public final class PBGameStateOuterClass {
               server.messages.PBGameStateOuterClass.PBGameState.class, server.messages.PBGameStateOuterClass.PBGameState.Builder.class);
     }
 
-    private int bitField0_;
     public static final int CREATURE_STAT_FIELD_NUMBER = 1;
-    private server.messages.PBCreatureOuterClass.PBCreature creatureStat_;
+    private java.util.List<server.messages.PBCreatureOuterClass.PBCreature> creatureStat_;
     /**
-     * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
      */
-    public boolean hasCreatureStat() {
-      return ((bitField0_ & 0x00000001) == 0x00000001);
+    public java.util.List<server.messages.PBCreatureOuterClass.PBCreature> getCreatureStatList() {
+      return creatureStat_;
     }
     /**
-     * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
      */
-    public server.messages.PBCreatureOuterClass.PBCreature getCreatureStat() {
-      return creatureStat_ == null ? server.messages.PBCreatureOuterClass.PBCreature.getDefaultInstance() : creatureStat_;
+    public java.util.List<? extends server.messages.PBCreatureOuterClass.PBCreatureOrBuilder> 
+        getCreatureStatOrBuilderList() {
+      return creatureStat_;
     }
     /**
-     * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
      */
-    public server.messages.PBCreatureOuterClass.PBCreatureOrBuilder getCreatureStatOrBuilder() {
-      return creatureStat_ == null ? server.messages.PBCreatureOuterClass.PBCreature.getDefaultInstance() : creatureStat_;
+    public int getCreatureStatCount() {
+      return creatureStat_.size();
+    }
+    /**
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+     */
+    public server.messages.PBCreatureOuterClass.PBCreature getCreatureStat(int index) {
+      return creatureStat_.get(index);
+    }
+    /**
+     * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+     */
+    public server.messages.PBCreatureOuterClass.PBCreatureOrBuilder getCreatureStatOrBuilder(
+        int index) {
+      return creatureStat_.get(index);
     }
 
     public static final int FOOD_STAT_FIELD_NUMBER = 2;
-    private server.messages.PBFoodOuterClass.PBFood foodStat_;
+    private java.util.List<server.messages.PBFoodOuterClass.PBFood> foodStat_;
     /**
-     * <code>optional .server.messages.PBFood food_stat = 2;</code>
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
      */
-    public boolean hasFoodStat() {
-      return ((bitField0_ & 0x00000002) == 0x00000002);
+    public java.util.List<server.messages.PBFoodOuterClass.PBFood> getFoodStatList() {
+      return foodStat_;
     }
     /**
-     * <code>optional .server.messages.PBFood food_stat = 2;</code>
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
      */
-    public server.messages.PBFoodOuterClass.PBFood getFoodStat() {
-      return foodStat_ == null ? server.messages.PBFoodOuterClass.PBFood.getDefaultInstance() : foodStat_;
+    public java.util.List<? extends server.messages.PBFoodOuterClass.PBFoodOrBuilder> 
+        getFoodStatOrBuilderList() {
+      return foodStat_;
     }
     /**
-     * <code>optional .server.messages.PBFood food_stat = 2;</code>
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
      */
-    public server.messages.PBFoodOuterClass.PBFoodOrBuilder getFoodStatOrBuilder() {
-      return foodStat_ == null ? server.messages.PBFoodOuterClass.PBFood.getDefaultInstance() : foodStat_;
+    public int getFoodStatCount() {
+      return foodStat_.size();
+    }
+    /**
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+     */
+    public server.messages.PBFoodOuterClass.PBFood getFoodStat(int index) {
+      return foodStat_.get(index);
+    }
+    /**
+     * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+     */
+    public server.messages.PBFoodOuterClass.PBFoodOrBuilder getFoodStatOrBuilder(
+        int index) {
+      return foodStat_.get(index);
     }
 
     private byte memoizedIsInitialized = -1;
@@ -185,14 +234,14 @@ public final class PBGameStateOuterClass {
       if (isInitialized == 1) return true;
       if (isInitialized == 0) return false;
 
-      if (hasCreatureStat()) {
-        if (!getCreatureStat().isInitialized()) {
+      for (int i = 0; i < getCreatureStatCount(); i++) {
+        if (!getCreatureStat(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
       }
-      if (hasFoodStat()) {
-        if (!getFoodStat().isInitialized()) {
+      for (int i = 0; i < getFoodStatCount(); i++) {
+        if (!getFoodStat(i).isInitialized()) {
           memoizedIsInitialized = 0;
           return false;
         }
@@ -203,11 +252,11 @@ public final class PBGameStateOuterClass {
 
     public void writeTo(com.google.protobuf.CodedOutputStream output)
                         throws java.io.IOException {
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
-        output.writeMessage(1, getCreatureStat());
+      for (int i = 0; i < creatureStat_.size(); i++) {
+        output.writeMessage(1, creatureStat_.get(i));
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
-        output.writeMessage(2, getFoodStat());
+      for (int i = 0; i < foodStat_.size(); i++) {
+        output.writeMessage(2, foodStat_.get(i));
       }
       unknownFields.writeTo(output);
     }
@@ -217,13 +266,13 @@ public final class PBGameStateOuterClass {
       if (size != -1) return size;
 
       size = 0;
-      if (((bitField0_ & 0x00000001) == 0x00000001)) {
+      for (int i = 0; i < creatureStat_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(1, getCreatureStat());
+          .computeMessageSize(1, creatureStat_.get(i));
       }
-      if (((bitField0_ & 0x00000002) == 0x00000002)) {
+      for (int i = 0; i < foodStat_.size(); i++) {
         size += com.google.protobuf.CodedOutputStream
-          .computeMessageSize(2, getFoodStat());
+          .computeMessageSize(2, foodStat_.get(i));
       }
       size += unknownFields.getSerializedSize();
       memoizedSize = size;
@@ -242,16 +291,10 @@ public final class PBGameStateOuterClass {
       server.messages.PBGameStateOuterClass.PBGameState other = (server.messages.PBGameStateOuterClass.PBGameState) obj;
 
       boolean result = true;
-      result = result && (hasCreatureStat() == other.hasCreatureStat());
-      if (hasCreatureStat()) {
-        result = result && getCreatureStat()
-            .equals(other.getCreatureStat());
-      }
-      result = result && (hasFoodStat() == other.hasFoodStat());
-      if (hasFoodStat()) {
-        result = result && getFoodStat()
-            .equals(other.getFoodStat());
-      }
+      result = result && getCreatureStatList()
+          .equals(other.getCreatureStatList());
+      result = result && getFoodStatList()
+          .equals(other.getFoodStatList());
       result = result && unknownFields.equals(other.unknownFields);
       return result;
     }
@@ -263,13 +306,13 @@ public final class PBGameStateOuterClass {
       }
       int hash = 41;
       hash = (19 * hash) + getDescriptorForType().hashCode();
-      if (hasCreatureStat()) {
+      if (getCreatureStatCount() > 0) {
         hash = (37 * hash) + CREATURE_STAT_FIELD_NUMBER;
-        hash = (53 * hash) + getCreatureStat().hashCode();
+        hash = (53 * hash) + getCreatureStatList().hashCode();
       }
-      if (hasFoodStat()) {
+      if (getFoodStatCount() > 0) {
         hash = (37 * hash) + FOOD_STAT_FIELD_NUMBER;
-        hash = (53 * hash) + getFoodStat().hashCode();
+        hash = (53 * hash) + getFoodStatList().hashCode();
       }
       hash = (29 * hash) + unknownFields.hashCode();
       memoizedHashCode = hash;
@@ -392,17 +435,17 @@ public final class PBGameStateOuterClass {
       public Builder clear() {
         super.clear();
         if (creatureStatBuilder_ == null) {
-          creatureStat_ = null;
+          creatureStat_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
         } else {
           creatureStatBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
         if (foodStatBuilder_ == null) {
-          foodStat_ = null;
+          foodStat_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
         } else {
           foodStatBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
 
@@ -426,24 +469,24 @@ public final class PBGameStateOuterClass {
       public server.messages.PBGameStateOuterClass.PBGameState buildPartial() {
         server.messages.PBGameStateOuterClass.PBGameState result = new server.messages.PBGameStateOuterClass.PBGameState(this);
         int from_bitField0_ = bitField0_;
-        int to_bitField0_ = 0;
-        if (((from_bitField0_ & 0x00000001) == 0x00000001)) {
-          to_bitField0_ |= 0x00000001;
-        }
         if (creatureStatBuilder_ == null) {
+          if (((bitField0_ & 0x00000001) == 0x00000001)) {
+            creatureStat_ = java.util.Collections.unmodifiableList(creatureStat_);
+            bitField0_ = (bitField0_ & ~0x00000001);
+          }
           result.creatureStat_ = creatureStat_;
         } else {
           result.creatureStat_ = creatureStatBuilder_.build();
         }
-        if (((from_bitField0_ & 0x00000002) == 0x00000002)) {
-          to_bitField0_ |= 0x00000002;
-        }
         if (foodStatBuilder_ == null) {
+          if (((bitField0_ & 0x00000002) == 0x00000002)) {
+            foodStat_ = java.util.Collections.unmodifiableList(foodStat_);
+            bitField0_ = (bitField0_ & ~0x00000002);
+          }
           result.foodStat_ = foodStat_;
         } else {
           result.foodStat_ = foodStatBuilder_.build();
         }
-        result.bitField0_ = to_bitField0_;
         onBuilt();
         return result;
       }
@@ -485,11 +528,57 @@ public final class PBGameStateOuterClass {
 
       public Builder mergeFrom(server.messages.PBGameStateOuterClass.PBGameState other) {
         if (other == server.messages.PBGameStateOuterClass.PBGameState.getDefaultInstance()) return this;
-        if (other.hasCreatureStat()) {
-          mergeCreatureStat(other.getCreatureStat());
+        if (creatureStatBuilder_ == null) {
+          if (!other.creatureStat_.isEmpty()) {
+            if (creatureStat_.isEmpty()) {
+              creatureStat_ = other.creatureStat_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+            } else {
+              ensureCreatureStatIsMutable();
+              creatureStat_.addAll(other.creatureStat_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.creatureStat_.isEmpty()) {
+            if (creatureStatBuilder_.isEmpty()) {
+              creatureStatBuilder_.dispose();
+              creatureStatBuilder_ = null;
+              creatureStat_ = other.creatureStat_;
+              bitField0_ = (bitField0_ & ~0x00000001);
+              creatureStatBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getCreatureStatFieldBuilder() : null;
+            } else {
+              creatureStatBuilder_.addAllMessages(other.creatureStat_);
+            }
+          }
         }
-        if (other.hasFoodStat()) {
-          mergeFoodStat(other.getFoodStat());
+        if (foodStatBuilder_ == null) {
+          if (!other.foodStat_.isEmpty()) {
+            if (foodStat_.isEmpty()) {
+              foodStat_ = other.foodStat_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+            } else {
+              ensureFoodStatIsMutable();
+              foodStat_.addAll(other.foodStat_);
+            }
+            onChanged();
+          }
+        } else {
+          if (!other.foodStat_.isEmpty()) {
+            if (foodStatBuilder_.isEmpty()) {
+              foodStatBuilder_.dispose();
+              foodStatBuilder_ = null;
+              foodStat_ = other.foodStat_;
+              bitField0_ = (bitField0_ & ~0x00000002);
+              foodStatBuilder_ = 
+                com.google.protobuf.GeneratedMessageV3.alwaysUseFieldBuilders ?
+                   getFoodStatFieldBuilder() : null;
+            } else {
+              foodStatBuilder_.addAllMessages(other.foodStat_);
+            }
+          }
         }
         this.mergeUnknownFields(other.unknownFields);
         onChanged();
@@ -497,13 +586,13 @@ public final class PBGameStateOuterClass {
       }
 
       public final boolean isInitialized() {
-        if (hasCreatureStat()) {
-          if (!getCreatureStat().isInitialized()) {
+        for (int i = 0; i < getCreatureStatCount(); i++) {
+          if (!getCreatureStat(i).isInitialized()) {
             return false;
           }
         }
-        if (hasFoodStat()) {
-          if (!getFoodStat().isInitialized()) {
+        for (int i = 0; i < getFoodStatCount(); i++) {
+          if (!getFoodStat(i).isInitialized()) {
             return false;
           }
         }
@@ -529,117 +618,239 @@ public final class PBGameStateOuterClass {
       }
       private int bitField0_;
 
-      private server.messages.PBCreatureOuterClass.PBCreature creatureStat_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          server.messages.PBCreatureOuterClass.PBCreature, server.messages.PBCreatureOuterClass.PBCreature.Builder, server.messages.PBCreatureOuterClass.PBCreatureOrBuilder> creatureStatBuilder_;
-      /**
-       * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
-       */
-      public boolean hasCreatureStat() {
-        return ((bitField0_ & 0x00000001) == 0x00000001);
+      private java.util.List<server.messages.PBCreatureOuterClass.PBCreature> creatureStat_ =
+        java.util.Collections.emptyList();
+      private void ensureCreatureStatIsMutable() {
+        if (!((bitField0_ & 0x00000001) == 0x00000001)) {
+          creatureStat_ = new java.util.ArrayList<server.messages.PBCreatureOuterClass.PBCreature>(creatureStat_);
+          bitField0_ |= 0x00000001;
+         }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          server.messages.PBCreatureOuterClass.PBCreature, server.messages.PBCreatureOuterClass.PBCreature.Builder, server.messages.PBCreatureOuterClass.PBCreatureOrBuilder> creatureStatBuilder_;
+
       /**
-       * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
        */
-      public server.messages.PBCreatureOuterClass.PBCreature getCreatureStat() {
+      public java.util.List<server.messages.PBCreatureOuterClass.PBCreature> getCreatureStatList() {
         if (creatureStatBuilder_ == null) {
-          return creatureStat_ == null ? server.messages.PBCreatureOuterClass.PBCreature.getDefaultInstance() : creatureStat_;
+          return java.util.Collections.unmodifiableList(creatureStat_);
         } else {
-          return creatureStatBuilder_.getMessage();
+          return creatureStatBuilder_.getMessageList();
         }
       }
       /**
-       * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
        */
-      public Builder setCreatureStat(server.messages.PBCreatureOuterClass.PBCreature value) {
+      public int getCreatureStatCount() {
+        if (creatureStatBuilder_ == null) {
+          return creatureStat_.size();
+        } else {
+          return creatureStatBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public server.messages.PBCreatureOuterClass.PBCreature getCreatureStat(int index) {
+        if (creatureStatBuilder_ == null) {
+          return creatureStat_.get(index);
+        } else {
+          return creatureStatBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public Builder setCreatureStat(
+          int index, server.messages.PBCreatureOuterClass.PBCreature value) {
         if (creatureStatBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          creatureStat_ = value;
+          ensureCreatureStatIsMutable();
+          creatureStat_.set(index, value);
           onChanged();
         } else {
-          creatureStatBuilder_.setMessage(value);
+          creatureStatBuilder_.setMessage(index, value);
         }
-        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
        */
       public Builder setCreatureStat(
+          int index, server.messages.PBCreatureOuterClass.PBCreature.Builder builderForValue) {
+        if (creatureStatBuilder_ == null) {
+          ensureCreatureStatIsMutable();
+          creatureStat_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          creatureStatBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public Builder addCreatureStat(server.messages.PBCreatureOuterClass.PBCreature value) {
+        if (creatureStatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCreatureStatIsMutable();
+          creatureStat_.add(value);
+          onChanged();
+        } else {
+          creatureStatBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public Builder addCreatureStat(
+          int index, server.messages.PBCreatureOuterClass.PBCreature value) {
+        if (creatureStatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureCreatureStatIsMutable();
+          creatureStat_.add(index, value);
+          onChanged();
+        } else {
+          creatureStatBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public Builder addCreatureStat(
           server.messages.PBCreatureOuterClass.PBCreature.Builder builderForValue) {
         if (creatureStatBuilder_ == null) {
-          creatureStat_ = builderForValue.build();
+          ensureCreatureStatIsMutable();
+          creatureStat_.add(builderForValue.build());
           onChanged();
         } else {
-          creatureStatBuilder_.setMessage(builderForValue.build());
+          creatureStatBuilder_.addMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
        */
-      public Builder mergeCreatureStat(server.messages.PBCreatureOuterClass.PBCreature value) {
+      public Builder addCreatureStat(
+          int index, server.messages.PBCreatureOuterClass.PBCreature.Builder builderForValue) {
         if (creatureStatBuilder_ == null) {
-          if (((bitField0_ & 0x00000001) == 0x00000001) &&
-              creatureStat_ != null &&
-              creatureStat_ != server.messages.PBCreatureOuterClass.PBCreature.getDefaultInstance()) {
-            creatureStat_ =
-              server.messages.PBCreatureOuterClass.PBCreature.newBuilder(creatureStat_).mergeFrom(value).buildPartial();
-          } else {
-            creatureStat_ = value;
-          }
+          ensureCreatureStatIsMutable();
+          creatureStat_.add(index, builderForValue.build());
           onChanged();
         } else {
-          creatureStatBuilder_.mergeFrom(value);
+          creatureStatBuilder_.addMessage(index, builderForValue.build());
         }
-        bitField0_ |= 0x00000001;
         return this;
       }
       /**
-       * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public Builder addAllCreatureStat(
+          java.lang.Iterable<? extends server.messages.PBCreatureOuterClass.PBCreature> values) {
+        if (creatureStatBuilder_ == null) {
+          ensureCreatureStatIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, creatureStat_);
+          onChanged();
+        } else {
+          creatureStatBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
        */
       public Builder clearCreatureStat() {
         if (creatureStatBuilder_ == null) {
-          creatureStat_ = null;
+          creatureStat_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000001);
           onChanged();
         } else {
           creatureStatBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000001);
         return this;
       }
       /**
-       * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
        */
-      public server.messages.PBCreatureOuterClass.PBCreature.Builder getCreatureStatBuilder() {
-        bitField0_ |= 0x00000001;
-        onChanged();
-        return getCreatureStatFieldBuilder().getBuilder();
+      public Builder removeCreatureStat(int index) {
+        if (creatureStatBuilder_ == null) {
+          ensureCreatureStatIsMutable();
+          creatureStat_.remove(index);
+          onChanged();
+        } else {
+          creatureStatBuilder_.remove(index);
+        }
+        return this;
       }
       /**
-       * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
        */
-      public server.messages.PBCreatureOuterClass.PBCreatureOrBuilder getCreatureStatOrBuilder() {
-        if (creatureStatBuilder_ != null) {
-          return creatureStatBuilder_.getMessageOrBuilder();
-        } else {
-          return creatureStat_ == null ?
-              server.messages.PBCreatureOuterClass.PBCreature.getDefaultInstance() : creatureStat_;
+      public server.messages.PBCreatureOuterClass.PBCreature.Builder getCreatureStatBuilder(
+          int index) {
+        return getCreatureStatFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public server.messages.PBCreatureOuterClass.PBCreatureOrBuilder getCreatureStatOrBuilder(
+          int index) {
+        if (creatureStatBuilder_ == null) {
+          return creatureStat_.get(index);  } else {
+          return creatureStatBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>optional .server.messages.PBCreature creature_stat = 1;</code>
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      public java.util.List<? extends server.messages.PBCreatureOuterClass.PBCreatureOrBuilder> 
+           getCreatureStatOrBuilderList() {
+        if (creatureStatBuilder_ != null) {
+          return creatureStatBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(creatureStat_);
+        }
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public server.messages.PBCreatureOuterClass.PBCreature.Builder addCreatureStatBuilder() {
+        return getCreatureStatFieldBuilder().addBuilder(
+            server.messages.PBCreatureOuterClass.PBCreature.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public server.messages.PBCreatureOuterClass.PBCreature.Builder addCreatureStatBuilder(
+          int index) {
+        return getCreatureStatFieldBuilder().addBuilder(
+            index, server.messages.PBCreatureOuterClass.PBCreature.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .server.messages.PBCreature creature_stat = 1;</code>
+       */
+      public java.util.List<server.messages.PBCreatureOuterClass.PBCreature.Builder> 
+           getCreatureStatBuilderList() {
+        return getCreatureStatFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           server.messages.PBCreatureOuterClass.PBCreature, server.messages.PBCreatureOuterClass.PBCreature.Builder, server.messages.PBCreatureOuterClass.PBCreatureOrBuilder> 
           getCreatureStatFieldBuilder() {
         if (creatureStatBuilder_ == null) {
-          creatureStatBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          creatureStatBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               server.messages.PBCreatureOuterClass.PBCreature, server.messages.PBCreatureOuterClass.PBCreature.Builder, server.messages.PBCreatureOuterClass.PBCreatureOrBuilder>(
-                  getCreatureStat(),
+                  creatureStat_,
+                  ((bitField0_ & 0x00000001) == 0x00000001),
                   getParentForChildren(),
                   isClean());
           creatureStat_ = null;
@@ -647,117 +858,239 @@ public final class PBGameStateOuterClass {
         return creatureStatBuilder_;
       }
 
-      private server.messages.PBFoodOuterClass.PBFood foodStat_ = null;
-      private com.google.protobuf.SingleFieldBuilderV3<
-          server.messages.PBFoodOuterClass.PBFood, server.messages.PBFoodOuterClass.PBFood.Builder, server.messages.PBFoodOuterClass.PBFoodOrBuilder> foodStatBuilder_;
-      /**
-       * <code>optional .server.messages.PBFood food_stat = 2;</code>
-       */
-      public boolean hasFoodStat() {
-        return ((bitField0_ & 0x00000002) == 0x00000002);
+      private java.util.List<server.messages.PBFoodOuterClass.PBFood> foodStat_ =
+        java.util.Collections.emptyList();
+      private void ensureFoodStatIsMutable() {
+        if (!((bitField0_ & 0x00000002) == 0x00000002)) {
+          foodStat_ = new java.util.ArrayList<server.messages.PBFoodOuterClass.PBFood>(foodStat_);
+          bitField0_ |= 0x00000002;
+         }
       }
+
+      private com.google.protobuf.RepeatedFieldBuilderV3<
+          server.messages.PBFoodOuterClass.PBFood, server.messages.PBFoodOuterClass.PBFood.Builder, server.messages.PBFoodOuterClass.PBFoodOrBuilder> foodStatBuilder_;
+
       /**
-       * <code>optional .server.messages.PBFood food_stat = 2;</code>
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
        */
-      public server.messages.PBFoodOuterClass.PBFood getFoodStat() {
+      public java.util.List<server.messages.PBFoodOuterClass.PBFood> getFoodStatList() {
         if (foodStatBuilder_ == null) {
-          return foodStat_ == null ? server.messages.PBFoodOuterClass.PBFood.getDefaultInstance() : foodStat_;
+          return java.util.Collections.unmodifiableList(foodStat_);
         } else {
-          return foodStatBuilder_.getMessage();
+          return foodStatBuilder_.getMessageList();
         }
       }
       /**
-       * <code>optional .server.messages.PBFood food_stat = 2;</code>
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
        */
-      public Builder setFoodStat(server.messages.PBFoodOuterClass.PBFood value) {
+      public int getFoodStatCount() {
+        if (foodStatBuilder_ == null) {
+          return foodStat_.size();
+        } else {
+          return foodStatBuilder_.getCount();
+        }
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public server.messages.PBFoodOuterClass.PBFood getFoodStat(int index) {
+        if (foodStatBuilder_ == null) {
+          return foodStat_.get(index);
+        } else {
+          return foodStatBuilder_.getMessage(index);
+        }
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public Builder setFoodStat(
+          int index, server.messages.PBFoodOuterClass.PBFood value) {
         if (foodStatBuilder_ == null) {
           if (value == null) {
             throw new NullPointerException();
           }
-          foodStat_ = value;
+          ensureFoodStatIsMutable();
+          foodStat_.set(index, value);
           onChanged();
         } else {
-          foodStatBuilder_.setMessage(value);
+          foodStatBuilder_.setMessage(index, value);
         }
-        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .server.messages.PBFood food_stat = 2;</code>
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
        */
       public Builder setFoodStat(
+          int index, server.messages.PBFoodOuterClass.PBFood.Builder builderForValue) {
+        if (foodStatBuilder_ == null) {
+          ensureFoodStatIsMutable();
+          foodStat_.set(index, builderForValue.build());
+          onChanged();
+        } else {
+          foodStatBuilder_.setMessage(index, builderForValue.build());
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public Builder addFoodStat(server.messages.PBFoodOuterClass.PBFood value) {
+        if (foodStatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFoodStatIsMutable();
+          foodStat_.add(value);
+          onChanged();
+        } else {
+          foodStatBuilder_.addMessage(value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public Builder addFoodStat(
+          int index, server.messages.PBFoodOuterClass.PBFood value) {
+        if (foodStatBuilder_ == null) {
+          if (value == null) {
+            throw new NullPointerException();
+          }
+          ensureFoodStatIsMutable();
+          foodStat_.add(index, value);
+          onChanged();
+        } else {
+          foodStatBuilder_.addMessage(index, value);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public Builder addFoodStat(
           server.messages.PBFoodOuterClass.PBFood.Builder builderForValue) {
         if (foodStatBuilder_ == null) {
-          foodStat_ = builderForValue.build();
+          ensureFoodStatIsMutable();
+          foodStat_.add(builderForValue.build());
           onChanged();
         } else {
-          foodStatBuilder_.setMessage(builderForValue.build());
+          foodStatBuilder_.addMessage(builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .server.messages.PBFood food_stat = 2;</code>
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
        */
-      public Builder mergeFoodStat(server.messages.PBFoodOuterClass.PBFood value) {
+      public Builder addFoodStat(
+          int index, server.messages.PBFoodOuterClass.PBFood.Builder builderForValue) {
         if (foodStatBuilder_ == null) {
-          if (((bitField0_ & 0x00000002) == 0x00000002) &&
-              foodStat_ != null &&
-              foodStat_ != server.messages.PBFoodOuterClass.PBFood.getDefaultInstance()) {
-            foodStat_ =
-              server.messages.PBFoodOuterClass.PBFood.newBuilder(foodStat_).mergeFrom(value).buildPartial();
-          } else {
-            foodStat_ = value;
-          }
+          ensureFoodStatIsMutable();
+          foodStat_.add(index, builderForValue.build());
           onChanged();
         } else {
-          foodStatBuilder_.mergeFrom(value);
+          foodStatBuilder_.addMessage(index, builderForValue.build());
         }
-        bitField0_ |= 0x00000002;
         return this;
       }
       /**
-       * <code>optional .server.messages.PBFood food_stat = 2;</code>
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public Builder addAllFoodStat(
+          java.lang.Iterable<? extends server.messages.PBFoodOuterClass.PBFood> values) {
+        if (foodStatBuilder_ == null) {
+          ensureFoodStatIsMutable();
+          com.google.protobuf.AbstractMessageLite.Builder.addAll(
+              values, foodStat_);
+          onChanged();
+        } else {
+          foodStatBuilder_.addAllMessages(values);
+        }
+        return this;
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
        */
       public Builder clearFoodStat() {
         if (foodStatBuilder_ == null) {
-          foodStat_ = null;
+          foodStat_ = java.util.Collections.emptyList();
+          bitField0_ = (bitField0_ & ~0x00000002);
           onChanged();
         } else {
           foodStatBuilder_.clear();
         }
-        bitField0_ = (bitField0_ & ~0x00000002);
         return this;
       }
       /**
-       * <code>optional .server.messages.PBFood food_stat = 2;</code>
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
        */
-      public server.messages.PBFoodOuterClass.PBFood.Builder getFoodStatBuilder() {
-        bitField0_ |= 0x00000002;
-        onChanged();
-        return getFoodStatFieldBuilder().getBuilder();
+      public Builder removeFoodStat(int index) {
+        if (foodStatBuilder_ == null) {
+          ensureFoodStatIsMutable();
+          foodStat_.remove(index);
+          onChanged();
+        } else {
+          foodStatBuilder_.remove(index);
+        }
+        return this;
       }
       /**
-       * <code>optional .server.messages.PBFood food_stat = 2;</code>
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
        */
-      public server.messages.PBFoodOuterClass.PBFoodOrBuilder getFoodStatOrBuilder() {
-        if (foodStatBuilder_ != null) {
-          return foodStatBuilder_.getMessageOrBuilder();
-        } else {
-          return foodStat_ == null ?
-              server.messages.PBFoodOuterClass.PBFood.getDefaultInstance() : foodStat_;
+      public server.messages.PBFoodOuterClass.PBFood.Builder getFoodStatBuilder(
+          int index) {
+        return getFoodStatFieldBuilder().getBuilder(index);
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public server.messages.PBFoodOuterClass.PBFoodOrBuilder getFoodStatOrBuilder(
+          int index) {
+        if (foodStatBuilder_ == null) {
+          return foodStat_.get(index);  } else {
+          return foodStatBuilder_.getMessageOrBuilder(index);
         }
       }
       /**
-       * <code>optional .server.messages.PBFood food_stat = 2;</code>
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
        */
-      private com.google.protobuf.SingleFieldBuilderV3<
+      public java.util.List<? extends server.messages.PBFoodOuterClass.PBFoodOrBuilder> 
+           getFoodStatOrBuilderList() {
+        if (foodStatBuilder_ != null) {
+          return foodStatBuilder_.getMessageOrBuilderList();
+        } else {
+          return java.util.Collections.unmodifiableList(foodStat_);
+        }
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public server.messages.PBFoodOuterClass.PBFood.Builder addFoodStatBuilder() {
+        return getFoodStatFieldBuilder().addBuilder(
+            server.messages.PBFoodOuterClass.PBFood.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public server.messages.PBFoodOuterClass.PBFood.Builder addFoodStatBuilder(
+          int index) {
+        return getFoodStatFieldBuilder().addBuilder(
+            index, server.messages.PBFoodOuterClass.PBFood.getDefaultInstance());
+      }
+      /**
+       * <code>repeated .server.messages.PBFood food_stat = 2;</code>
+       */
+      public java.util.List<server.messages.PBFoodOuterClass.PBFood.Builder> 
+           getFoodStatBuilderList() {
+        return getFoodStatFieldBuilder().getBuilderList();
+      }
+      private com.google.protobuf.RepeatedFieldBuilderV3<
           server.messages.PBFoodOuterClass.PBFood, server.messages.PBFoodOuterClass.PBFood.Builder, server.messages.PBFoodOuterClass.PBFoodOrBuilder> 
           getFoodStatFieldBuilder() {
         if (foodStatBuilder_ == null) {
-          foodStatBuilder_ = new com.google.protobuf.SingleFieldBuilderV3<
+          foodStatBuilder_ = new com.google.protobuf.RepeatedFieldBuilderV3<
               server.messages.PBFoodOuterClass.PBFood, server.messages.PBFoodOuterClass.PBFood.Builder, server.messages.PBFoodOuterClass.PBFoodOrBuilder>(
-                  getFoodStat(),
+                  foodStat_,
+                  ((bitField0_ & 0x00000002) == 0x00000002),
                   getParentForChildren(),
                   isClean());
           foodStat_ = null;
@@ -829,8 +1162,8 @@ public final class PBGameStateOuterClass {
     java.lang.String[] descriptorData = {
       "\n\021PBGameState.proto\022\017server.messages\032\020PB" +
       "Creature.proto\032\014PBFood.proto\"m\n\013PBGameSt" +
-      "ate\0222\n\rcreature_stat\030\001 \001(\0132\033.server.mess" +
-      "ages.PBCreature\022*\n\tfood_stat\030\002 \001(\0132\027.ser" +
+      "ate\0222\n\rcreature_stat\030\001 \003(\0132\033.server.mess" +
+      "ages.PBCreature\022*\n\tfood_stat\030\002 \003(\0132\027.ser" +
       "ver.messages.PBFood"
     };
     com.google.protobuf.Descriptors.FileDescriptor.InternalDescriptorAssigner assigner =

@@ -1,7 +1,7 @@
 import org.jbox2d.common.Vec2;
 import toolbox.Vector3f;
 
-public abstract class Entity implements Networked {
+public abstract class Entity /* implements Networked */ {
     abstract public void changePos (Vec2 d_pos);
 
     abstract public void changeRot(float d_rot);
