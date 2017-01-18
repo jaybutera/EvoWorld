@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class PlayerClientSim {
     public static void main (String[] args) throws Exception {
-        new StateClient("127.0.0.1", 8002).run();
+        new PlayerClientSim("127.0.0.1", 8002).run();
     }
 
     private final String host;

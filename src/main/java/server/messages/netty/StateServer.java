@@ -4,9 +4,11 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.DelimiterBasedFrameDecoder;
 import io.netty.handler.codec.Delimiters;
 import io.netty.handler.codec.LineBasedFrameDecoder;
@@ -17,6 +19,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.util.concurrent.DefaultEventExecutorGroup;
 import io.netty.util.concurrent.EventExecutorGroup;
+import io.netty.util.concurrent.GlobalEventExecutor;
 import server.messages.PBCreatureOuterClass;
 
 import java.io.IOException;
@@ -35,46 +38,37 @@ public class StateServer {
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
 
         try {
+            ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)
-                    .channel(NioServerSocketChannel.class);
+                    .channel(NioServerSocketChannel.class)
+                    .childHandler(new ChannelInitializer<NioSocketChannel>() {
+                        @Override
+                        protected void initChannel(NioSocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new SimpleChannelInboundHandler<PBCreatureOuterClass.PBCreature>() {
+                                @Override
+                                public void channelActive (ChannelHandlerContext ctx) {
+                                    System.out.println("New player added to group");
+                                    channels.add(ctx.channel());
+                                }
 
-
-            // ===========================================================
-            // 1. define a separate thread pool to execute handlers with
-            //    slow business logic. e.g database operation
-            // ===========================================================
-            //final EventExecutorGroup group = new DefaultEventExecutorGroup(1500); //thread pool of 1500
-
-            StateHandler stateHandler = new StateHandler();
-
-            bootstrap.childHandler(new ChannelInitializer<SocketChannel>() {
-                @Override
-                protected void initChannel(SocketChannel ch) throws Exception {
-                    ChannelPipeline pipeline = ch.pipeline();
-
-                    //pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
-                    pipeline.addLast(new serverDebugHandler());
-                    //pipeline.addLast(new LineBasedFrameDecoder(80));
-                    //pipeline.addLast(new StringDecoder());
-                    pipeline.addLast(new ProtobufVarint32FrameDecoder());
-                    pipeline.addLast(new ProtobufDecoder(PBCreatureOuterClass.PBCreature.getDefaultInstance()));
-                    pipeline.addLast(stateHandler);
-
-                    //===========================================================
-                    // 2. run handler with slow business logic
-                    //    in separate thread from I/O thread
-                    //===========================================================
-                    //pipeline.addLast(group,"serverHandler",new ServerHandler());
-                }
-            })
+                                @Override
+                                public void channelRead0 (ChannelHandlerContext ctx, PBCreatureOuterClass.PBCreature msg) {
+                                    System.out.println("Writing out...");
+                                    channels.writeAndFlush(msg);
+                                }
+                            })
+                            .addLast(new ProtobufVarint32LengthFieldPrepender())
+                            .addLast(new ProtobufEncoder());
+                        }
+                    })
             .option(ChannelOption.SO_BACKLOG, 128)
             .childOption(ChannelOption.SO_KEEPALIVE, true);
 
             // Bind and start to accept incoming connections.
-            bootstrap.bind(FRONT_PORT).sync()
-                    .channel().closeFuture().sync();
-
+            Channel server_channel = bootstrap.bind(FRONT_PORT).sync()
+                    .channel();//.closeFuture().sync();
 
 
             // Construct connection to backend (physics engine client)
@@ -82,33 +76,28 @@ public class StateServer {
             final Channel back_channel;
             final EventLoop back_group = new DefaultEventLoop();
 
-            Bootstrap back_connection = new Bootstrap()
-                    .group(back_group)
-                    .handler(new ChannelInitializer<SocketChannel>() {
+            ServerBootstrap back_connection = new ServerBootstrap()
+                    .group(new NioEventLoopGroup())
+                    .childHandler(new ChannelInitializer<NioSocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel ch) throws Exception {
-                            ChannelPipeline pipeline = ch.pipeline();
-
-                            //pipeline.addLast(new DelimiterBasedFrameDecoder(8192, Delimiters.lineDelimiter()));
-                            pipeline.addLast(new serverDebugHandler());
-                            //pipeline.addLast(new LineBasedFrameDecoder(80));
-                            //pipeline.addLast(new StringDecoder());
-                            pipeline.addLast(new ProtobufVarint32FrameDecoder());
-                            pipeline.addLast(new ProtobufDecoder(PBCreatureOuterClass.PBCreature.getDefaultInstance()));
-                            pipeline.addLast(new StateProxyBackendHandler(stateHandler.getChannels()));
-
-                            //===========================================================
-                            // 2. run handler with slow business logic
-                            //    in separate thread from I/O thread
-                            //===========================================================
-                            //pipeline.addLast(group,"serverHandler",new ServerHandler());
+                        protected void initChannel(NioSocketChannel ch) throws Exception {
+                            ch.pipeline().addLast(new ProtobufVarint32FrameDecoder())
+                                    .addLast(new ProtobufDecoder(PBCreatureOuterClass.PBCreature.getDefaultInstance()))
+                                    .addLast(new SimpleChannelInboundHandler<PBCreatureOuterClass.PBCreature>() {
+                                @Override
+                                public void channelRead0(ChannelHandlerContext ctx, PBCreatureOuterClass.PBCreature msg) {
+                                    System.out.println(msg.toString());
+                                    channels.writeAndFlush(msg);
+                                }
+                            })
+                            .addLast(new ProtobufVarint32LengthFieldPrepender())
+                            .addLast(new ProtobufEncoder());
                         }
                     })
-                    //.handler(new StateProxyBackendHandler(stateHandler.getChannels()))
                     .channel(NioServerSocketChannel.class)
                     .option(ChannelOption.AUTO_READ, false);
 
-            ChannelFuture f = back_connection.connect(BACK_HOST, BACK_PORT);
+            ChannelFuture f = back_connection.bind(BACK_HOST, BACK_PORT);
             back_channel = f.channel();
 
             f.addListener(new ChannelFutureListener() {
@@ -123,6 +112,9 @@ public class StateServer {
                 }
             });
             // -------------------------------------------------------
+
+            // Close the frontend server
+            server_channel.closeFuture().sync();
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();

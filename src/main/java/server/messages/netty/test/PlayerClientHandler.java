@@ -12,6 +12,7 @@ public class PlayerClientHandler extends SimpleChannelInboundHandler<PBCreatureO
 
     @Override
     public void channelRead0 (ChannelHandlerContext ctx, PBCreatureOuterClass.PBCreature msg) {
+        System.out.println("Got message:");
         System.out.println(msg.toString());
     }
 }
