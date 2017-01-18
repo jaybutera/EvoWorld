@@ -8,6 +8,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import server.messages.PBCreatureOuterClass;
+import server.messages.PBGameStateOuterClass;
 
 public class PlayerClientSim {
     public static void main (String[] args) throws Exception {
@@ -34,7 +35,7 @@ public class PlayerClientSim {
                         public void initChannel (SocketChannel ch) throws Exception {
                             ch.pipeline()
                                     .addLast(new ProtobufVarint32FrameDecoder())
-                                    .addLast(new ProtobufDecoder(PBCreatureOuterClass.PBCreature.getDefaultInstance()))
+                                    .addLast(new ProtobufDecoder(PBGameStateOuterClass.PBGameState.getDefaultInstance()))
                                     .addLast(new PlayerClientHandler());
                         }
                     });

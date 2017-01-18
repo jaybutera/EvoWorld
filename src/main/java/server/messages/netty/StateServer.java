@@ -13,7 +13,7 @@ import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
 import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
-import server.messages.PBCreatureOuterClass;
+import server.messages.PBGameStateOuterClass;
 
 public class StateServer {
     private static int FRONT_PORT = 8002;
@@ -37,7 +37,7 @@ public class StateServer {
                     .childHandler(new ChannelInitializer<NioSocketChannel>() {
                         @Override
                         protected void initChannel(NioSocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new SimpleChannelInboundHandler<PBCreatureOuterClass.PBCreature>() {
+                            ch.pipeline().addLast(new SimpleChannelInboundHandler<PBGameStateOuterClass.PBGameState>() {
                                 @Override
                                 public void channelActive (ChannelHandlerContext ctx) {
                                     System.out.println("New player added to group");
@@ -45,7 +45,7 @@ public class StateServer {
                                 }
 
                                 @Override
-                                public void channelRead0 (ChannelHandlerContext ctx, PBCreatureOuterClass.PBCreature msg) {
+                                public void channelRead0 (ChannelHandlerContext ctx, PBGameStateOuterClass.PBGameState msg) {
                                     /*
                                     try {
                                         System.out.println("Writing out...");
@@ -86,10 +86,10 @@ public class StateServer {
                         @Override
                         protected void initChannel(NioSocketChannel ch) throws Exception {
                             ch.pipeline().addLast(new ProtobufVarint32FrameDecoder())
-                                    .addLast(new ProtobufDecoder(PBCreatureOuterClass.PBCreature.getDefaultInstance()))
-                                    .addLast(new SimpleChannelInboundHandler<PBCreatureOuterClass.PBCreature>() {
+                                    .addLast(new ProtobufDecoder(PBGameStateOuterClass.PBGameState.getDefaultInstance()))
+                                    .addLast(new SimpleChannelInboundHandler<PBGameStateOuterClass.PBGameState>() {
                                 @Override
-                                public void channelRead0(ChannelHandlerContext ctx, PBCreatureOuterClass.PBCreature msg) {
+                                public void channelRead0(ChannelHandlerContext ctx, PBGameStateOuterClass.PBGameState msg) {
                                     System.out.println(msg.toString());
                                     channels.writeAndFlush(msg);
                                 }
