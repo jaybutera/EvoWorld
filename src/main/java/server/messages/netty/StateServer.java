@@ -1,28 +1,19 @@
 package server.messages.netty;
 
-import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.Delimiters;
-import io.netty.handler.codec.LineBasedFrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufEncoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32LengthFieldPrepender;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.util.concurrent.DefaultEventExecutorGroup;
-import io.netty.util.concurrent.EventExecutorGroup;
+import io.netty.util.ReferenceCountUtil;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import server.messages.PBCreatureOuterClass;
-
-import java.io.IOException;
 
 public class StateServer {
     private static int FRONT_PORT = 8002;
@@ -55,8 +46,19 @@ public class StateServer {
 
                                 @Override
                                 public void channelRead0 (ChannelHandlerContext ctx, PBCreatureOuterClass.PBCreature msg) {
-                                    System.out.println("Writing out...");
-                                    channels.writeAndFlush(msg);
+                                    try {
+                                        System.out.println("Writing out...");
+                                        channels.writeAndFlush(msg);
+                                    }
+                                    finally {
+                                        ReferenceCountUtil.release(msg);
+                                    }
+                                }
+
+                                @Override
+                                public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+                                    cause.printStackTrace();
+                                    ctx.close();
                                 }
                             })
                             .addLast(new ProtobufVarint32LengthFieldPrepender())

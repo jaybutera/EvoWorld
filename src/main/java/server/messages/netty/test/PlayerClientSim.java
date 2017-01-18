@@ -8,11 +8,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.protobuf.ProtobufDecoder;
 import io.netty.handler.codec.protobuf.ProtobufVarint32FrameDecoder;
 import server.messages.PBCreatureOuterClass;
-import server.messages.netty.StateClient;
-import server.messages.netty.StateClientInitializer;
-
-import java.util.concurrent.Exchanger;
-import java.util.concurrent.TimeUnit;
 
 public class PlayerClientSim {
     public static void main (String[] args) throws Exception {
