@@ -1,3 +1,5 @@
 /target/
 .idea/*
 Evo.iml
+.classpath
+.project
