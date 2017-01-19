@@ -30,7 +30,7 @@ public class PetriWorld {
     	for(int x = 0; x < num_bodies; x++) {
     		int xDirection = (int)(Math.pow(-1, (int)(Math.random()*10))); // positive or negative direction
     		int yDirection = (int)(Math.pow(-1, (int)(Math.random()*10)));
-        	float forces[] = {(float)Math.random()*10*xDirection, (float)Math.random()*10*yDirection};
+        	float forces[] = {(float)/*Math.random()*/10*xDirection, (float)/*Math.random()*/10*yDirection};
         	
         	d_bodies[x].action(forces);
     	}
@@ -42,8 +42,8 @@ public class PetriWorld {
     public void create () {
         // Define world boundaries
         worldAABB = new AABB();
-        worldAABB.lowerBound.set(new Vec2((float) -100.0, (float) -100.0));  
-        worldAABB.upperBound.set(new Vec2((float) 100.0, (float) 100.0));
+        worldAABB.lowerBound.set(new Vec2((float) 0.0, (float) 0.0));
+        worldAABB.upperBound.set(new Vec2((float) 500.0, (float) 500.0));
 
         // Initialize world with no gravity
         Vec2 gravity = new Vec2((float) 0.0, (float) 0.0);
@@ -68,7 +68,7 @@ public class PetriWorld {
         for (int i = 0 ; i < num_bodies; i++) {
             // Place bodies into world spaced 10 at a time
             // along the y-coordinate
-            bodyDef.position.set(0, i * 10);
+            bodyDef.position.set(200, i * 10);
             Body new_body = world.createBody(bodyDef);
             // Assign body definition to body
             new_body.createFixture(boxFixtureDef);

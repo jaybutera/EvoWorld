@@ -17,7 +17,9 @@ public class TestCreature extends Creature {
         // Movement force vector
         Vec2 move = new Vec2(a[0], a[1]);
 
+        System.out.println(move.toString());
         // apply force at index 0
+        //this.body.applyForce(new Vec2(0, 100), this.body.getWorldCenter());
         this.body.applyForce(move, new Vec2(0, -1f));
         // apply force at index 1
         this.body.applyForce(move, new Vec2(0, 1f));
