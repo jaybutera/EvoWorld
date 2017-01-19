@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 
 abstract public class GameRoot {
-    ArrayList<FrameListener> frame_listeners;
+    private ArrayList<FrameListener> frame_listeners;
 
     public GameRoot () {
         frame_listeners = new ArrayList<FrameListener>();
@@ -17,5 +17,9 @@ abstract public class GameRoot {
     protected void update_listeners () {
         for (FrameListener f : frame_listeners)
             f.start_frame();
+    }
+
+    public void add_frame_listener(FrameListener f) {
+        frame_listeners.add(f);
     }
 }
