@@ -7,5 +7,5 @@ $ sh build_messages.sh
 ```
 
 ### To run scene with visuals
-The production game loop is in GameLoop.java. To run the PetriWorld scene with
+The production game loop is in FastLoop.java. To run the PetriWorld scene with
 visuals, run the Visualization.java file.

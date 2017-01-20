@@ -1,20 +1,15 @@
-import renderEngine.DisplayManager;
-import renderEngine.Loader;
-import renderEngine.RawModel;
-import renderEngine.Renderer;
 import server.messages.PBCreatureOuterClass;
 import server.messages.PBGameStateOuterClass;
-import shaders.StaticShader;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
-public class GameLoop {
+public class FastLoop {
     private ProxyConnector connector;
     private PetriWorld world;
 
     public static void main (String[] args) {
-        new GameLoop().run();
+        new FastLoop().run();
     }
 
     public void run () {
@@ -40,51 +35,16 @@ public class GameLoop {
 
         RawModel model = load.loadToVAO(v, indices);
         */
-        world = new PetriWorld(1);
-        world.create();
 
-        // Connect to proxy server to update player clients of game state
-        connector = new ProxyConnector("127.0.0.1", 8000);
-        boolean connected = false;
-        try {
-            connected = connector.connect();
-        }
-        catch (Exception e) {
-            e.printStackTrace();
-        }
+        GameRoot root = new GameRoot();
+        root.initialize();
 
         //----------------
         // Main Game Loop
         //----------------
 
-        //while ( dm.windowShouldClose() ) {
-        for (int i = 0; i < 100; i++)
-        {
-            // Perform physical update
-            world.step();
-
-            // Update proxy server
-            if (connected)
-                send();
-
-            for (int j = 0; j < world.d_bodies.length; j++)
-                System.out.println(world.d_bodies[j].serialize().toString());
-                //System.out.println(world.d_bodies[j].body.getPosition().x + ", " + world.d_bodies[j].body.getPosition().y);
-            /*
-            renderer.prepare();
-            shader.start();
-            renderer.render(model);
-            shader.stop();
-            dm.updateDisplay();
-            */
-
-            try {
-                TimeUnit.MILLISECONDS.sleep(500);
-            }
-            catch (Exception e) {
-                e.printStackTrace();
-                System.exit(-1);
-            }
+        while (true) {
+            root.timed_step();
         }
 
         /*
