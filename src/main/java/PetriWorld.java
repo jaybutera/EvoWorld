@@ -28,9 +28,9 @@ public class PetriWorld {
         //d_bodies[1].body.applyForce( new Vec2(0,-50), d_bodies[1].body.getWorldCenter() );
         
     	for(int x = 0; x < num_bodies; x++) {
-    		int xDirection = (int)(Math.pow(-1, (int)(Math.random()*10))); // positive or negative direction
-    		int yDirection = (int)(Math.pow(-1, (int)(Math.random()*10)));
-        	float forces[] = {(float)/*Math.random()*/10*xDirection, (float)/*Math.random()*/10*yDirection};
+    		int xDirection = (int)(Math.pow(-1, (int)100)); // positive or negative direction
+    		int yDirection = (int)(Math.pow(-1, (int)(100)));
+        	float forces[] = {(float)/*Math.random()*/xDirection, (float)/*Math.random()*/yDirection};
         	
         	d_bodies[x].action(forces);
     	}
@@ -73,7 +73,7 @@ public class PetriWorld {
             // Assign body definition to body
             new_body.createFixture(boxFixtureDef);
 
-            d_bodies[i] = new TestCreature(new_body, 1f);
+            d_bodies[i] = new TestCreature(new_body, 30f);
         }
     }
  }

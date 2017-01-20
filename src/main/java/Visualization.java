@@ -17,13 +17,15 @@ public class Visualization extends PApplet {
         root.step();
 
         Creature[] creatures = root.getCreatures();
+        Creature cur_creat;
 
         // Render
         for (int j = 0; j < creatures.length; j++) {
             System.out.println(creatures[j].serialize().toString());
 
             fill(0, 250, 0);
-            ellipse(creatures[j].getPosition().x, -creatures[j].getPosition().y, 50, 50);
+            cur_creat = creatures[j];
+            ellipse(cur_creat.getPosition().x, -cur_creat.getPosition().y, cur_creat.getScale(), cur_creat.getScale());
         }
     }
 }

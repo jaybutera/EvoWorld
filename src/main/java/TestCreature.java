@@ -17,12 +17,14 @@ public class TestCreature extends Creature {
         // Movement force vector
         Vec2 move = new Vec2(a[0], a[1]);
 
+        // Forward vector
+        Vec2 forward_vec = body.getWorldVector( new Vec2(0,1) );
+
         System.out.println(move.toString());
         // apply force at index 0
-        //this.body.applyForce(new Vec2(0, 100), this.body.getWorldCenter());
-        this.body.applyForce(move, new Vec2(0, -1f));
+        this.body.applyLinearImpulse(forward_vec.mul(a[0]), body.getWorldPoint( new Vec2(0, -1f) ), true);
         // apply force at index 1
-        this.body.applyForce(move, new Vec2(0, 1f));
+        this.body.applyLinearImpulse(forward_vec.mul(a[1]), body.getWorldPoint( new Vec2(0, 1f) ), true);
     }
 
     public float[] observation () {
