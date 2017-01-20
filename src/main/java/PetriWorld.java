@@ -1,4 +1,5 @@
 import org.jbox2d.collision.shapes.CircleShape;
+import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
 import org.jbox2d.dynamics.BodyType;
@@ -8,18 +9,23 @@ import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import renderEngine.Renderer;
 
+import java.util.Random;
+
 public class PetriWorld {
 	private BodyDef bodyDef;
     private AABB worldAABB; // Boundaries for world
     private World world;
     private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
+    private int num_food = 10;
 
-    public Creature[] d_bodies; // List of bodies in world
+    public Creature[] creatures;
+    public Food[] food;
 
     public PetriWorld (int nb) {
         num_bodies = nb;
-        d_bodies = new Creature[num_bodies];
+        creatures = new Creature[num_bodies];
+        food = new Food[num_food];
     }
 
     public void step  () {
@@ -32,11 +38,11 @@ public class PetriWorld {
     		int yDirection = (int)(Math.pow(-1, (int)(100)));
         	float forces[] = {(float)/*Math.random()*/xDirection, (float)/*Math.random()*/yDirection};
         	
-        	d_bodies[x].action(forces);
+        	creatures[x].action(forces);
     	}
     	
     	// Perform a time step in the physics simulation
-        world.step(timeStep, 3, 3);
+        world.step(timeStep, 7, 7);
     }
 
     public void create () {
@@ -54,26 +60,48 @@ public class PetriWorld {
         bodyDef.type = BodyType.DYNAMIC;
         bodyDef.angle = 0;
 
-        // Body Fixture gives a shape to a body.
-        // In this case a box
+        // Body Fixture gives a shape to a body
+        // ------------------------------------
+
+        // Circle shape for creatures
         CircleShape circleShape = new CircleShape();
-        circleShape.m_radius = 1;
+        circleShape.m_radius = 30;
+        // Box for food
+        PolygonShape boxShape = new PolygonShape();
+        boxShape.setAsBox(10,10);
+
+        // ------------------------------------
+
+        FixtureDef circFixtureDef = new FixtureDef();
+        circFixtureDef.shape = circleShape;
+        circFixtureDef.density = 1;
+        circFixtureDef.friction = 0.1f;
 
         FixtureDef boxFixtureDef = new FixtureDef();
         boxFixtureDef.shape = circleShape;
         boxFixtureDef.density = 1;
-        boxFixtureDef.friction = 0.1f;
+        boxFixtureDef.friction = 0.5f;
 
         // Setup bodies
+        Random r = new Random();
         for (int i = 0 ; i < num_bodies; i++) {
             // Place bodies into world spaced 10 at a time
             // along the y-coordinate
             bodyDef.position.set(200, i * 10);
             Body new_body = world.createBody(bodyDef);
             // Assign body definition to body
+            new_body.createFixture(circFixtureDef);
+
+            creatures[i] = new TestCreature(new_body, 30f);
+        }
+        for (int i = 0; i < num_food; i++) {
+            // Make food
+            bodyDef.position.set(r.nextInt(500), r.nextInt(500));
+            Body new_body = world.createBody(bodyDef);
+            // Assign body definition to body
             new_body.createFixture(boxFixtureDef);
 
-            d_bodies[i] = new TestCreature(new_body, 30f);
+            food[i] = new Food(new_body, 10f);
         }
     }
  }

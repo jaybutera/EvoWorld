@@ -34,15 +34,15 @@ public class GameRoot {
         if (connected)
             send();
 
-        for (int j = 0; j < world.d_bodies.length; j++)
-            System.out.println(world.d_bodies[j].serialize().toString());
+        for (int j = 0; j < world.creatures.length; j++)
+            System.out.println(world.creatures[j].serialize().toString());
     }
 
     public void timed_step () {
         step();
 
         try {
-            TimeUnit.MILLISECONDS.sleep(500);
+            TimeUnit.MILLISECONDS.sleep(20);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -51,12 +51,16 @@ public class GameRoot {
     }
 
     public Creature[] getCreatures () {
-        return world.d_bodies;
+        return world.creatures;
+    }
+
+    public Food[] getFood () {
+        return world.food;
     }
 
     private void send () {
         ArrayList<PBCreatureOuterClass.PBCreature> creatures = new ArrayList<>();
-        for (Creature c : world.d_bodies)
+        for (Creature c : world.creatures)
             creatures.add( c.serialize() );
 
         try {

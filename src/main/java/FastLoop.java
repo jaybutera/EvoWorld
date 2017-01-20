@@ -56,7 +56,7 @@ public class FastLoop {
 
     public void send () {
         ArrayList<PBCreatureOuterClass.PBCreature> creatures = new ArrayList<>();
-        for (Creature c : world.d_bodies)
+        for (Creature c : world.creatures)
             creatures.add( c.serialize() );
 
         try {
