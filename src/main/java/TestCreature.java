@@ -22,9 +22,9 @@ public class TestCreature extends Creature {
 
         System.out.println(move.toString());
         // apply force at index 0
-        this.body.applyLinearImpulse(forward_vec.mul(a[0]), body.getWorldPoint( new Vec2(0, -1f) ), true);
+        this.body.applyLinearImpulse(forward_vec.mul(a[0]), body.getWorldPoint( new Vec2(-scale/2f,0) ), true);
         // apply force at index 1
-        this.body.applyLinearImpulse(forward_vec.mul(a[1]), body.getWorldPoint( new Vec2(0, 1f) ), true);
+        this.body.applyLinearImpulse(forward_vec.mul(a[1]), body.getWorldPoint( new Vec2(scale/2f, 0) ), true);
     }
 
     public float[] observation () {

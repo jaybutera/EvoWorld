@@ -12,7 +12,7 @@ public class GameRoot {
     private boolean connected = false;
 
     public void initialize () {
-        world = new PetriWorld(1);
+        world = new PetriWorld(2);
         world.create();
 
         // Connect to proxy server to update player clients of game state

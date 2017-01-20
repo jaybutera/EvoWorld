@@ -27,10 +27,16 @@ public class Visualization extends PApplet {
             cur_creat = creatures[j];
             ellipse(cur_creat.getPosition().x, cur_creat.getPosition().y, cur_creat.getScale(), cur_creat.getScale());
         }
+        rectMode(CENTER);
         for (int j = 0; j < food.length; j++) {
             fill(0, 0, 250);
             cur_food = food[j];
-            ellipse(cur_food.getPosition().x, cur_food.getPosition().y, cur_food.getScale(), cur_food.getScale());
+
+            float x = cur_food.getPosition().x;
+            float y = cur_food.getPosition().y;
+            float scale = cur_food.getScale();
+
+            rect(x, y, scale/2, scale/2);
         }
     }
 }

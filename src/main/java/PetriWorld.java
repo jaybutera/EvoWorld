@@ -17,7 +17,7 @@ public class PetriWorld {
     private World world;
     private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
-    private int num_food = 10;
+    private int num_food = 30;
 
     public Creature[] creatures;
     public Food[] food;
@@ -34,9 +34,9 @@ public class PetriWorld {
         //d_bodies[1].body.applyForce( new Vec2(0,-50), d_bodies[1].body.getWorldCenter() );
         
     	for(int x = 0; x < num_bodies; x++) {
-    		int xDirection = (int)(Math.pow(-1, (int)100)); // positive or negative direction
-    		int yDirection = (int)(Math.pow(-1, (int)(100)));
-        	float forces[] = {(float)/*Math.random()*/xDirection, (float)/*Math.random()*/yDirection};
+    		int left = (int)(500); // positive or negative direction
+    		int right = (int)((500));
+        	float forces[] = {(float)/*Math.random()*/left, (float)/*Math.random()*/right};
         	
         	creatures[x].action(forces);
     	}
@@ -65,7 +65,7 @@ public class PetriWorld {
 
         // Circle shape for creatures
         CircleShape circleShape = new CircleShape();
-        circleShape.m_radius = 30;
+        circleShape.m_radius = 10;
         // Box for food
         PolygonShape boxShape = new PolygonShape();
         boxShape.setAsBox(10,10);
@@ -79,15 +79,15 @@ public class PetriWorld {
 
         FixtureDef boxFixtureDef = new FixtureDef();
         boxFixtureDef.shape = circleShape;
-        boxFixtureDef.density = 1;
-        boxFixtureDef.friction = 0.5f;
+        boxFixtureDef.density = 3;
+        boxFixtureDef.friction = 1.5f;
 
         // Setup bodies
         Random r = new Random();
         for (int i = 0 ; i < num_bodies; i++) {
             // Place bodies into world spaced 10 at a time
             // along the y-coordinate
-            bodyDef.position.set(200, i * 10);
+            bodyDef.position.set(i * 50+100,200);
             Body new_body = world.createBody(bodyDef);
             // Assign body definition to body
             new_body.createFixture(circFixtureDef);
