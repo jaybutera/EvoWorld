@@ -1,4 +1,5 @@
 import server.messages.PBCreatureOuterClass;
+import server.messages.PBFoodOuterClass;
 import server.messages.PBGameStateOuterClass;
 
 import java.awt.image.AreaAveragingScaleFilter;
@@ -37,9 +38,9 @@ public class GameRoot {
         System.out.println("Creatures");
         for (int j = 0; j < world.creatures.length; j++)
             System.out.println(world.creatures[j].serialize().toString());
-        System.out.println("Food");
-        for (int j = 0; j < world.food.length; j++)
-            System.out.println(world.food[j].serialize().toString());
+        System.out.println("Food [0]");
+        //for (int j = 0; j < world.food.length; j++)
+        System.out.println(world.food[0].serialize().toString());
     }
 
     public void timed_step () {
@@ -67,11 +68,16 @@ public class GameRoot {
         for (Creature c : world.creatures)
             creatures.add( c.serialize() );
 
+
+        ArrayList<PBFoodOuterClass.PBFood> food = new ArrayList<>();
+        for (Food c : world.food)
+            food.add( c.serialize() );
+
         try {
             connector.send(
                     PBGameStateOuterClass.PBGameState.newBuilder()
                             .addAllCreatureStat(creatures)
-                            //.addAllFoodStat(null)
+                            .addAllFoodStat(food)
                             .build()
             );
         }

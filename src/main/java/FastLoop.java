@@ -55,27 +55,4 @@ public class FastLoop {
         dm.closeDisplay();
         */
     }
-
-    public void send () {
-        ArrayList<PBCreatureOuterClass.PBCreature> creatures = new ArrayList<>();
-        for (Creature c : root.getCreatures())
-            creatures.add( c.serialize() );
-
-        ArrayList<PBFoodOuterClass.PBFood> food = new ArrayList<>();
-        for (Food c : root.getFood())
-            food.add( c.serialize() );
-
-        try {
-            connector.send(
-                    PBGameStateOuterClass.PBGameState.newBuilder()
-                            .addAllCreatureStat(creatures)
-                            .addAllFoodStat(food)
-                            .build()
-            );
-        }
-        catch (Exception e) {
-            System.out.println("Failed to send game state to server");
-            e.printStackTrace();
-        }
-    }
 }

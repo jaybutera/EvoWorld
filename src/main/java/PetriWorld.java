@@ -55,6 +55,11 @@ public class PetriWorld {
         Vec2 gravity = new Vec2((float) 0.0, (float) 0.0);
         world = new World(gravity);
 
+        initBoundaries();
+        initEntities();
+    }
+
+    private void initEntities () {
         // Make a body definition for dynamic bodies
         bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
@@ -103,8 +108,41 @@ public class PetriWorld {
 
             food[i] = new Food(new_body, 10f);
         }
+    }
 
+    private void initBoundaries () {
         // Set up boundary walls
+        PolygonShape horiz_wall_shape = new PolygonShape();
+        horiz_wall_shape.setAsBox(500,10);
+        FixtureDef horiz_wall_fix = new FixtureDef();
+        horiz_wall_fix.shape = horiz_wall_shape;
 
+        PolygonShape vert_wall_shape = new PolygonShape();
+        vert_wall_shape.setAsBox(10,500);
+        FixtureDef vert_wall_fix = new FixtureDef();
+        vert_wall_fix.shape = vert_wall_shape;
+
+        BodyDef wallDef = new BodyDef();
+        wallDef.type = BodyType.STATIC;
+
+        // Top wall
+        wallDef.position.set(0,0);
+        Body top_wall = world.createBody(wallDef);
+        top_wall.createFixture(horiz_wall_fix);
+
+        // Bottom wall
+        wallDef.position.set(0,500);
+        Body bot_wall = world.createBody(wallDef);
+        bot_wall.createFixture(horiz_wall_fix);
+
+        // Left wall
+        wallDef.position.set(0,0);
+        Body left_wall = world.createBody(wallDef);
+        left_wall.createFixture(vert_wall_fix);
+
+        // Right wall
+        wallDef.position.set(500,0);
+        Body right_wall = world.createBody(wallDef);
+        right_wall.createFixture(vert_wall_fix);
     }
  }
