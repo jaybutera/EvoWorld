@@ -90,7 +90,7 @@ public class StateServer {
                                     .addLast(new SimpleChannelInboundHandler<PBGameStateOuterClass.PBGameState>() {
                                 @Override
                                 public void channelRead0(ChannelHandlerContext ctx, PBGameStateOuterClass.PBGameState msg) {
-                                    System.out.println(msg.toString());
+                                    //System.out.println(msg.toString());
                                     channels.writeAndFlush(msg);
                                 }
                             })

@@ -103,5 +103,8 @@ public class PetriWorld {
 
             food[i] = new Food(new_body, 10f);
         }
+
+        // Set up boundary walls
+        
     }
  }

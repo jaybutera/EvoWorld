@@ -1,4 +1,5 @@
 import server.messages.PBCreatureOuterClass;
+import server.messages.PBFoodOuterClass;
 import server.messages.PBGameStateOuterClass;
 
 import java.util.ArrayList;
@@ -59,11 +60,15 @@ public class FastLoop {
         for (Creature c : world.creatures)
             creatures.add( c.serialize() );
 
+        ArrayList<PBFoodOuterClass.PBFood> food = new ArrayList<>();
+        for (Food c : world.food)
+            food.add( c.serialize() );
+
         try {
             connector.send(
                     PBGameStateOuterClass.PBGameState.newBuilder()
                             .addAllCreatureStat(creatures)
-                            //.addAllFoodStat(null)
+                            .addAllFoodStat(food)
                             .build()
             );
         }
