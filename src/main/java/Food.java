@@ -17,6 +17,7 @@ public class Food extends DynamicEntity {
                 .setId(id)
                 .setX(position.x)
                 .setY(position.y)
+                .setAction(0)
                 .build();
 
         return c_serial;

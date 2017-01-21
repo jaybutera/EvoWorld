@@ -34,8 +34,12 @@ public class GameRoot {
         if (connected)
             send();
 
+        System.out.println("Creatures");
         for (int j = 0; j < world.creatures.length; j++)
             System.out.println(world.creatures[j].serialize().toString());
+        System.out.println("Food");
+        for (int j = 0; j < world.food.length; j++)
+            System.out.println(world.food[j].serialize().toString());
     }
 
     public void timed_step () {

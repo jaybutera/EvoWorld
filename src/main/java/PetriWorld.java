@@ -105,6 +105,6 @@ public class PetriWorld {
         }
 
         // Set up boundary walls
-        
+
     }
  }

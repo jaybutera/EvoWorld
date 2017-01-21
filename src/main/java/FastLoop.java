@@ -7,7 +7,8 @@ import java.util.concurrent.TimeUnit;
 
 public class FastLoop {
     private ProxyConnector connector;
-    private PetriWorld world;
+    //private PetriWorld world;
+    private GameRoot root;
 
     public static void main (String[] args) {
         new FastLoop().run();
@@ -37,7 +38,7 @@ public class FastLoop {
         RawModel model = load.loadToVAO(v, indices);
         */
 
-        GameRoot root = new GameRoot();
+        root = new GameRoot();
         root.initialize();
 
         //----------------
@@ -57,11 +58,11 @@ public class FastLoop {
 
     public void send () {
         ArrayList<PBCreatureOuterClass.PBCreature> creatures = new ArrayList<>();
-        for (Creature c : world.creatures)
+        for (Creature c : root.getCreatures())
             creatures.add( c.serialize() );
 
         ArrayList<PBFoodOuterClass.PBFood> food = new ArrayList<>();
-        for (Food c : world.food)
+        for (Food c : root.getFood())
             food.add( c.serialize() );
 
         try {
