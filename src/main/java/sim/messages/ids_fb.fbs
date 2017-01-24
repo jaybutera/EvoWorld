@@ -1,0 +1,7 @@
+namespace AI.Store;
+
+table Ids {
+    idvec:[ushort];
+}
+
+root_type Ids;

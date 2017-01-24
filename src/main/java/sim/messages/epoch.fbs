@@ -1,0 +1,12 @@
+namespace AI.Obs;
+
+table Epoch {
+    score:[Score];
+}
+
+table Score {
+    id:ushort;
+    fitness:float;
+}
+
+root_type Epoch;
