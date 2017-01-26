@@ -4,10 +4,13 @@ import server.messages.PBGameStateOuterClass;
 
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class GameRoot {
-    private ProxyConnector connector;
+    private ProxyConnector proxy;
+    private SimConnector sim;
+
     private PetriWorld world;
     private boolean first_run = true;
 
@@ -18,30 +21,49 @@ public class GameRoot {
         world.create();
 
         // Connect to proxy server to update player clients of game state
-        connector = new ProxyConnector("127.0.0.1", 8000);
+        proxy = new ProxyConnector("127.0.0.1", 8000);
 
+        // On failure to connect to proxy, continue execution
         try {
-            connected = connector.connect();
+            connected = proxy.connect();
         }
         catch (Exception e) {
             e.printStackTrace();
         }
+
+        // Connect to simulation server to get creature actions
+        sim = new SimConnector("127.0.0.1", 5559);
+
+        // On failure to connect to sim server, crash
+        try {
+            sim.connect();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
     }
 
     public void step () {
+        sim.sendObservations(world.creatures);
+
         // Perform physical update
         world.step();
+
+        applyActions( sim.getActions() );
 
         // Update proxy server
         if (connected)
             send();
 
+        /* Debugging
         System.out.println("Creatures");
         for (int j = 0; j < world.creatures.length; j++)
             System.out.println(world.creatures[j].serialize().toString());
         System.out.println("Food [0]");
         //for (int j = 0; j < world.food.length; j++)
         System.out.println(world.food[0].serialize(0).toString());
+        */
     }
 
     public void timed_step () {
@@ -64,6 +86,12 @@ public class GameRoot {
         return world.food;
     }
 
+    private void applyActions(HashMap<Integer, float[]> actions) {
+        for (Creature c : world.creatures ) {
+            c.action( actions.get(c.getId()) );
+        }
+    }
+
     private void send () {
         ArrayList<PBCreatureOuterClass.PBCreature> creatures = new ArrayList<>();
         for (Creature c : world.creatures)
@@ -81,7 +109,7 @@ public class GameRoot {
         }
 
         try {
-            connector.send(
+            proxy.send(
                     PBGameStateOuterClass.PBGameState.newBuilder()
                             .addAllCreatureStat(creatures)
                             .addAllFoodStat(food)

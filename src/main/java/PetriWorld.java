@@ -29,10 +29,6 @@ public class PetriWorld {
     }
 
     public void step  () {
-        // Apply forces to dynamic bodies
-        //d_bodies[0].body.applyForce( new Vec2(0,50), d_bodies[0].body.getWorldCenter() );
-        //d_bodies[1].body.applyForce( new Vec2(0,-50), d_bodies[1].body.getWorldCenter() );
-        
     	for(int x = 0; x < num_bodies; x++) {
     		int left = (int)(500); // positive or negative direction
     		int right = (int)((500));

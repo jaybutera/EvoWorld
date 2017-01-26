@@ -1,19 +1,25 @@
 import com.google.flatbuffers.FlatBufferBuilder;
 import org.zeromq.ZMQ;
 //import sim.messages.AI.Obs.Creature;
-import sim.messages.AI.Store.*;
+import sim.messages.AI.Control.Actions;
+import sim.messages.AI.Control.Move;
+import sim.messages.AI.Store.Ids;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SimConnector {
-    private String port = "5560";
     private ZMQ.Context context;
     private ZMQ.Socket req;
     private FlatBufferBuilder builder;
-    private int view_size;
 
-    public SimConnector (int view_size) {
-        this.view_size = view_size;
+    private String host;
+    private int port;
+
+    public SimConnector (String host, int port) {
+        this.host = host;
+        this.port = port;
 
         context = ZMQ.context(1);
 
@@ -23,7 +29,7 @@ public class SimConnector {
     }
 
     public void connect () {
-        req.connect("tcp://127.0.0.1:" + port);
+        req.connect("tcp://" + host + ":" + port);
         req.send("start");
     }
 
@@ -59,10 +65,37 @@ public class SimConnector {
         sim.messages.AI.Obs.Observations.addObs(builder, fb_obs_offset);
         int obs = sim.messages.AI.Obs.Observations.endObservations(builder);
         builder.finish(obs);
-        //sim.messages.AI.Obs.Observations.createObsVector(builder,fb_creatures);
 
         // Send serialized form of Observations
         req.send( builder.sizedByteArray() );
+    }
+
+    public HashMap<Integer, float[]> getActions () {
+        byte[] bytes = req.recv();
+        java.nio.ByteBuffer buf = java.nio.ByteBuffer.wrap(bytes);
+
+        Actions actions_fb = Actions.getRootAsActions(buf);
+
+        int actions_length = actions_fb.actionLength();
+
+        HashMap<Integer, float[]> actions = new HashMap<>();
+
+        /***** NEEDS OPTIMIZATION ******/
+        for (int i = 0; i < actions_length; i++) {
+            Move m = actions_fb.action(i);
+
+            // Tmp storage for each action vector
+            float[] a = new float[actions_fb.action(0).outputLength()];
+
+            // Build action vector
+            for (int j = 0; j < m.outputLength(); j++)
+                a[j] = m.output(j);
+
+            // Store in dictionary
+            actions.put(m.id(), a);
+        }
+
+        return actions;
     }
 
     public void close () {
