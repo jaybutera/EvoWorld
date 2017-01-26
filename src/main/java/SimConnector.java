@@ -33,7 +33,7 @@ public class SimConnector {
         req.send("start");
     }
 
-    public ArrayList<Integer> getIds () {
+    public int[] getIds () {
         byte[] bytes = req.recv();
         java.nio.ByteBuffer buf = java.nio.ByteBuffer.wrap(bytes);
 
@@ -41,9 +41,9 @@ public class SimConnector {
 
         int ids_len = ids_fb.idvecLength();
 
-        ArrayList<Integer> ids = new ArrayList<>();
+        int[] ids = new int[ids_len];
         for (int i = 0; i < ids_len; i++)
-            ids.add( ids_fb.idvec(i) );
+            ids[i] = ids_fb.idvec(i);
 
         return ids;
     }
@@ -51,7 +51,7 @@ public class SimConnector {
     public void sendObservations (Creature[] creatures) {
         int[] fb_creatures = new int[creatures.length];
 
-        for (int i = creatures.length; i >= 0; i--) {
+        for (int i = creatures.length-1; i >= 0; i--) {
             // Build the fb observation vector
             int fb_view_offset = sim.messages.AI.Obs.Creature.createViewVector(builder, creatures[i].observation() );
             // Build fb creature
