@@ -22,26 +22,11 @@ public class PetriWorld {
     public Creature[] creatures;
     public Food[] food;
 
-    public PetriWorld (int nb) {
-        num_bodies = nb;
+    public PetriWorld (int[] creature_ids) {
+        num_bodies = creature_ids.length;
         creatures = new Creature[num_bodies];
         food = new Food[num_food];
-    }
 
-    public void step  () {
-    	for(int x = 0; x < num_bodies; x++) {
-    		int left = (int)(500); // positive or negative direction
-    		int right = (int)((500));
-        	float forces[] = {(float)/*Math.random()*/left, (float)/*Math.random()*/right};
-        	
-        	creatures[x].action(forces);
-    	}
-    	
-    	// Perform a time step in the physics simulation
-        world.step(timeStep, 7, 7);
-    }
-
-    public void create () {
         // Define world boundaries
         worldAABB = new AABB();
         worldAABB.lowerBound.set(new Vec2((float) 0.0, (float) 0.0));
@@ -52,10 +37,25 @@ public class PetriWorld {
         world = new World(gravity);
 
         initBoundaries();
-        initEntities();
+        initEntities(creature_ids);
     }
 
-    private void initEntities () {
+    public void step  () {
+        /*
+    	for(int x = 0; x < num_bodies; x++) {
+    		int left = (int)(500); // positive or negative direction
+    		int right = (int)((500));
+        	float forces[] = {(float)left, (float)right};
+
+        	creatures[x].action(forces);
+    	}
+    	*/
+
+        // Perform a time step in the physics simulation
+        world.step(timeStep, 7, 7);
+    }
+
+    private void initEntities (int[] creature_ids) {
         // Make a body definition for dynamic bodies
         bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
@@ -93,7 +93,7 @@ public class PetriWorld {
             // Assign body definition to body
             new_body.createFixture(circFixtureDef);
 
-            creatures[i] = new TestCreature(new_body, 30f);
+            creatures[i] = new TestCreature(new_body, 30f, creature_ids[i]);
         }
         for (int i = 0; i < num_food; i++) {
             // Make food

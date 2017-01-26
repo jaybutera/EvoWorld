@@ -9,10 +9,12 @@ import toolbox.Vector3f;
 import server.messages.PBCreatureOuterClass.PBCreature;
 
 public abstract class Creature extends DynamicEntity {
-	private int id;
+	protected int id;
 
-	public Creature (Body body, float scale) {
+	public Creature (Body body, float scale, int id) {
 		super(body, scale);
+
+		this.id = id;
 	}
 
 	public PBCreature serialize () {

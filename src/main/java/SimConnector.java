@@ -1,13 +1,10 @@
 import com.google.flatbuffers.FlatBufferBuilder;
 import org.zeromq.ZMQ;
-//import sim.messages.AI.Obs.Creature;
 import sim.messages.AI.Control.Actions;
 import sim.messages.AI.Control.Move;
 import sim.messages.AI.Store.Ids;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 public class SimConnector {
     private ZMQ.Context context;

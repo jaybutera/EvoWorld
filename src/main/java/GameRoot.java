@@ -4,6 +4,7 @@ import server.messages.PBGameStateOuterClass;
 
 import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -42,17 +43,15 @@ public class GameRoot {
 
         // TODO: Restructure to set creature ids
         int[] ids = sim.getIds();
-        world = new PetriWorld( ids.length );
-        world.create();
+        world = new PetriWorld( ids );
     }
 
     public void step () {
         sim.sendObservations(world.creatures);
+        applyActions( sim.getActions() );
 
         // Perform physical update
         world.step();
-
-        applyActions( sim.getActions() );
 
         // Update proxy server
         if (connected)
@@ -90,6 +89,14 @@ public class GameRoot {
 
     private void applyActions(HashMap<Integer, float[]> actions) {
         for (Creature c : world.creatures ) {
+
+            /*
+            System.out.print("Action [" + c.getId() + "]: ");
+            for (int i = 0; i < actions.get(c.getId()).length; i++)
+                System.out.print(" | " + actions.get(c.getId())[i]);
+            System.out.println("");
+            */
+
             c.action( actions.get(c.getId()) );
         }
     }

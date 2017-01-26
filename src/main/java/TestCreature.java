@@ -2,8 +2,8 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
 public class TestCreature extends Creature {
-    public TestCreature (Body body, float scale) {
-        super(body, scale);
+    public TestCreature (Body body, float scale, int id) {
+        super(body, scale, id);
     }
 
     public void action (float[] a) {
@@ -20,11 +20,10 @@ public class TestCreature extends Creature {
         // Forward vector
         Vec2 forward_vec = body.getWorldVector( new Vec2(0,1) );
 
-        System.out.println(move.toString());
         // apply force at index 0
-        this.body.applyLinearImpulse(forward_vec.mul(a[0]), body.getWorldPoint( new Vec2(-scale/2f,0) ), true);
+        this.body.applyLinearImpulse(forward_vec.mul(500*a[0]), body.getWorldPoint( new Vec2(-scale/2f,0) ), true);
         // apply force at index 1
-        this.body.applyLinearImpulse(forward_vec.mul(a[1]), body.getWorldPoint( new Vec2(scale/2f, 0) ), true);
+        this.body.applyLinearImpulse(forward_vec.mul(500*a[1]), body.getWorldPoint( new Vec2(scale/2f, 0) ), true);
     }
 
     public byte[] observation () {
