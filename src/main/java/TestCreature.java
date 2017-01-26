@@ -27,7 +27,7 @@ public class TestCreature extends Creature {
         this.body.applyLinearImpulse(forward_vec.mul(a[1]), body.getWorldPoint( new Vec2(scale/2f, 0) ), true);
     }
 
-    public float[] observation () {
+    public byte[] observation () {
         // Needs implementation
         return null;
     }

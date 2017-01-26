@@ -28,6 +28,10 @@ public abstract class Creature extends DynamicEntity {
 		return c_serial;
 	}
 
+	public int getId() {
+		return id;
+	}
+
 	public abstract void action (float[] a);
-    public abstract float[] observation ();
+    public abstract byte[] observation ();
 }

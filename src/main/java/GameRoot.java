@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 public class GameRoot {
     private ProxyConnector connector;
     private PetriWorld world;
+    private boolean first_run = true;
 
     private boolean connected = false;
 
@@ -40,7 +41,7 @@ public class GameRoot {
             System.out.println(world.creatures[j].serialize().toString());
         System.out.println("Food [0]");
         //for (int j = 0; j < world.food.length; j++)
-        System.out.println(world.food[0].serialize().toString());
+        System.out.println(world.food[0].serialize(0).toString());
     }
 
     public void timed_step () {
@@ -68,10 +69,16 @@ public class GameRoot {
         for (Creature c : world.creatures)
             creatures.add( c.serialize() );
 
-
         ArrayList<PBFoodOuterClass.PBFood> food = new ArrayList<>();
-        for (Food c : world.food)
-            food.add( c.serialize() );
+        if (first_run) {
+            first_run = false;
+            for (Food c : world.food)
+                food.add(c.serialize(0));
+        }
+        else {
+            for (Food c : world.food)
+                food.add(c.serialize(2));
+        }
 
         try {
             connector.send(

@@ -11,13 +11,13 @@ public class Food extends DynamicEntity {
         id = 0;
     }
 
-    public PBFoodOuterClass.PBFood serialize () {
+    public PBFoodOuterClass.PBFood serialize (int action) {
         Vec2 position = body.getPosition();
         PBFoodOuterClass.PBFood c_serial = PBFoodOuterClass.PBFood.newBuilder()
                 .setId(id)
                 .setX(position.x)
                 .setY(position.y)
-                .setAction(0)
+                .setAction(action)
                 .build();
 
         return c_serial;
