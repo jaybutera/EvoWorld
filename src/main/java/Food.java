@@ -6,9 +6,9 @@ import server.messages.PBFoodOuterClass;
 public class Food extends DynamicEntity {
     int id;
 
-    public Food (Body body, float scale) {
+    public Food (Body body, float scale, int id) {
         super(body, scale);
-        id = 0;
+        this.id = id;
     }
 
     public PBFoodOuterClass.PBFood serialize (int action) {

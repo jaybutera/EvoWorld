@@ -55,8 +55,8 @@ public class ProxyConnector {
             public void operationComplete(ChannelFuture channelFuture) throws Exception {
                 if (!channelFuture.isSuccess()) {
                     System.out.println("Send failed: " + f.cause());
-                } else
-                    System.out.println("Successful send");
+                }
+                    //System.out.println("Successful send");
             }
         });
     }

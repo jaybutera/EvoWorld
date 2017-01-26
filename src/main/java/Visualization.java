@@ -22,6 +22,7 @@ public class Visualization extends PApplet {
         Food cur_food;
 
         // Render
+        ellipseMode(RADIUS);
         for (int j = 0; j < creatures.length; j++) {
             fill(0, 250, 0);
             cur_creat = creatures[j];
@@ -36,7 +37,7 @@ public class Visualization extends PApplet {
             float y = cur_food.getPosition().y;
             float scale = cur_food.getScale();
 
-            rect(x, y, scale/2, scale/2);
+            rect(x, y, scale, scale);
         }
     }
 }

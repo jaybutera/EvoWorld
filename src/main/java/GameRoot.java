@@ -23,7 +23,7 @@ public class GameRoot {
 
         // On failure to connect to proxy, continue execution
         try {
-            //connected = proxy.connect();
+            connected = proxy.connect();
         }
         catch (Exception e) {
             e.printStackTrace();

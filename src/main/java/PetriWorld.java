@@ -66,10 +66,10 @@ public class PetriWorld {
 
         // Circle shape for creatures
         CircleShape circleShape = new CircleShape();
-        circleShape.m_radius = 10;
+        circleShape.m_radius = 15;
         // Box for food
         PolygonShape boxShape = new PolygonShape();
-        boxShape.setAsBox(10,10);
+        boxShape.setAsBox(5,5);
 
         // ------------------------------------
 
@@ -79,7 +79,7 @@ public class PetriWorld {
         circFixtureDef.friction = 0.1f;
 
         FixtureDef boxFixtureDef = new FixtureDef();
-        boxFixtureDef.shape = circleShape;
+        boxFixtureDef.shape = boxShape;
         boxFixtureDef.density = 3;
         boxFixtureDef.friction = 1.5f;
 
@@ -93,7 +93,7 @@ public class PetriWorld {
             // Assign body definition to body
             new_body.createFixture(circFixtureDef);
 
-            creatures[i] = new TestCreature(new_body, 30f, creature_ids[i]);
+            creatures[i] = new TestCreature(new_body, circleShape.m_radius, creature_ids[i]);
         }
         for (int i = 0; i < num_food; i++) {
             // Make food
@@ -102,7 +102,7 @@ public class PetriWorld {
             // Assign body definition to body
             new_body.createFixture(boxFixtureDef);
 
-            food[i] = new Food(new_body, 10f);
+            food[i] = new Food(new_body, 10f, i);
         }
     }
 
