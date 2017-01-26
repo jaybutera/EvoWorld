@@ -29,6 +29,6 @@ public class TestCreature extends Creature {
 
     public byte[] observation () {
         // Needs implementation
-        return null;
+        return new byte[65];
     }
 }

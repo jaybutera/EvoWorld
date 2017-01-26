@@ -17,15 +17,12 @@ public class GameRoot {
     private boolean connected = false;
 
     public void initialize () {
-        world = new PetriWorld(2);
-        world.create();
-
         // Connect to proxy server to update player clients of game state
         proxy = new ProxyConnector("127.0.0.1", 8000);
 
         // On failure to connect to proxy, continue execution
         try {
-            connected = proxy.connect();
+            //connected = proxy.connect();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -42,6 +39,11 @@ public class GameRoot {
             e.printStackTrace();
             System.exit(-1);
         }
+
+        // TODO: Restructure to set creature ids
+        int[] ids = sim.getIds();
+        world = new PetriWorld( ids.length );
+        world.create();
     }
 
     public void step () {
