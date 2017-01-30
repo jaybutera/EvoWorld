@@ -1,3 +1,5 @@
+import gameobjects.Creature;
+import gameobjects.Food;
 import processing.core.PApplet;
 
 public class Visualization extends PApplet {

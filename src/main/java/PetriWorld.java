@@ -1,3 +1,6 @@
+import gameobjects.Creature;
+import gameobjects.Food;
+import gameobjects.TestCreature;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
@@ -7,7 +10,6 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
-import renderEngine.Renderer;
 
 import java.util.Random;
 

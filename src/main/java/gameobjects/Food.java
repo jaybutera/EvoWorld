@@ -1,6 +1,7 @@
+package gameobjects;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
-import server.messages.PBCreatureOuterClass;
 import server.messages.PBFoodOuterClass;
 
 public class Food extends DynamicEntity {

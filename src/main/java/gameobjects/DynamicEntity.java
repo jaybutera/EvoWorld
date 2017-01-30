@@ -1,6 +1,7 @@
+package gameobjects;
+
 import org.jbox2d.common.Vec2;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
-import toolbox.Vector3f;
 import org.jbox2d.dynamics.Body;
 
 public abstract class DynamicEntity extends Entity {

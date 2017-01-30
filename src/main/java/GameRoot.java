@@ -1,10 +1,10 @@
+import gameobjects.Creature;
+import gameobjects.Food;
 import server.messages.PBCreatureOuterClass;
 import server.messages.PBFoodOuterClass;
 import server.messages.PBGameStateOuterClass;
 
-import java.awt.image.AreaAveragingScaleFilter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -14,6 +14,8 @@ public class GameRoot {
 
     private PetriWorld world;
     private boolean first_run = true;
+    private long iteration;
+    private long start_time, end_time;
 
     private boolean connected = false;
 
@@ -44,15 +46,29 @@ public class GameRoot {
         // TODO: Restructure to set creature ids
         int[] ids = sim.getIds();
         world = new PetriWorld( ids );
+
+        iteration = 0;
     }
 
     public void step () {
+        start_time = System.currentTimeMillis();
         sim.sendObservations(world.creatures);
+        end_time = System.currentTimeMillis();
+
+        if (iteration % 100 == 0)
+            System.out.println("Elapsed send obs time (ms) - " + (end_time-start_time));
+
+        start_time = System.currentTimeMillis();
         applyActions( sim.getActions() );
+        end_time = System.currentTimeMillis();
+
+        if (iteration % 100 == 0)
+            System.out.println("Elapsed actions time (ms) - " + (end_time-start_time));
 
         // Perform physical update
         world.step();
 
+        long end = System.currentTimeMillis();
         // Update proxy server
         if (connected)
             send();
@@ -61,10 +77,12 @@ public class GameRoot {
         System.out.println("Creatures");
         for (int j = 0; j < world.creatures.length; j++)
             System.out.println(world.creatures[j].serialize().toString());
-        System.out.println("Food [0]");
+        System.out.println("gameobjects.Food [0]");
         //for (int j = 0; j < world.food.length; j++)
         System.out.println(world.food[0].serialize(0).toString());
         */
+
+        iteration++;
     }
 
     public void timed_step () {

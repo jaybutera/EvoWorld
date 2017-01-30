@@ -1,4 +1,5 @@
 import com.google.flatbuffers.FlatBufferBuilder;
+import gameobjects.Creature;
 import org.zeromq.ZMQ;
 import sim.messages.AI.Control.Actions;
 import sim.messages.AI.Control.Move;
@@ -68,7 +69,12 @@ public class SimConnector {
     }
 
     public HashMap<Integer, float[]> getActions () {
+        //long a1 = System.currentTimeMillis();
         byte[] bytes = req.recv();
+        //long b = System.currentTimeMillis();
+
+        //System.out.println("Action recv (ms) - " + (a1 - b));
+
         java.nio.ByteBuffer buf = java.nio.ByteBuffer.wrap(bytes);
 
         Actions actions_fb = Actions.getRootAsActions(buf);
@@ -78,11 +84,11 @@ public class SimConnector {
         HashMap<Integer, float[]> actions = new HashMap<>();
 
         /***** NEEDS OPTIMIZATION ******/
+        // Tmp storage for each action vector
+        float[] a = new float[actions_fb.action(0).outputLength()];
+
         for (int i = 0; i < actions_length; i++) {
             Move m = actions_fb.action(i);
-
-            // Tmp storage for each action vector
-            float[] a = new float[actions_fb.action(0).outputLength()];
 
             // Build action vector
             for (int j = 0; j < m.outputLength(); j++)

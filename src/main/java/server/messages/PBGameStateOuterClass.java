@@ -1161,7 +1161,7 @@ public final class PBGameStateOuterClass {
   static {
     java.lang.String[] descriptorData = {
       "\n\021PBGameState.proto\022\017server.messages\032\020PB" +
-      "Creature.proto\032\014PBFood.proto\"m\n\013PBGameSt" +
+      "gameobjects.Creature.proto\032\014PBFood.proto\"m\n\013PBGameSt" +
       "ate\0222\n\rcreature_stat\030\001 \003(\0132\033.server.mess" +
       "ages.PBCreature\022*\n\tfood_stat\030\002 \003(\0132\027.ser" +
       "ver.messages.PBFood"

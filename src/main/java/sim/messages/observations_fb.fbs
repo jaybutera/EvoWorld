@@ -1,12 +1,12 @@
 namespace AI.Obs;
 
-table Creature {
+table gameobjects.Creature {
     id:ushort;
     view:[ubyte];
 }
 
 table Observations {
-    obs:[Creature];
+    obs:[gameobjects.Creature];
 }
 
 root_type Observations;

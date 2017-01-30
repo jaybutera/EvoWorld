@@ -1,3 +1,5 @@
+package gameobjects;
+
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 
@@ -28,6 +30,14 @@ public class TestCreature extends Creature {
 
     public byte[] observation () {
         // Needs implementation
-        return new byte[65];
+        //return new byte[65];
+        byte[] b = new byte[65];
+
+        //Random r = new Random();
+        //r.nextBytes(b);
+
+        //RayCast
+
+        return b;
     }
 }
