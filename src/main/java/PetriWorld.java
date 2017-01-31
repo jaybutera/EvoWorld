@@ -95,7 +95,8 @@ public class PetriWorld {
             // Assign body definition to body
             new_body.createFixture(circFixtureDef);
 
-            creatures[i] = new TestCreature(new_body, circleShape.m_radius, creature_ids[i]);
+            creatures[i] = new TestCreature(new_body, circleShape.m_radius, creature_ids[i], world);
+            circFixtureDef.setUserData( creatures[i].chems );
         }
         for (int i = 0; i < num_food; i++) {
             // Make food
@@ -105,6 +106,7 @@ public class PetriWorld {
             new_body.createFixture(boxFixtureDef);
 
             food[i] = new Food(new_body, 10f, i);
+            boxFixtureDef.setUserData( food[i].chem );
         }
     }
 

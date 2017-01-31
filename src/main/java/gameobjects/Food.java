@@ -6,10 +6,14 @@ import server.messages.PBFoodOuterClass;
 
 public class Food extends DynamicEntity {
     int id;
+    public ChemicalComposition chem;
 
     public Food (Body body, float scale, int id) {
         super(body, scale);
         this.id = id;
+
+        // Temporary test parameters
+        chem = new ChemicalComposition(0, 4);
     }
 
     public PBFoodOuterClass.PBFood serialize (int action) {

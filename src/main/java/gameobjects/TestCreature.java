@@ -1,11 +1,13 @@
 package gameobjects;
 
+import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
 
 public class TestCreature extends Creature {
-    public TestCreature (Body body, float scale, int id) {
-        super(body, scale, id);
+    public TestCreature (Body body, float scale, int id, World world) {
+        super(body, scale, id, world);
     }
 
     public void action (float[] a) {
@@ -33,10 +35,13 @@ public class TestCreature extends Creature {
         //return new byte[65];
         byte[] b = new byte[65];
 
-        //Random r = new Random();
-        //r.nextBytes(b);
+        Vec2 center = body.getPosition();
+        AABB smellRange = new AABB(center.add( new Vec2(-15f, -15f) ), center.add( new Vec2(15f, 15f) ));
 
-        //RayCast
+        OdorQueryCallback aabbCallback = new OdorQueryCallback();
+        world.queryAABB(aabbCallback, smellRange);
+
+        //System.out.println(aabbCallback.foundChems);
 
         return b;
     }

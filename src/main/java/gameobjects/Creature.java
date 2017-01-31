@@ -1,16 +1,23 @@
 package gameobjects;
 
+import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.World;
 import server.messages.PBCreatureOuterClass.PBCreature;
 
 public abstract class Creature extends DynamicEntity {
 	protected int id;
+	protected World world;
+	public ChemicalComposition chems;
 
-	public Creature (Body body, float scale, int id) {
+	public Creature (Body body, float scale, int id, World world) {
 		super(body, scale);
 
 		this.id = id;
+		this.world = world;
+
+		chems = new ChemicalComposition(1,2f);
 	}
 
 	public PBCreature serialize () {
