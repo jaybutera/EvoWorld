@@ -1,4 +1,5 @@
 import gameobjects.Creature;
+import gameobjects.CreatureFactory;
 import gameobjects.Food;
 import gameobjects.TestCreature;
 import org.jbox2d.collision.shapes.CircleShape;
@@ -58,45 +59,21 @@ public class PetriWorld {
     }
 
     private void initEntities (int[] creature_ids) {
-        // Make a body definition for dynamic bodies
-        bodyDef = new BodyDef();
-        bodyDef.type = BodyType.DYNAMIC;
-        bodyDef.angle = 0;
-
-        // Body Fixture gives a shape to a body
-        // ------------------------------------
-
-        // Circle shape for creatures
-        CircleShape circleShape = new CircleShape();
-        circleShape.m_radius = 15;
         // Box for food
         PolygonShape boxShape = new PolygonShape();
         boxShape.setAsBox(5,5);
 
         // ------------------------------------
 
-        FixtureDef circFixtureDef = new FixtureDef();
-        circFixtureDef.shape = circleShape;
-        circFixtureDef.density = 1;
-        circFixtureDef.friction = 0.1f;
-
         FixtureDef boxFixtureDef = new FixtureDef();
         boxFixtureDef.shape = boxShape;
         boxFixtureDef.density = 3;
         boxFixtureDef.friction = 1.5f;
 
-        // Setup bodies
+        // Setup creatures
         Random r = new Random();
         for (int i = 0 ; i < num_bodies; i++) {
-            // Place bodies into world spaced 10 at a time
-            // along the y-coordinate
-            bodyDef.position.set(i * 50+100,200);
-            Body new_body = world.createBody(bodyDef);
-            // Assign body definition to body
-            new_body.createFixture(circFixtureDef);
-
-            creatures[i] = new TestCreature(new_body, circleShape.m_radius, creature_ids[i], world);
-            circFixtureDef.setUserData( creatures[i].chems );
+            creatures[i] = CreatureFactory.getCreature(creature_ids[i],world);
         }
         for (int i = 0; i < num_food; i++) {
             // Make food
