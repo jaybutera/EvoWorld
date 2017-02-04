@@ -35,11 +35,13 @@ public class TestCreature extends Creature {
         //return new byte[65];
         byte[] b = new byte[65];
 
+        /*
         Vec2 center = body.getPosition();
         AABB smellRange = new AABB(center.add( new Vec2(-15f, -15f) ), center.add( new Vec2(15f, 15f) ));
 
         OdorQueryCallback aabbCallback = new OdorQueryCallback();
         world.queryAABB(aabbCallback, smellRange);
+        */
 
         //System.out.println(aabbCallback.foundChems);
 
