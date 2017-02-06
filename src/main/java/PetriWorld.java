@@ -65,6 +65,10 @@ public class PetriWorld {
 
         // ------------------------------------
 
+        BodyDef bodyDef = new BodyDef();
+        bodyDef.type = BodyType.DYNAMIC;
+        bodyDef.angle = 0;
+
         FixtureDef boxFixtureDef = new FixtureDef();
         boxFixtureDef.shape = boxShape;
         boxFixtureDef.density = 3;
