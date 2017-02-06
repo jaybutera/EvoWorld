@@ -30,7 +30,7 @@ public class CreatureFactory {
         // Assign body definition to body
         new_body.createFixture(circFixtureDef);
 
-        Creature phil = new TestCreature(new_body,1f,id,world);
+        Creature phil = new TestCreature(new_body,circleShape.m_radius,id,world);
         circFixtureDef.setUserData( phil.chems );
 
         return phil;
