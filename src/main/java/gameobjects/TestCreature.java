@@ -30,10 +30,14 @@ public class TestCreature extends Creature {
         this.body.applyLinearImpulse(forward_vec.mul(500*a[1]), body.getWorldPoint( new Vec2(scale/2f, 0) ), true);
     }
 
-    public byte[] observation () {
+    public float[] observation () {
         // Needs implementation
         //return new byte[65];
-        byte[] b = new byte[65];
+        //byte[] b = new byte[65];
+        float[] b = new float[3];
+        b[0] = .2f;
+        b[1] = .4f;
+        b[2] = .6f;
 
         /*
         Vec2 center = body.getPosition();
