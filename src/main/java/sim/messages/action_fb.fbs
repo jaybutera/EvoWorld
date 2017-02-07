@@ -1,4 +1,4 @@
-namespace AI.Control;
+namespace sim.messages.AI.Control;
 
 table Actions {
     action:[Move];

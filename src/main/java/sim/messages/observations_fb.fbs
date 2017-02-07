@@ -1,12 +1,19 @@
-namespace AI.Obs;
+namespace sim.messages.AI.Obs;
 
-table gameobjects.Creature {
+table Smell {
+    protein: float;
+    starch:  float;
+    fat:     float;
+}
+
+table FBCreature {
     id:ushort;
-    view:[ubyte];
+    //view:[ubyte];
+    smell:Smell;
 }
 
 table Observations {
-    obs:[gameobjects.Creature];
+    obs:[FBCreature];
 }
 
 root_type Observations;

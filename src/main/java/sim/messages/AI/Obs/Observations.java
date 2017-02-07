@@ -13,8 +13,8 @@ public final class Observations extends Table {
   public static Observations getRootAsObservations(ByteBuffer _bb, Observations obj) { _bb.order(ByteOrder.LITTLE_ENDIAN); return (obj.__init(_bb.getInt(_bb.position()) + _bb.position(), _bb)); }
   public Observations __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
-  public Creature obs(int j) { return obs(new Creature(), j); }
-  public Creature obs(Creature obj, int j) { int o = __offset(4); return o != 0 ? obj.__init(__indirect(__vector(o) + j * 4), bb) : null; }
+  public FBCreature obs(int j) { return obs(new FBCreature(), j); }
+  public FBCreature obs(FBCreature obj, int j) { int o = __offset(4); return o != 0 ? obj.__init(__indirect(__vector(o) + j * 4), bb) : null; }
   public int obsLength() { int o = __offset(4); return o != 0 ? __vector_len(o) : 0; }
 
   public static int createObservations(FlatBufferBuilder builder,

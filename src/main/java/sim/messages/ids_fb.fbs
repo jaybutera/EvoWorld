@@ -1,4 +1,4 @@
-namespace AI.Store;
+namespace sim.messages.AI.Store;
 
 table Ids {
     idvec:[ushort];

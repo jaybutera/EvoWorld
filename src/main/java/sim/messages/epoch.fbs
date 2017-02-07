@@ -1,4 +1,4 @@
-namespace AI.Obs;
+namespace sim.messages.AI.Obs;
 
 table Epoch {
     score:[Score];
