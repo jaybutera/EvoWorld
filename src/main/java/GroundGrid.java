@@ -22,6 +22,23 @@ public class GroundGrid {
         return co2[pos[0]][pos[1]];
     }
 
+    // modifiers - currently can be changed by where creature is
+    public void setOxygen(Creature cr, double per) {
+        int pos[] = convertCoordinates(cr);
+        oxygen[pos[0]][pos[1]] = per;
+    }
+
+    public void setMoisture(Creature cr, double per) {
+        int pos[] = convertCoordinates(cr);
+        moisture[pos[0]][pos[1]] = per;
+    }
+
+    public void setCo2(Creature cr, double per) {
+        int pos[] = convertCoordinates(cr);
+        co2[pos[0]][pos[1]] = per;
+    }
+
+    // convert coordinates of where Creature is (later plant) to access and change info about position's environment
     public int[] convertCoordinates(Creature cr) {
         Vec2 pos = cr.getPosition();
         int x = (int)pos.x;
