@@ -13,7 +13,7 @@ public class Food extends DynamicEntity {
         this.id = id;
 
         // Temporary test parameters
-        chem = new ChemicalComposition(0, 4);
+        chem = new ChemicalComposition(1f,1f,1f, 4);
     }
 
     public PBFoodOuterClass.PBFood serialize (int action) {

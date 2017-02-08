@@ -3,7 +3,9 @@ package gameobjects;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
+import org.lwjgl.system.CallbackI;
 
 public class TestCreature extends Creature {
     public TestCreature (Body body, float scale, int id, World world) {
@@ -34,20 +36,26 @@ public class TestCreature extends Creature {
         // Needs implementation
         //return new byte[65];
         //byte[] b = new byte[65];
-        float[] b = new float[3];
-        b[0] = .2f;
-        b[1] = .4f;
-        b[2] = .6f;
+        float[] b = {0f,0f,0f};
 
-        /*
         Vec2 center = body.getPosition();
         AABB smellRange = new AABB(center.add( new Vec2(-15f, -15f) ), center.add( new Vec2(15f, 15f) ));
 
         OdorQueryCallback aabbCallback = new OdorQueryCallback();
         world.queryAABB(aabbCallback, smellRange);
-        */
 
-        //System.out.println(aabbCallback.foundChems);
+        for (Fixture fixture : aabbCallback.foundChems) {
+            ChemicalComposition cc = (ChemicalComposition)fixture.getUserData();
+
+            if (cc != null) {
+                System.out.println(cc);
+                b[0] += cc.getProtein();
+                b[1] += cc.getStarch();
+                b[2] += cc.getFat();
+            }
+        }
+
+        //System.out.println("Chems: " + aabbCallback.foundChems);
 
         return b;
     }

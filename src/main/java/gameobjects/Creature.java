@@ -17,7 +17,7 @@ public abstract class Creature extends DynamicEntity {
 		this.id = id;
 		this.world = world;
 
-		chems = new ChemicalComposition(1,2f);
+		chems = new ChemicalComposition(0f,0f,0f,2f);
 	}
 
 	public PBCreature serialize () {
