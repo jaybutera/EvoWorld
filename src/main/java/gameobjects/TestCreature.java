@@ -48,10 +48,11 @@ public class TestCreature extends Creature {
             ChemicalComposition cc = (ChemicalComposition)fixture.getUserData();
 
             if (cc != null) {
-                System.out.println(cc);
-                b[0] += cc.getProtein();
-                b[1] += cc.getStarch();
-                b[2] += cc.getFat();
+                float dist = fixture.computeDistance(center, 0, new Vec2(0,0));
+
+                b[0] += cc.getProtein() * cc.getStrength() / dist;
+                b[1] += cc.getStarch() * cc.getStrength() / dist;
+                b[2] += cc.getFat() * cc.getStrength() / dist;
             }
         }
 
