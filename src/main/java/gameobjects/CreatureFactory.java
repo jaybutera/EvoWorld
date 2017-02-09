@@ -8,8 +8,12 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 
 public class CreatureFactory {
-    static int x = 0;
-    public static Creature getCreature(int id, World world) {
+    private int x;
+    public CreatureFactory (int init_pos_x) {
+        x = init_pos_x;
+    }
+    //static int x = 0;
+    public Creature getCreature(int id, World world) {
         // Make a body definition for dynamic bodies
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;

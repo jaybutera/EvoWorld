@@ -25,6 +25,7 @@ public class PetriWorld {
     private int num_bodies; // Number of dynamic bodies in the scene
     private int num_food = 30;
     private FitnessRecords fitnessRecords; // Used to track dead creatures and their fitness scores
+    private CreatureFactory creatureFactory;
 
     // Queue all deaths each frame for garbage collection
     private ArrayList<Creature> dead_creatures;
@@ -38,6 +39,7 @@ public class PetriWorld {
         food           = new Food[num_food];
         dead_creatures = new ArrayList<>();
         fitnessRecords = new FitnessRecords();
+        creatureFactory = new CreatureFactory(0);
 
         // Define world boundaries
         worldAABB = new AABB();
@@ -115,7 +117,7 @@ public class PetriWorld {
         // Setup creatures
         Random r = new Random();
         for (int i = 0 ; i < num_bodies; i++) {
-            creatures[i] = CreatureFactory.getCreature(creature_ids[i],world);
+            creatures[i] = creatureFactory.getCreature(creature_ids[i],world);
         }
         for (int i = 0; i < num_food; i++) {
             // Make food
