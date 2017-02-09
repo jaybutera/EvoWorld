@@ -1,7 +1,7 @@
 namespace sim.messages.AI.Obs;
 
 table Epoch {
-    score:[Score];
+    scores:[Score];
 }
 
 table Score {

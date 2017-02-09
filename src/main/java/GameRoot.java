@@ -51,6 +51,11 @@ public class GameRoot {
     }
 
     public void step () {
+        // Next epoch criteria
+        if (iteration+1 % 10000 == 0) {
+            //sim.nextEpoch();
+        }
+
         start_time = System.currentTimeMillis();
         sim.sendObservations(world.creatures);
         end_time = System.currentTimeMillis();

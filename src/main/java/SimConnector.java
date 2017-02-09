@@ -1,10 +1,13 @@
 import com.google.flatbuffers.FlatBufferBuilder;
 import gameobjects.Creature;
 import org.zeromq.ZMQ;
+import sim.messages.AI.Obs.Epoch;
+import sim.messages.AI.Obs.Score;
 import sim.messages.AI.Obs.Smell;
 import sim.messages.AI.Control.*;
 import sim.messages.AI.Control.Move;
 import sim.messages.AI.Store.Ids;
+import toolbox.Tuple;
 
 import java.util.HashMap;
 
@@ -102,6 +105,37 @@ public class SimConnector {
         }
 
         return actions;
+    }
+
+    public int[] nextEpoch (FitnessRecords fr) {
+        // Epoch command
+        req.send("epoch");
+        req.recv();
+
+        // Send fitness scores
+        //------------------------------------------------
+
+        int[] scores = new int[fr.creature_fits.size()];
+
+        for (int i = 0; i < fr.creature_fits.size(); i++) {
+            Tuple<Creature, Float> record = fr.creature_fits.get(i);
+            scores[i] = Score.createScore(builder, record.x.getId(), (float)record.y);
+        }
+
+        int scores_offset = Epoch.createScoresVector(builder, scores);
+        //Epoch epoch = Epoch.createEpoch(builder, scores_offset);
+
+        Epoch.startEpoch(builder);
+        Epoch.addScores(builder, scores_offset);
+        int epoch_offset = Epoch.endEpoch(builder);
+        builder.finish(epoch_offset);
+
+        req.send( builder.sizedByteArray() );
+        //------------------------------------------------
+
+
+        // Return next set of ids
+        return getIds();
     }
 
     public void close () {

@@ -13,21 +13,21 @@ public final class Epoch extends Table {
   public static Epoch getRootAsEpoch(ByteBuffer _bb, Epoch obj) { _bb.order(ByteOrder.LITTLE_ENDIAN); return (obj.__init(_bb.getInt(_bb.position()) + _bb.position(), _bb)); }
   public Epoch __init(int _i, ByteBuffer _bb) { bb_pos = _i; bb = _bb; return this; }
 
-  public Score score(int j) { return score(new Score(), j); }
-  public Score score(Score obj, int j) { int o = __offset(4); return o != 0 ? obj.__init(__indirect(__vector(o) + j * 4), bb) : null; }
-  public int scoreLength() { int o = __offset(4); return o != 0 ? __vector_len(o) : 0; }
+  public Score scores(int j) { return scores(new Score(), j); }
+  public Score scores(Score obj, int j) { int o = __offset(4); return o != 0 ? obj.__init(__indirect(__vector(o) + j * 4), bb) : null; }
+  public int scoresLength() { int o = __offset(4); return o != 0 ? __vector_len(o) : 0; }
 
   public static int createEpoch(FlatBufferBuilder builder,
-      int scoreOffset) {
+      int scoresOffset) {
     builder.startObject(1);
-    Epoch.addScore(builder, scoreOffset);
+    Epoch.addScores(builder, scoresOffset);
     return Epoch.endEpoch(builder);
   }
 
   public static void startEpoch(FlatBufferBuilder builder) { builder.startObject(1); }
-  public static void addScore(FlatBufferBuilder builder, int scoreOffset) { builder.addOffset(0, scoreOffset, 0); }
-  public static int createScoreVector(FlatBufferBuilder builder, int[] data) { builder.startVector(4, data.length, 4); for (int i = data.length - 1; i >= 0; i--) builder.addOffset(data[i]); return builder.endVector(); }
-  public static void startScoreVector(FlatBufferBuilder builder, int numElems) { builder.startVector(4, numElems, 4); }
+  public static void addScores(FlatBufferBuilder builder, int scoresOffset) { builder.addOffset(0, scoresOffset, 0); }
+  public static int createScoresVector(FlatBufferBuilder builder, int[] data) { builder.startVector(4, data.length, 4); for (int i = data.length - 1; i >= 0; i--) builder.addOffset(data[i]); return builder.endVector(); }
+  public static void startScoresVector(FlatBufferBuilder builder, int numElems) { builder.startVector(4, numElems, 4); }
   public static int endEpoch(FlatBufferBuilder builder) {
     int o = builder.endObject();
     return o;

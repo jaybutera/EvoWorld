@@ -40,5 +40,7 @@ public class SimConnectorTester {
         return actions;
     }
 
+    public void nextEpoch() {}
+
     public void close () {}
 }
