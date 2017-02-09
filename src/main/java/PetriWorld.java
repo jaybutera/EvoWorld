@@ -34,7 +34,12 @@ public class PetriWorld {
     public Food[] food;
 
     public PetriWorld (int[] creature_ids) {
-        num_bodies     = creature_ids.length;
+        if( creature_ids == null) {
+            num_bodies = 0;
+        } else {
+            num_bodies = creature_ids.length;
+        }
+        
         creatures      = new Creature[num_bodies];
         food           = new Food[num_food];
         dead_creatures = new ArrayList<>();
@@ -88,7 +93,7 @@ public class PetriWorld {
         Creature[] tmp_creatures = new Creature[creatures.length - dead_creatures.size()];
         int j = 0;
         for (int i = 0; i < creatures.length; i++) {
-            if ( !dead_creatures.contains(creatures[i]) ) {
+            if ( !dead_creatures.contains(creatures[i]) && j < tmp_creatures.length ) {
                 tmp_creatures[j++] = creatures[i];
             }
         }
