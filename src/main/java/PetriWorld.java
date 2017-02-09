@@ -11,7 +11,10 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
+import toolbox.Tuple;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 
 public class PetriWorld {
@@ -21,14 +24,20 @@ public class PetriWorld {
     private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
     private int num_food = 30;
+    private FitnessRecords fitnessRecords; // Used to track dead creatures and their fitness scores
+
+    // Queue all deaths each frame for garbage collection
+    private ArrayList<Creature> dead_creatures;
 
     public Creature[] creatures;
     public Food[] food;
 
     public PetriWorld (int[] creature_ids) {
-        num_bodies = creature_ids.length;
-        creatures = new Creature[num_bodies];
-        food = new Food[num_food];
+        num_bodies     = creature_ids.length;
+        creatures      = new Creature[num_bodies];
+        food           = new Food[num_food];
+        dead_creatures = new ArrayList<>();
+        fitnessRecords = new FitnessRecords();
 
         // Define world boundaries
         worldAABB = new AABB();
@@ -43,19 +52,48 @@ public class PetriWorld {
         initEntities(creature_ids);
     }
 
-    public void step  () {
-        /*
-    	for(int x = 0; x < num_bodies; x++) {
-    		int left = (int)(500); // positive or negative direction
-    		int right = (int)((500));
-        	float forces[] = {(float)left, (float)right};
-
-        	creatures[x].action(forces);
-    	}
-    	*/
+    public void step  (long iteration) {
+        // Clean out dead creatures
+        removeDeadCreatures(iteration);
 
         // Perform a time step in the physics simulation
         world.step(timeStep, 7, 7);
+    }
+
+    public void applyActions(HashMap<Integer, float[]> actions) {
+        for (Creature c : creatures ) {
+
+            /*
+            System.out.print("Action [" + c.getId() + "]: ");
+            for (int i = 0; i < actions.get(c.getId()).length; i++)
+                System.out.print(" | " + actions.get(c.getId())[i]);
+            System.out.println("");
+            */
+
+            if ( c.action( actions.get(c.getId()) ) == true ) // true means creature died
+                dead_creatures.add(c);
+        }
+    }
+
+    private void removeDeadCreatures (long iteration) {
+        // Record deaths
+        for (Creature c : dead_creatures) {
+            Integer fit = (int)iteration;
+            fitnessRecords.addRecord(c, fit.floatValue());
+        }
+
+        // Prune creatures
+        Creature[] tmp_creatures = new Creature[creatures.length - dead_creatures.size()];
+        int j = 0;
+        for (int i = 0; i < creatures.length; i++) {
+            if ( !dead_creatures.contains(creatures[i]) ) {
+                tmp_creatures[j++] = creatures[i];
+            }
+        }
+
+        creatures = tmp_creatures;
+
+        // Pretty sure this is O(nk) time. Atleast it's not n^2
     }
 
     private void initEntities (int[] creature_ids) {
@@ -125,5 +163,9 @@ public class PetriWorld {
         wallDef.position.set(500,0);
         Body right_wall = world.createBody(wallDef);
         right_wall.createFixture(vert_wall_fix);
+    }
+
+    public FitnessRecords getFitnessRecords () {
+        return fitnessRecords;
     }
  }

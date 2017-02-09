@@ -12,24 +12,29 @@ public class TestCreature extends Creature {
         super(body, scale, id, world);
     }
 
-    public void action (float[] a) {
+    public boolean action (float[] a) {
         if(a.length != 2) {
             System.out.println("Float array for action array is incorrect size");
-            return;
+            return false;
         }
-        // this way gets random movement but doesn't get thrusters on both sides
-        //this.body.applyForceToCenter(new Vec2 (a[0], a[1]));
 
         // Movement force vector
         Vec2 move = new Vec2(a[0], a[1]);
 
-        // Forward vector
+        // Deplete energy
+        energy -= .1 * (move.length());
+
+                // Forward vector
         Vec2 forward_vec = body.getWorldVector( new Vec2(0,1) );
 
         // apply force at index 0
         this.body.applyLinearImpulse(forward_vec.mul(500*a[0]), body.getWorldPoint( new Vec2(-scale/2f,0) ), true);
         // apply force at index 1
         this.body.applyLinearImpulse(forward_vec.mul(500*a[1]), body.getWorldPoint( new Vec2(scale/2f, 0) ), true);
+
+        // True means dead, false is still alive.
+        // It's terrible and I hate it. I hope to change this soon.
+        return true ? energy < 0f : false;
     }
 
     public float[] observation () {

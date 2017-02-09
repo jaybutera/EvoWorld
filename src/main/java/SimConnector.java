@@ -9,6 +9,7 @@ import sim.messages.AI.Control.Move;
 import sim.messages.AI.Store.Ids;
 import toolbox.Tuple;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SimConnector {
@@ -107,7 +108,9 @@ public class SimConnector {
         return actions;
     }
 
-    public int[] nextEpoch (FitnessRecords fr) {
+    public int[] nextEpoch (FitnessRecords fitnessRecords) {
+        ArrayList<Tuple<Creature, Float>> fr = fitnessRecords.getFitnessRecords();
+
         // Epoch command
         req.send("epoch");
         req.recv();
@@ -115,10 +118,10 @@ public class SimConnector {
         // Send fitness scores
         //------------------------------------------------
 
-        int[] scores = new int[fr.creature_fits.size()];
+        int[] scores = new int[fr.size()];
 
-        for (int i = 0; i < fr.creature_fits.size(); i++) {
-            Tuple<Creature, Float> record = fr.creature_fits.get(i);
+        for (int i = 0; i < fr.size(); i++) {
+            Tuple<Creature, Float> record = fr.get(i);
             scores[i] = Score.createScore(builder, record.x.getId(), (float)record.y);
         }
 

@@ -15,6 +15,7 @@ public class GameRoot {
     private PetriWorld world;
     private boolean first_run = true;
     private long iteration;
+    private long epoch_iter;
     private long start_time, end_time;
 
     private boolean connected = false;
@@ -48,35 +49,41 @@ public class GameRoot {
         world = new PetriWorld( ids );
 
         iteration = 0;
+        epoch_iter = 1;
     }
 
     public void step () {
         // Next epoch criteria
-        if (iteration+1 % 10000 == 0) {
-            //sim.nextEpoch();
+        if (epoch_iter % 10000 == 0) {
+            nextEpoch();
         }
+        else {
 
-        start_time = System.currentTimeMillis();
-        sim.sendObservations(world.creatures);
-        end_time = System.currentTimeMillis();
+            start_time = System.currentTimeMillis();
+            sim.sendObservations(world.creatures);
+            end_time = System.currentTimeMillis();
 
-        if (iteration % 100 == 0)
-            System.out.println("Elapsed send obs time (ms) - " + (end_time-start_time));
+            if (iteration % 100 == 0)
+                System.out.println("Elapsed send obs time (ms) - " + (end_time - start_time));
 
-        start_time = System.currentTimeMillis();
-        applyActions( sim.getActions() );
-        end_time = System.currentTimeMillis();
+            start_time = System.currentTimeMillis();
+            world.applyActions(sim.getActions());
+            end_time = System.currentTimeMillis();
 
-        if (iteration % 100 == 0)
-            System.out.println("Elapsed actions time (ms) - " + (end_time-start_time));
+            if (iteration % 100 == 0)
+                System.out.println("Elapsed actions time (ms) - " + (end_time - start_time));
 
-        // Perform physical update
-        world.step();
+            // Perform physical update
+            world.step(iteration);
 
-        long end = System.currentTimeMillis();
-        // Update proxy server
-        if (connected)
-            send();
+            // Update proxy server
+            if (connected)
+                send();
+
+            // Check that creatures still exist
+            if ( world.creatures.length == 0 )
+                nextEpoch();
+        }
 
         /* Debugging
         System.out.println("Creatures");
@@ -88,6 +95,12 @@ public class GameRoot {
         */
 
         iteration++;
+    }
+
+    private void nextEpoch () {
+        int[] ids = sim.nextEpoch( world.getFitnessRecords() );
+        world = new PetriWorld( ids );
+        epoch_iter = 1;
     }
 
     public void timed_step () {
@@ -108,20 +121,6 @@ public class GameRoot {
 
     public Food[] getFood () {
         return world.food;
-    }
-
-    private void applyActions(HashMap<Integer, float[]> actions) {
-        for (Creature c : world.creatures ) {
-
-            /*
-            System.out.print("Action [" + c.getId() + "]: ");
-            for (int i = 0; i < actions.get(c.getId()).length; i++)
-                System.out.print(" | " + actions.get(c.getId())[i]);
-            System.out.println("");
-            */
-
-            c.action( actions.get(c.getId()) );
-        }
     }
 
     private void send () {

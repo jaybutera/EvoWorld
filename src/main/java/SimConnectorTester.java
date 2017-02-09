@@ -40,7 +40,9 @@ public class SimConnectorTester {
         return actions;
     }
 
-    public void nextEpoch() {}
+    public int[] nextEpoch(FitnessRecords fr) {
+        return null;
+    }
 
     public void close () {}
 }

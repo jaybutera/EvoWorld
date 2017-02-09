@@ -8,6 +8,7 @@ import server.messages.PBCreatureOuterClass.PBCreature;
 
 public abstract class Creature extends DynamicEntity {
 	protected int id;
+	protected float energy;
 	protected World world;
 	public ChemicalComposition chems;
 
@@ -16,6 +17,7 @@ public abstract class Creature extends DynamicEntity {
 
 		this.id = id;
 		this.world = world;
+		this.energy = 50f;
 
 		chems = new ChemicalComposition(0f,0f,0f,2f);
 	}
@@ -37,6 +39,6 @@ public abstract class Creature extends DynamicEntity {
 		return id;
 	}
 
-	public abstract void action (float[] a);
+	public abstract boolean action (float[] a);
     public abstract float[] observation ();
 }
