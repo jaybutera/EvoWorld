@@ -25,8 +25,8 @@ public class ChemicalComposition {
 
     public ChemicalComposition (float p, float s, float f, float strength) {
         this.protein = p;
-        this.fat = fat;
-        this.starch = starch;
+        this.fat = f;
+        this.starch = s;
 
         this.strength = strength;
     }
