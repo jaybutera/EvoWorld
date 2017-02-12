@@ -41,7 +41,12 @@ public class SimConnectorTester {
     }
 
     public int[] nextEpoch(FitnessRecords fr) {
-        return null;
+        int[] fake_ids = new int[fr.getFitnessRecords().size()];
+
+        for (int i = 0; i < fake_ids.length; i++)
+            fake_ids[i] = i;
+
+        return fake_ids;
     }
 
     public void close () {}
