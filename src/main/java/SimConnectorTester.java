@@ -1,5 +1,7 @@
 import gameobjects.Creature;
+import gameobjects.CreatureObservation;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -20,7 +22,7 @@ public class SimConnectorTester {
         return ids;
     }
 
-    public void sendObservations (Creature[] creatures) {}
+    public void sendObservations (CreatureObservation[] creatureObservations) {}
 
     public HashMap<Integer, float[]> getActions () {
         HashMap<Integer, float[]> actions = new HashMap<>();
