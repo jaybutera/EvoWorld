@@ -1,8 +1,4 @@
-import gameobjects.Creature;
-import gameobjects.CreatureFactory;
-import gameobjects.Food;
-import gameobjects.TestCreature;
-import org.jbox2d.collision.shapes.CircleShape;
+import gameobjects.*;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.BodyDef;
@@ -11,7 +7,6 @@ import org.jbox2d.dynamics.FixtureDef;
 import org.jbox2d.dynamics.World;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
-import toolbox.Tuple;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -77,6 +72,26 @@ public class PetriWorld {
         }
     }
 
+    public CreatureObservation[] getObservations () {
+        CreatureObservation[] creatureObservations = new CreatureObservation[ creatures.length ];
+
+        Vec2 center;
+
+        // Construct creature observations vector
+        for (int i = 0; i < creatures.length; i++) {
+
+            // Setup AABB query callback
+            center = creatures[i].getPosition();
+            AABB smellRange = new AABB(center.add(new Vec2(-15f, -15f)), center.add(new Vec2(15f, 15f)));
+            OdorQueryCallback aabbCallback = new OdorQueryCallback();
+            world.queryAABB(aabbCallback, smellRange);
+
+            creatureObservations[i] = creatures[i].observation(aabbCallback.foundFixtures);
+        }
+
+        return creatureObservations;
+    }
+
     private void removeDeadCreatures (long iteration) {
         // Record deaths
         for (Creature c : dead_creatures) {
@@ -85,9 +100,6 @@ public class PetriWorld {
         }
 
         // Prune creatures
-        System.out.println("Alive Creatures: " + creatures.length);
-        System.out.println("Dead Creatures: " + dead_creatures.size());
-
         Creature[] tmp_creatures = new Creature[creatures.length - dead_creatures.size()];
         int j = 0;
         for (int i = 0; i < creatures.length; i++) {

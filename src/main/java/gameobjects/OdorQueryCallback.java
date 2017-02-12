@@ -6,15 +6,15 @@ import org.jbox2d.dynamics.Fixture;
 import java.util.ArrayList;
 
 public class OdorQueryCallback implements QueryCallback {
-    public ArrayList<Fixture> foundChems;
+    public ArrayList<Fixture> foundFixtures;
 
     public OdorQueryCallback () {
-        foundChems = new ArrayList<>();
+        foundFixtures = new ArrayList<>();
     }
 
     @Override
     public boolean reportFixture (Fixture fixture) {
-        foundChems.add( fixture );
+        foundFixtures.add( fixture );
         return true;
     }
 }

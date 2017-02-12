@@ -1,10 +1,14 @@
 package gameobjects;
 
+import com.google.flatbuffers.FlatBufferBuilder;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
+import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
 import server.messages.PBCreatureOuterClass.PBCreature;
+
+import java.util.ArrayList;
 
 public abstract class Creature extends DynamicEntity {
 	protected int id;
@@ -39,6 +43,10 @@ public abstract class Creature extends DynamicEntity {
 		return id;
 	}
 
+	public Vec2 getPosition () {
+		return body.getPosition();
+	}
+
 	public abstract boolean action (float[] a);
-    public abstract float[] observation ();
+    public abstract CreatureObservation observation (ArrayList<Fixture> foundFixtures);
 }

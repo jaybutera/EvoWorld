@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameRoot {
     private ProxyConnector proxy;
-    private SimConnectorTester sim;
+    private SimConnector sim;
 
     private PetriWorld world;
     private boolean first_run = true;
@@ -33,7 +33,7 @@ public class GameRoot {
         }
 
         // Connect to simulation server to get creature actions
-        sim = new SimConnectorTester("127.0.0.1", 5559);
+        sim = new SimConnector("127.0.0.1", 5559);
 
         // On failure to connect to sim server, crash
         try {
@@ -60,7 +60,7 @@ public class GameRoot {
         else {
 
             start_time = System.currentTimeMillis();
-            sim.sendObservations(world.creatures);
+            sim.sendObservations( world.getObservations() );
             end_time = System.currentTimeMillis();
 
             if (iteration % 100 == 0)
@@ -99,6 +99,12 @@ public class GameRoot {
 
     private void nextEpoch () {
         int[] ids = sim.nextEpoch( world.getFitnessRecords() );
+
+        System.out.println("New creature set: ");
+        for (int i = 0; i < ids.length; i++)
+            System.out.print(ids[i] + " | ");
+        System.out.println("");
+
         world = new PetriWorld( ids );
         epoch_iter = 1;
     }
