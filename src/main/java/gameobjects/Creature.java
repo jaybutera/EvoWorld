@@ -13,14 +13,12 @@ import java.util.ArrayList;
 public abstract class Creature extends DynamicEntity {
 	protected int id;
 	protected float energy;
-	protected World world;
 	public ChemicalComposition chems;
 
 	public Creature (Body body, float scale, int id, World world) {
 		super(body, scale);
 
 		this.id = id;
-		this.world = world;
 		this.energy = 50f;
 
 		chems = new ChemicalComposition(0f,0f,0f,2f);

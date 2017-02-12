@@ -9,11 +9,14 @@ import org.jbox2d.dynamics.World;
 
 public class CreatureFactory {
     private int x;
-    public CreatureFactory (int init_pos_x) {
+    private World world;
+
+    public CreatureFactory (int init_pos_x, World world) {
         x = init_pos_x;
+        this.world = world;
     }
-    //static int x = 0;
-    public Creature getCreature(int id, World world) {
+
+    public TestCreature getTestCreature(int id) {
         // Make a body definition for dynamic bodies
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
@@ -34,7 +37,7 @@ public class CreatureFactory {
         // Assign body definition to body
         new_body.createFixture(circFixtureDef);
 
-        Creature phil = new TestCreature(new_body,circleShape.m_radius,id,world);
+        TestCreature phil = new TestCreature(new_body,circleShape.m_radius,id,world);
         circFixtureDef.setUserData( phil.chems );
 
         return phil;

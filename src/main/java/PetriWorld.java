@@ -34,7 +34,6 @@ public class PetriWorld {
         food           = new Food[num_food];
         dead_creatures = new ArrayList<>();
         fitnessRecords = new FitnessRecords();
-        creatureFactory = new CreatureFactory(0);
 
         // Define world boundaries
         worldAABB = new AABB();
@@ -44,6 +43,8 @@ public class PetriWorld {
         // Initialize world with no gravity
         Vec2 gravity = new Vec2((float) 0.0, (float) 0.0);
         world = new World(gravity);
+
+        creatureFactory = new CreatureFactory(0, world);
 
         initBoundaries();
         initEntities(creature_ids);
@@ -133,7 +134,7 @@ public class PetriWorld {
         // Setup creatures
         Random r = new Random();
         for (int i = 0 ; i < num_bodies; i++) {
-            creatures[i] = creatureFactory.getCreature(creature_ids[i],world);
+            creatures[i] = creatureFactory.getTestCreature(creature_ids[i]);
         }
         for (int i = 0; i < num_food; i++) {
             // Make food

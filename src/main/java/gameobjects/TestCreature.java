@@ -1,12 +1,9 @@
 package gameobjects;
 
-import com.google.flatbuffers.FlatBufferBuilder;
-import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.World;
-import org.lwjgl.system.CallbackI;
 
 import java.util.ArrayList;
 
