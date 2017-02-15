@@ -48,16 +48,13 @@ public class TestCreature extends Creature {
 
             // Add to smell if object is food
             if (udContainer.entityType == EntityType.Food) {
-                System.out.println("Entity type: " + udContainer.entityType + " | " + udContainer.entity);
                 ChemicalComposition cc = ( (Food) udContainer.entity ).chem;
 
-                if (cc != null) {
-                    float dist = fixture.computeDistance(center, 0, new Vec2(0, 0));
+                float dist = fixture.computeDistance(center, 0, new Vec2(0, 0));
 
-                    b[0] += cc.getProtein() * cc.getStrength() / dist;
-                    b[1] += cc.getStarch() * cc.getStrength() / dist;
-                    b[2] += cc.getFat() * cc.getStrength() / dist;
-                }
+                b[0] += cc.getProtein() * cc.getStrength() / dist;
+                b[1] += cc.getStarch() * cc.getStrength() / dist;
+                b[2] += cc.getFat() * cc.getStrength() / dist;
             }
         }
 
