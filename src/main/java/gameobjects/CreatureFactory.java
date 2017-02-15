@@ -1,11 +1,7 @@
 package gameobjects;
 
 import org.jbox2d.collision.shapes.CircleShape;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.*;
 
 public class CreatureFactory {
     private int x;
@@ -35,10 +31,11 @@ public class CreatureFactory {
         circFixtureDef.friction = 0.1f;
         Body new_body = world.createBody(bodyDef);
         // Assign body definition to body
-        new_body.createFixture(circFixtureDef);
+        Fixture new_body_fix = new_body.createFixture(circFixtureDef);
 
         TestCreature phil = new TestCreature(new_body,circleShape.m_radius,id,world);
-        circFixtureDef.setUserData( phil.chems );
+        new_body_fix.setUserData( new UserDataContainer(phil.getEntityType(), phil) );
+
 
         return phil;
     }

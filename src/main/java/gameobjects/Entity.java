@@ -23,4 +23,6 @@ public abstract class Entity /* implements gameobjects.Networked */ {
     abstract public float getScale();
 
     abstract public void setScale(float scale);
+
+    abstract public EntityType getEntityType ();
 }

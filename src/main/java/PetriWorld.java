@@ -1,10 +1,6 @@
 import gameobjects.*;
 import org.jbox2d.collision.shapes.PolygonShape;
-import org.jbox2d.dynamics.Body;
-import org.jbox2d.dynamics.BodyDef;
-import org.jbox2d.dynamics.BodyType;
-import org.jbox2d.dynamics.FixtureDef;
-import org.jbox2d.dynamics.World;
+import org.jbox2d.dynamics.*;
 import org.jbox2d.collision.AABB;
 import org.jbox2d.common.Vec2;
 
@@ -141,10 +137,11 @@ public class PetriWorld {
             bodyDef.position.set(r.nextInt(500), r.nextInt(500));
             Body new_body = world.createBody(bodyDef);
             // Assign body definition to body
-            new_body.createFixture(boxFixtureDef);
+            Fixture new_body_fix = new_body.createFixture(boxFixtureDef);
 
             food[i] = new Food(new_body, 10f, i);
-            boxFixtureDef.setUserData( food[i].chem );
+            new_body_fix.setUserData( new UserDataContainer(food[i].getEntityType(), food[i]) );
+
         }
     }
 
@@ -167,6 +164,7 @@ public class PetriWorld {
         wallDef.position.set(0,0);
         Body top_wall = world.createBody(wallDef);
         top_wall.createFixture(horiz_wall_fix);
+        horiz_wall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
 
         // Bottom wall
         wallDef.position.set(0,500);
@@ -177,6 +175,7 @@ public class PetriWorld {
         wallDef.position.set(0,0);
         Body left_wall = world.createBody(wallDef);
         left_wall.createFixture(vert_wall_fix);
+        vert_wall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
 
         // Right wall
         wallDef.position.set(500,0);

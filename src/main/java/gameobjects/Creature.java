@@ -47,4 +47,8 @@ public abstract class Creature extends DynamicEntity {
 
 	public abstract boolean action (float[] a);
     public abstract CreatureObservation observation (ArrayList<Fixture> foundFixtures);
+
+    public EntityType getEntityType () {
+    	return EntityType.Creature;
+	}
 }

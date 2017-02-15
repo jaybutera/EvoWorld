@@ -27,4 +27,8 @@ public class Food extends DynamicEntity {
 
         return c_serial;
     }
+
+    public EntityType getEntityType () {
+        return EntityType.Food;
+    }
 }
