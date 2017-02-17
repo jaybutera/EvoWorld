@@ -44,6 +44,10 @@ public class PetriWorld {
 
         initBoundaries();
         initEntities(creature_ids);
+
+        // Setup contact listeners
+        MouthSensorCallback mouthSensorContactListener = new MouthSensorCallback();
+        world.setContactListener(mouthSensorContactListener);
     }
 
     public void step  (long iteration) {

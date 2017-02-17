@@ -46,11 +46,11 @@ public class CreatureFactory {
         mouthFixtureDef.filter.categoryBits = EntityType.CreatureMouthSensor.getCategoryBit();
         // Mouth sensor collides with food
         mouthFixtureDef.filter.maskBits = EntityType.Food.getCategoryBit();
-        //Fixture mouth_fix = new_body.createFixture(mouthFixtureDef);
+        Fixture mouth_fix = new_body.createFixture(mouthFixtureDef);
 
         TestCreature phil = new TestCreature(new_body,circleShape.m_radius,id,world);
         new_body_fix.setUserData( new UserDataContainer(phil.getEntityType(), phil) );
-        //mouth_fix.setUserData( new UserDataContainer(EntityType.CreatureMouthSensor, phil) );
+        mouth_fix.setUserData( new UserDataContainer(EntityType.CreatureMouthSensor, phil) );
 
 
         return phil;
