@@ -103,6 +103,10 @@ public class PetriWorld {
             if ( !dead_creatures.contains(creatures[i]) && j < tmp_creatures.length ) {
                 tmp_creatures[j++] = creatures[i];
             }
+            else {
+                // Destroy creature body
+                //world.destroyBody( creatures[i].body );
+            }
         }
 
         creatures = tmp_creatures;
@@ -126,6 +130,7 @@ public class PetriWorld {
         boxFixtureDef.shape = boxShape;
         boxFixtureDef.density = 3;
         boxFixtureDef.friction = 1.5f;
+        boxFixtureDef.filter.categoryBits = EntityType.Food.getCategoryBit();
 
         // Setup creatures
         Random r = new Random();
@@ -141,7 +146,6 @@ public class PetriWorld {
 
             food[i] = new Food(new_body, 10f, i);
             new_body_fix.setUserData( new UserDataContainer(food[i].getEntityType(), food[i]) );
-
         }
     }
 
@@ -163,24 +167,26 @@ public class PetriWorld {
         // Top wall
         wallDef.position.set(0,0);
         Body top_wall = world.createBody(wallDef);
-        top_wall.createFixture(horiz_wall_fix);
-        horiz_wall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
+        Fixture twall_fix = top_wall.createFixture(horiz_wall_fix);
+        twall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
 
         // Bottom wall
         wallDef.position.set(0,500);
         Body bot_wall = world.createBody(wallDef);
-        bot_wall.createFixture(horiz_wall_fix);
+        Fixture bwall_fix = bot_wall.createFixture(horiz_wall_fix);
+        bwall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
 
         // Left wall
         wallDef.position.set(0,0);
         Body left_wall = world.createBody(wallDef);
-        left_wall.createFixture(vert_wall_fix);
-        vert_wall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
+        Fixture lwall_fix = left_wall.createFixture(vert_wall_fix);
+        lwall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
 
         // Right wall
         wallDef.position.set(500,0);
         Body right_wall = world.createBody(wallDef);
-        right_wall.createFixture(vert_wall_fix);
+        Fixture rwall_fix = right_wall.createFixture(vert_wall_fix);
+        rwall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
     }
 
     public FitnessRecords getFitnessRecords () {

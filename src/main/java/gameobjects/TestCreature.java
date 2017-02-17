@@ -47,6 +47,7 @@ public class TestCreature extends Creature {
             UserDataContainer udContainer = (UserDataContainer) fixture.getUserData();
 
             // Add to smell if object is food
+            //System.out.println(udContainer);
             if (udContainer.entityType == EntityType.Food) {
                 ChemicalComposition cc = ( (Food) udContainer.entity ).chem;
 

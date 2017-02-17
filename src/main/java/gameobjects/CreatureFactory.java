@@ -25,16 +25,32 @@ public class CreatureFactory {
         CircleShape circleShape = new CircleShape();
         circleShape.m_radius = 15;
 
+        // Body fixture definition
         FixtureDef circFixtureDef = new FixtureDef();
         circFixtureDef.shape = circleShape;
         circFixtureDef.density = 1;
         circFixtureDef.friction = 0.1f;
+        circFixtureDef.filter.categoryBits = EntityType.Creature.getCategoryBit();
         Body new_body = world.createBody(bodyDef);
         // Assign body definition to body
         Fixture new_body_fix = new_body.createFixture(circFixtureDef);
 
+        // Mouth shape
+        CircleShape mouthShape = new CircleShape();
+        mouthShape.m_radius=16;
+
+        // Mouth sensor fixture definition
+        FixtureDef mouthFixtureDef = new FixtureDef();
+        mouthFixtureDef.shape = mouthShape;
+        mouthFixtureDef.isSensor = true;
+        mouthFixtureDef.filter.categoryBits = EntityType.CreatureMouthSensor.getCategoryBit();
+        // Mouth sensor collides with food
+        mouthFixtureDef.filter.maskBits = EntityType.Food.getCategoryBit();
+        //Fixture mouth_fix = new_body.createFixture(mouthFixtureDef);
+
         TestCreature phil = new TestCreature(new_body,circleShape.m_radius,id,world);
         new_body_fix.setUserData( new UserDataContainer(phil.getEntityType(), phil) );
+        //mouth_fix.setUserData( new UserDataContainer(EntityType.CreatureMouthSensor, phil) );
 
 
         return phil;
