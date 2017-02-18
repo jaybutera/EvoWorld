@@ -10,6 +10,7 @@ public class Plant extends Food {
         // Temporary test parameters
         chem = new ChemicalComposition(1f,1f,1f, 4);
     }
-    // public EntityType getEntityType () {  return EntityType.Plant;    }
+
+    // tie in soil/ GroundGrid later
 
 }
