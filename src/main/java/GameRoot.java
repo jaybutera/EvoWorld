@@ -126,7 +126,7 @@ public class GameRoot {
     }
 
     public Food[] getFood () {
-        return world.food;
+        return world.foodManager.food;
     }
 
     private void send () {
@@ -137,11 +137,11 @@ public class GameRoot {
         ArrayList<PBFoodOuterClass.PBFood> food = new ArrayList<>();
         if (first_run) {
             first_run = false;
-            for (Food c : world.food)
+            for (Food c : world.foodManager.food)
                 food.add(c.serialize(0));
         }
         else {
-            for (Food c : world.food)
+            for (Food c : world.foodManager.food)
                 food.add(c.serialize(2));
         }
 

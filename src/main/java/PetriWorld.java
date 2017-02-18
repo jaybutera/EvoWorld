@@ -22,14 +22,16 @@ public class PetriWorld {
     private ArrayList<Creature> dead_creatures;
 
     public Creature[] creatures;
-    public Food[] food;
+    //public Food[] food;
+    public FoodManager foodManager;
 
     public PetriWorld (int[] creature_ids) {
-        num_bodies = creature_ids.length;
+        num_bodies     = creature_ids.length;
         creatures      = new Creature[num_bodies];
-        food           = new Food[num_food];
+        //food           = new Food[num_food];
         dead_creatures = new ArrayList<>();
         fitnessRecords = new FitnessRecords();
+        foodManager = new FoodManager();
 
         // Define world boundaries
         worldAABB = new AABB();
@@ -50,9 +52,28 @@ public class PetriWorld {
         world.setContactListener(mouthSensorContactListener);
     }
 
-    public void step  (long iteration) {
+    public void step (long iteration) {
         // Clean out dead creatures
         removeDeadCreatures(iteration);
+
+        // Remove food
+        /*
+        int j = 0;
+        for (int i = 0; i < foodManager.food.length; i++) {
+            if ( !foodManager.foodToRemove.contains(foodManager.food[i]) && j < tmp_creatures.length ) {
+                tmp_creatures[j++] = creatures[i];
+            }
+            else {
+                // Destroy creature body
+                //world.destroyBody( creatures[i].body );
+            }
+        }
+        */
+
+        for (Food f : foodManager.foodToRemove) {
+            world.destroyBody(f.body);
+        }
+        foodManager.clearFood();
 
         // Perform a time step in the physics simulation
         world.step(timeStep, 7, 7);
@@ -120,6 +141,8 @@ public class PetriWorld {
     }
 
     private void initEntities (int[] creature_ids) {
+        Food[] food = new Food[num_food];
+
         // Box for food
         PolygonShape boxShape = new PolygonShape();
         boxShape.setAsBox(5,5);
@@ -148,9 +171,11 @@ public class PetriWorld {
             // Assign body definition to body
             Fixture new_body_fix = new_body.createFixture(boxFixtureDef);
 
-            food[i] = new Food(new_body, 10f, i);
+            food[i] = new Food(new_body, foodManager, 10f, i);
             new_body_fix.setUserData( new UserDataContainer(food[i].getEntityType(), food[i]) );
         }
+
+        foodManager.initFood(food);
     }
 
     private void initBoundaries () {
