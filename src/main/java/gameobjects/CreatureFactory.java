@@ -31,6 +31,7 @@ public class CreatureFactory {
         circFixtureDef.density = 1;
         circFixtureDef.friction = 0.1f;
         circFixtureDef.filter.categoryBits = EntityType.Creature.getCategoryBit();
+        circFixtureDef.filter.maskBits = EntityType.Creature.getCategoryBit() & EntityType.Wall.getCategoryBit();
         Body new_body = world.createBody(bodyDef);
         // Assign body definition to body
         Fixture new_body_fix = new_body.createFixture(circFixtureDef);

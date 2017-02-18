@@ -3,8 +3,8 @@ package gameobjects;
 import org.jbox2d.dynamics.Body;
 
 public class Plant extends Food {
-    public Plant (Body body, float scale, int id) {
-        super(body, scale, id);
+    public Plant (Body body, FoodManager manager, float scale, int id) {
+        super(body, manager, scale, id);
         this.id = id;
 
         // Temporary test parameters
