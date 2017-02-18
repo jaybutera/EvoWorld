@@ -23,7 +23,7 @@ public class MouthSensorCallback implements ContactListener {
                     UserDataContainer udB = (UserDataContainer) fixB.getUserData();
 
                     if (udB.entityType == EntityType.Food) {
-                        Food food = (Food)udB.entity;
+g                        Food food = (Food)udB.entity;
                         food.die();
                     }
                 }
