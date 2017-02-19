@@ -19,7 +19,7 @@ public abstract class Creature extends DynamicEntity {
 		super(body, scale);
 
 		this.id = id;
-		this.energy = 50f;
+		this.energy = 2f;
 
 		chems = new ChemicalComposition(0f,0f,0f,2f);
 	}

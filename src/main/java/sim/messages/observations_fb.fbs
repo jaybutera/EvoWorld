@@ -1,6 +1,6 @@
 namespace sim.messages.AI.Obs;
 
-table Smell {
+struct Smell {
     protein: float;
     starch:  float;
     fat:     float;

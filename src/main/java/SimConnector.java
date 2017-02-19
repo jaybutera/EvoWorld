@@ -3,10 +3,11 @@ import gameobjects.Creature;
 import gameobjects.CreatureObservation;
 import org.zeromq.ZMQ;
 import sim.messages.AI.Obs.Epoch;
+import sim.messages.AI.Obs.FBCreature;
 import sim.messages.AI.Obs.Score;
-import sim.messages.AI.Obs.Smell;
 import sim.messages.AI.Control.*;
 import sim.messages.AI.Control.Move;
+import sim.messages.AI.Obs.Smell;
 import sim.messages.AI.Store.Ids;
 import toolbox.Tuple;
 
@@ -59,9 +60,13 @@ public class SimConnector {
             // Build the fb observation vector
             //int fb_view_offset = sim.messages.AI.Obs.FBCreature.createViewVector(builder, creatures[i].observation() );
             float[] obs = creatureObservations[i].smell;
-            int fb_smell_offset = sim.messages.AI.Obs.Smell.createSmell(builder, obs[0], obs[1], obs[2] );
+            //int fb_smell_offset = sim.messages.AI.Obs.Smell.createSmell(builder, obs[0], obs[1], obs[2] );
             // Build fb creature
-            fb_creatures[i] = sim.messages.AI.Obs.FBCreature.createFBCreature(builder, creatureObservations[i].id, fb_smell_offset);
+            FBCreature.startFBCreature (builder);
+            FBCreature.addId(builder, creatureObservations[i].id );
+            FBCreature.addSmell(builder, Smell.createSmell(builder, obs[0], obs[1], obs[2]) );
+            fb_creatures[i] = FBCreature.endFBCreature(builder);
+
         }
 
         int fb_obs_offset = sim.messages.AI.Obs.Observations.createObsVector(builder, fb_creatures);
@@ -83,20 +88,26 @@ public class SimConnector {
 
         //System.out.println("Action recv (ms) - " + (a1 - b));
 
+        // Setup
+        //-----------------
         java.nio.ByteBuffer buf = java.nio.ByteBuffer.wrap(bytes);
-
         Actions actions_fb = Actions.getRootAsActions(buf);
-
-        int actions_length = actions_fb.actionLength();
-
         HashMap<Integer, float[]> actions = new HashMap<>();
+
+        int num_actions = actions_fb.actionLength();
 
         /***** NEEDS OPTIMIZATION ******/
         // Tmp storage for each action vector
         float[] a = new float[actions_fb.action(0).outputLength()];
 
-        for (int i = 0; i < actions_length; i++) {
+        // Map flat buffer to dictionary (hashmap)
+        //-----------------------------------
+        System.out.println("Num actions: " + num_actions);
+        for (int i = 0; i < num_actions; i++) {
             Move m = actions_fb.action(i);
+
+            System.out.println(m.output(0) + " - " + m.output(1));
+            System.out.println(m.id() + "] out len: " + actions_fb.action(i).outputLength());
 
             // Build action vector
             for (int j = 0; j < m.outputLength(); j++)

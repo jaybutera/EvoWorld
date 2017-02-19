@@ -7,6 +7,11 @@ import org.jbox2d.dynamics.Fixture;
 import org.jbox2d.dynamics.contacts.Contact;
 
 public class MouthSensorCallback implements ContactListener {
+    private void creatureEatFood (Creature creature, Food food) {
+        food.die();
+        creature.energy += 5f;
+    }
+
     @Override
     public void beginContact (Contact contact) {
         Fixture fixA = contact.getFixtureA();
@@ -23,8 +28,7 @@ public class MouthSensorCallback implements ContactListener {
                     UserDataContainer udB = (UserDataContainer) fixB.getUserData();
 
                     if (udB.entityType == EntityType.Food) {
-                        Food food = (Food)udB.entity;
-                        food.die();
+                        creatureEatFood((Creature)((UserDataContainer) fixA.getUserData()).entity, (Food)udB.entity);
                     }
                 }
             }
@@ -37,8 +41,7 @@ public class MouthSensorCallback implements ContactListener {
                     UserDataContainer udA = (UserDataContainer) fixA.getUserData();
 
                     if (udA.entityType == EntityType.Food) {
-                        Food food = (Food)udA.entity;
-                        food.die();
+                        creatureEatFood((Creature) ((UserDataContainer) fixB.getUserData()).entity, (Food)udA.entity);
                     }
                 }
             }

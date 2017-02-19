@@ -15,20 +15,11 @@ public final class FBCreature extends Table {
 
   public int id() { int o = __offset(4); return o != 0 ? bb.getShort(o + bb_pos) & 0xFFFF : 0; }
   public Smell smell() { return smell(new Smell()); }
-  public Smell smell(Smell obj) { int o = __offset(6); return o != 0 ? obj.__init(__indirect(o + bb_pos), bb) : null; }
-
-  public static int createFBCreature(FlatBufferBuilder builder,
-      int id,
-      int smellOffset) {
-    builder.startObject(2);
-    FBCreature.addSmell(builder, smellOffset);
-    FBCreature.addId(builder, id);
-    return FBCreature.endFBCreature(builder);
-  }
+  public Smell smell(Smell obj) { int o = __offset(6); return o != 0 ? obj.__init(o + bb_pos, bb) : null; }
 
   public static void startFBCreature(FlatBufferBuilder builder) { builder.startObject(2); }
   public static void addId(FlatBufferBuilder builder, int id) { builder.addShort(0, (short)id, 0); }
-  public static void addSmell(FlatBufferBuilder builder, int smellOffset) { builder.addOffset(1, smellOffset, 0); }
+  public static void addSmell(FlatBufferBuilder builder, int smellOffset) { builder.addStruct(1, smellOffset, 0); }
   public static int endFBCreature(FlatBufferBuilder builder) {
     int o = builder.endObject();
     return o;
