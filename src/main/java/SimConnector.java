@@ -2,12 +2,9 @@ import com.google.flatbuffers.FlatBufferBuilder;
 import gameobjects.Creature;
 import gameobjects.CreatureObservation;
 import org.zeromq.ZMQ;
-import sim.messages.AI.Obs.Epoch;
-import sim.messages.AI.Obs.FBCreature;
-import sim.messages.AI.Obs.Score;
+import sim.messages.AI.Obs.*;
 import sim.messages.AI.Control.*;
 import sim.messages.AI.Control.Move;
-import sim.messages.AI.Obs.Smell;
 import sim.messages.AI.Store.Ids;
 import toolbox.Tuple;
 
@@ -59,12 +56,13 @@ public class SimConnector {
         for (int i = creatureObservations.length-1; i >= 0; i--) {
             // Build the fb observation vector
             //int fb_view_offset = sim.messages.AI.Obs.FBCreature.createViewVector(builder, creatures[i].observation() );
-            float[] obs = creatureObservations[i].smell;
+            CreatureObservation obs = creatureObservations[i];
             //int fb_smell_offset = sim.messages.AI.Obs.Smell.createSmell(builder, obs[0], obs[1], obs[2] );
             // Build fb creature
             FBCreature.startFBCreature (builder);
             FBCreature.addId(builder, creatureObservations[i].id );
-            FBCreature.addSmell(builder, Smell.createSmell(builder, obs[0], obs[1], obs[2]) );
+            FBCreature.addSmell(builder, Smell.createSmell(builder, obs.smell[0], obs.smell[1], obs.smell[2]) );
+            FBCreature.addAccel(builder, Vec2.createVec2(builder, obs.accel[0], obs.accel[0]));
             fb_creatures[i] = FBCreature.endFBCreature(builder);
 
         }
