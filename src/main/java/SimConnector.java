@@ -102,12 +102,8 @@ public class SimConnector {
 
         // Map flat buffer to dictionary (hashmap)
         //-----------------------------------
-        System.out.println("Num actions: " + num_actions);
         for (int i = 0; i < num_actions; i++) {
             Move m = actions_fb.action(i);
-
-            System.out.println(m.output(0) + " - " + m.output(1));
-            System.out.println(m.id() + "] out len: " + actions_fb.action(i).outputLength());
 
             // Build action vector
             for (int j = 0; j < m.outputLength(); j++)

@@ -14,9 +14,11 @@ public class PetriWorld {
     private World world;
     private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
-    private int num_food = 30;
+    private int num_food = 20;
     private FitnessRecords fitnessRecords; // Used to track dead creatures and their fitness scores
     private CreatureFactory creatureFactory;
+
+    final public int worldSize = 1000;
 
     // Queue all deaths each frame for garbage collection
     private ArrayList<Creature> dead_creatures;
@@ -36,7 +38,7 @@ public class PetriWorld {
         // Define world boundaries
         worldAABB = new AABB();
         worldAABB.lowerBound.set(new Vec2((float) 0.0, (float) 0.0));
-        worldAABB.upperBound.set(new Vec2((float) 500.0, (float) 500.0));
+        worldAABB.upperBound.set(new Vec2(worldSize, worldSize));
 
         // Initialize world with no gravity
         Vec2 gravity = new Vec2((float) 0.0, (float) 0.0);
@@ -104,7 +106,7 @@ public class PetriWorld {
 
             // Setup AABB query callback
             center = creatures[i].getPosition();
-            AABB smellRange = new AABB(center.add(new Vec2(-15f, -15f)), center.add(new Vec2(15f, 15f)));
+            AABB smellRange = new AABB(center.add(new Vec2(-300f, -300f)), center.add(new Vec2(300f, 300f)));
             OdorQueryCallback aabbCallback = new OdorQueryCallback();
             world.queryAABB(aabbCallback, smellRange);
 
@@ -166,7 +168,7 @@ public class PetriWorld {
         }
         for (int i = 0; i < num_food; i++) {
             // Make food
-            bodyDef.position.set(r.nextInt(500), r.nextInt(500));
+            bodyDef.position.set(r.nextInt(worldSize), r.nextInt(worldSize));
             Body new_body = world.createBody(bodyDef);
             // Assign body definition to body
             Fixture new_body_fix = new_body.createFixture(boxFixtureDef);
@@ -181,12 +183,12 @@ public class PetriWorld {
     private void initBoundaries () {
         // Set up boundary walls
         PolygonShape horiz_wall_shape = new PolygonShape();
-        horiz_wall_shape.setAsBox(500,10);
+        horiz_wall_shape.setAsBox(worldSize,10);
         FixtureDef horiz_wall_fix = new FixtureDef();
         horiz_wall_fix.shape = horiz_wall_shape;
 
         PolygonShape vert_wall_shape = new PolygonShape();
-        vert_wall_shape.setAsBox(10,500);
+        vert_wall_shape.setAsBox(10,worldSize);
         FixtureDef vert_wall_fix = new FixtureDef();
         vert_wall_fix.shape = vert_wall_shape;
 
@@ -200,7 +202,7 @@ public class PetriWorld {
         twall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
 
         // Bottom wall
-        wallDef.position.set(0,500);
+        wallDef.position.set(0,worldSize);
         Body bot_wall = world.createBody(wallDef);
         Fixture bwall_fix = bot_wall.createFixture(horiz_wall_fix);
         bwall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
@@ -212,7 +214,7 @@ public class PetriWorld {
         lwall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );
 
         // Right wall
-        wallDef.position.set(500,0);
+        wallDef.position.set(worldSize,0);
         Body right_wall = world.createBody(wallDef);
         Fixture rwall_fix = right_wall.createFixture(vert_wall_fix);
         rwall_fix.setUserData( new UserDataContainer(EntityType.Wall, null) );

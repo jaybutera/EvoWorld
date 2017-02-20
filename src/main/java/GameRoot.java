@@ -10,9 +10,9 @@ import java.util.concurrent.TimeUnit;
 
 public class GameRoot {
     private ProxyConnector proxy;
-    private SimConnector sim;
+    private SimConnectorTester sim;
 
-    private PetriWorld world;
+    public PetriWorld world;
     private boolean first_run = true;
     private long iteration;
     private long epoch_iter;
@@ -33,7 +33,7 @@ public class GameRoot {
         }
 
         // Connect to simulation server to get creature actions
-        sim = new SimConnector("127.0.0.1", 5559);
+        sim = new SimConnectorTester("127.0.0.1", 5559);
 
         // On failure to connect to sim server, crash
         try {

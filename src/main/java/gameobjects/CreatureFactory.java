@@ -3,9 +3,12 @@ package gameobjects;
 import org.jbox2d.collision.shapes.CircleShape;
 import org.jbox2d.dynamics.*;
 
+import java.util.Random;
+
 public class CreatureFactory {
     private int x;
     private World world;
+    private Random r = new Random();
 
     public CreatureFactory (int init_pos_x, World world) {
         x = init_pos_x;
@@ -16,8 +19,8 @@ public class CreatureFactory {
         // Make a body definition for dynamic bodies
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
-        bodyDef.angle = 0;
-        bodyDef.position.set(x * 50+100,200);
+        bodyDef.angle = r.nextInt(100);
+        bodyDef.position.set(x * 50+100,450);
         x++;
 
         // Body Fixture gives a shape to a body.
@@ -29,7 +32,7 @@ public class CreatureFactory {
         FixtureDef circFixtureDef = new FixtureDef();
         circFixtureDef.shape = circleShape;
         circFixtureDef.density = 1;
-        circFixtureDef.friction = 0.1f;
+        circFixtureDef.friction = 0.4f;
         circFixtureDef.filter.categoryBits = EntityType.Creature.getCategoryBit();
         circFixtureDef.filter.maskBits = /*EntityType.Creature.getCategoryBit() & */ EntityType.Wall.getCategoryBit();
         Body new_body = world.createBody(bodyDef);

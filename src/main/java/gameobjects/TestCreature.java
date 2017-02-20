@@ -42,9 +42,12 @@ public class TestCreature extends Creature {
         float[] b = {0f, 0f, 0f};
         Vec2 center = body.getPosition();
 
+        //System.out.println("Fix size: " + foundFixtures.size());
+
         // Accumulate strength of each chemical for all objects in smell range
         for (Fixture fixture : foundFixtures) {
             UserDataContainer udContainer = (UserDataContainer) fixture.getUserData();
+            //System.out.print(udContainer.entityType + ", ");
 
             // Add to smell if object is food
             //System.out.println(udContainer);
@@ -52,12 +55,14 @@ public class TestCreature extends Creature {
                 ChemicalComposition cc = ( (Food) udContainer.entity ).chem;
 
                 float dist = fixture.computeDistance(center, 0, new Vec2(0, 0));
+                //System.out.println("Dist: " + dist);
 
                 b[0] += cc.getProtein() * cc.getStrength() / dist;
                 b[1] += cc.getStarch() * cc.getStrength() / dist;
                 b[2] += cc.getFat() * cc.getStrength() / dist;
             }
         }
+        //System.out.println("");
 
         return new CreatureObservation(b, id);
     }

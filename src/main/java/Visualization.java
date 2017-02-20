@@ -4,12 +4,21 @@ import processing.core.PApplet;
 
 public class Visualization extends PApplet {
     GameRoot root;
+    private float resRatio;
+    private int screenSize = 500;
+    private int worldSize;
+
+    private float scaleSize (float scaleSize) {
+        return (screenSize * scaleSize) / worldSize;
+    }
 
     public void setup() {
         root = new GameRoot();
         root.initialize();
+        worldSize = root.world.worldSize;
 
-        size(500,500);
+        size(screenSize,screenSize);
+        resRatio = (float) screenSize / (float) worldSize;
     }
 
     public void draw(){
@@ -28,18 +37,26 @@ public class Visualization extends PApplet {
         for (int j = 0; j < creatures.length; j++) {
             fill(0, 250, 0);
             cur_creat = creatures[j];
-            ellipse(cur_creat.getPosition().x, cur_creat.getPosition().y, cur_creat.getScale(), cur_creat.getScale());
+
+            ellipse(cur_creat.getPosition().x * resRatio,
+                    cur_creat.getPosition().y * resRatio,
+                    scaleSize( cur_creat.getScale() ),
+                    scaleSize( cur_creat.getScale() )
+            );
         }
+
         rectMode(CENTER);
         for (int j = 0; j < food.length; j++) {
             fill(0, 0, 250);
             cur_food = food[j];
 
-            float x = cur_food.getPosition().x;
-            float y = cur_food.getPosition().y;
             float scale = cur_food.getScale();
 
-            rect(x, y, scale, scale);
+            rect(cur_food.getPosition().x * resRatio,
+                    cur_food.getPosition().y * resRatio,
+                    scaleSize( scale ),
+                    scaleSize( scale )
+            );
         }
     }
 }
