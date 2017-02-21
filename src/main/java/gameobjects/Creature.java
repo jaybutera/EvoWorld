@@ -14,12 +14,14 @@ public abstract class Creature extends DynamicEntity {
 	protected int id;
 	protected float energy;
 	public ChemicalComposition chems;
+	private CreatureManager manager;
 
-	public Creature (Body body, float scale, int id, World world) {
+	public Creature (Body body, CreatureManager manager, float scale, int id) {
 		super(body, scale);
 
 		this.id = id;
 		this.energy = 70f;
+		this.manager = manager;
 
 		chems = new ChemicalComposition(0f,0f,0f,2f);
 	}
@@ -45,10 +47,14 @@ public abstract class Creature extends DynamicEntity {
 		return body.getPosition();
 	}
 
-	public abstract boolean action (float[] a);
+	public abstract void action (float[] a);
     public abstract CreatureObservation observation (ArrayList<Fixture> foundFixtures);
 
     public EntityType getEntityType () {
     	return EntityType.Creature;
+	}
+
+	public void die () {
+		this.manager.remove(this);
 	}
 }

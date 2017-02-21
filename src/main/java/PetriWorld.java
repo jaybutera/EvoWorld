@@ -20,19 +20,16 @@ public class PetriWorld {
 
     final public int worldSize = 1000;
 
-    // Queue all deaths each frame for garbage collection
-    private ArrayList<Creature> dead_creatures;
-
-    public Creature[] creatures;
+    //public Creature[] creatures;
     public FoodManager foodManager;
+    public CreatureManager creatureManager;
 
     public PetriWorld (int[] creature_ids) {
         num_bodies     = creature_ids.length;
-        creatures      = new Creature[num_bodies];
-        //food           = new Food[num_food];
-        dead_creatures = new ArrayList<>();
+        //creatures      = new Creature[num_bodies];
         fitnessRecords = new FitnessRecords();
         foodManager    = new FoodManager();
+        creatureManager= new CreatureManager();
         local_iter     = 0;
 
         // Define world boundaries
@@ -44,7 +41,7 @@ public class PetriWorld {
         Vec2 gravity = new Vec2((float) 0.0, (float) 0.0);
         world = new World(gravity);
 
-        creatureFactory = new CreatureFactory(0, world);
+        creatureFactory = new CreatureFactory(0, world, creatureManager);
 
         initBoundaries();
         initEntities(creature_ids);
@@ -55,82 +52,59 @@ public class PetriWorld {
     }
 
     public void step () {
-        // Clean out dead creatures
-        removeDeadCreatures();
-
         // Food management
+        //-------------------------------
         for (Food f : foodManager.foodToRemove) {
             world.destroyBody(f.body);
         }
         foodManager.clearFood();
 
-        // Perform a time step in the physics simulation
+        // Creature management
+        //-------------------------------
+        for (Creature c : creatureManager.creaturesToRemove) {
+            world.destroyBody(c.body);
+
+            // Record death
+            Integer fit = (int)local_iter;
+            fitnessRecords.addRecord(c, fit.floatValue());
+        }
+        creatureManager.clearCreatures();
+
+        // Physics step
+        //-------------------------------
         world.step(timeStep, 7, 7);
         local_iter++;
     }
 
     public void applyActions(HashMap<Integer, float[]> actions) {
-        for (Creature c : creatures ) {
-
-            /*
-            System.out.print("Action [" + c.getId() + "]: ");
-            for (int i = 0; i < actions.get(c.getId()).length; i++)
-                System.out.print(" | " + actions.get(c.getId())[i]);
-            System.out.println("");
-            */
-
-            if ( c.action( actions.get(c.getId()) ) == true ) // true means creature died
-                dead_creatures.add(c);
+        for (Creature c : creatureManager.creatures ) {
+            c.action( actions.get(c.getId()) );
         }
     }
 
     public CreatureObservation[] getObservations () {
-        CreatureObservation[] creatureObservations = new CreatureObservation[ creatures.length ];
+        CreatureObservation[] creatureObservations = new CreatureObservation[ creatureManager.creatures.length ];
 
         Vec2 center;
 
         // Construct creature observations vector
-        for (int i = 0; i < creatures.length; i++) {
+        for (int i = 0; i < creatureManager.creatures.length; i++) {
 
             // Setup AABB query callback
-            center = creatures[i].getPosition();
+            center = creatureManager.creatures[i].getPosition();
             AABB smellRange = new AABB(center.add(new Vec2(-300f, -300f)), center.add(new Vec2(300f, 300f)));
             OdorQueryCallback aabbCallback = new OdorQueryCallback();
             world.queryAABB(aabbCallback, smellRange);
 
-            creatureObservations[i] = creatures[i].observation(aabbCallback.foundFixtures);
+            creatureObservations[i] = creatureManager.creatures[i].observation(aabbCallback.foundFixtures);
         }
 
         return creatureObservations;
     }
 
-    private void removeDeadCreatures () {
-        // Record deaths
-        for (Creature c : dead_creatures) {
-            Integer fit = (int)local_iter;
-            fitnessRecords.addRecord(c, fit.floatValue());
-        }
-
-        // Prune creatures
-        Creature[] tmp_creatures = new Creature[creatures.length - dead_creatures.size()];
-        int j = 0;
-        for (int i = 0; i < creatures.length; i++) {
-            if ( !dead_creatures.contains(creatures[i]) && j < tmp_creatures.length ) {
-                tmp_creatures[j++] = creatures[i];
-            }
-            else {
-                // Destroy creature body
-                //world.destroyBody( creatures[i].body );
-            }
-        }
-
-        creatures = tmp_creatures;
-        // Reset dead creature count
-        dead_creatures = new ArrayList<>();
-    }
-
     private void initEntities (int[] creature_ids) {
         Food[] food = new Food[num_food];
+        Creature[] creatures = new Creature[num_bodies];
 
         // Box for food
         PolygonShape boxShape = new PolygonShape();
@@ -165,6 +139,7 @@ public class PetriWorld {
         }
 
         foodManager.initFood(food);
+        creatureManager.initCreatures(creatures);
     }
 
     private void initBoundaries () {

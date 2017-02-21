@@ -1,3 +1,5 @@
+package gameobjects;
+
 import gameobjects.Creature;
 import toolbox.Tuple;
 

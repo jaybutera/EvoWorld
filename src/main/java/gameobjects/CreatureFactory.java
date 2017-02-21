@@ -9,10 +9,12 @@ public class CreatureFactory {
     private int x;
     private World world;
     private Random r = new Random();
+    private CreatureManager manager;
 
-    public CreatureFactory (int init_pos_x, World world) {
+    public CreatureFactory (int init_pos_x, World world, CreatureManager manager) {
         x = init_pos_x;
         this.world = world;
+        this.manager = manager;
     }
 
     public TestCreature getTestCreature(int id) {
@@ -52,7 +54,7 @@ public class CreatureFactory {
         mouthFixtureDef.filter.maskBits = EntityType.Food.getCategoryBit();
         Fixture mouth_fix = new_body.createFixture(mouthFixtureDef);
 
-        TestCreature phil = new TestCreature(new_body,circleShape.m_radius,id,world);
+        TestCreature phil = new TestCreature(new_body, manager, circleShape.m_radius,id);
         new_body_fix.setUserData( new UserDataContainer(phil.getEntityType(), phil) );
         mouth_fix.setUserData( new UserDataContainer(EntityType.CreatureMouthSensor, phil) );
 

@@ -1,6 +1,7 @@
 import com.google.flatbuffers.FlatBufferBuilder;
 import gameobjects.Creature;
 import gameobjects.CreatureObservation;
+import gameobjects.FitnessRecords;
 import org.zeromq.ZMQ;
 import sim.messages.AI.Obs.*;
 import sim.messages.AI.Control.*;

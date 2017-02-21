@@ -8,14 +8,13 @@ import org.jbox2d.dynamics.World;
 import java.util.ArrayList;
 
 public class TestCreature extends Creature {
-    public TestCreature(Body body, float scale, int id, World world) {
-        super(body, scale, id, world);
+    public TestCreature(Body body, CreatureManager manager, float scale, int id) {
+        super(body, manager, scale, id);
     }
 
-    public boolean action(float[] a) {
+    public void action(float[] a) {
         if (a.length != 2) {
             System.out.println("Float array for action array is incorrect size");
-            return false;
         }
 
         // Movement force vector
@@ -34,7 +33,9 @@ public class TestCreature extends Creature {
 
         // True means dead, false is still alive.
         // It's terrible and I hate it. I hope to change this soon.
-        return true ? energy < 0f : false;
+        //return true ? energy < 0f : false;
+        if (energy < 0f)
+            die();
     }
 
     // Builds a flat buffer representation of observation and returns offset

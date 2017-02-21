@@ -81,7 +81,7 @@ public class GameRoot {
                 send();
 
             // Check that creatures still exist
-            if ( world.creatures.length == 0 )
+            if ( world.creatureManager.creatures.length == 0 )
                 nextEpoch();
         }
 
@@ -113,7 +113,7 @@ public class GameRoot {
         step();
 
         try {
-            TimeUnit.MILLISECONDS.sleep(20);
+            TimeUnit.MILLISECONDS.sleep(0);
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -122,7 +122,7 @@ public class GameRoot {
     }
 
     public Creature[] getCreatures () {
-        return world.creatures;
+        return world.creatureManager.creatures;
     }
 
     public Food[] getFood () {
@@ -131,7 +131,7 @@ public class GameRoot {
 
     private void send () {
         ArrayList<PBCreatureOuterClass.PBCreature> creatures = new ArrayList<>();
-        for (Creature c : world.creatures)
+        for (Creature c : world.creatureManager.creatures)
             creatures.add( c.serialize() );
 
         ArrayList<PBFoodOuterClass.PBFood> food = new ArrayList<>();
