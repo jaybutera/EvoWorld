@@ -54,7 +54,7 @@ public class GameRoot {
 
     public void step () {
         // Next epoch criteria
-        if (epoch_iter % 10000 == 0) {
+        if (epoch_iter % 7000 == 0) {
             nextEpoch();
         }
         else {
@@ -74,7 +74,7 @@ public class GameRoot {
                 System.out.println("Elapsed actions time (ms) - " + (end_time - start_time));
 
             // Perform physical update
-            world.step(iteration);
+            world.step();
 
             // Update proxy server
             if (connected)

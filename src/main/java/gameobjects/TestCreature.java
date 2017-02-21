@@ -61,7 +61,6 @@ public class TestCreature extends Creature {
                 ChemicalComposition cc = ( (Food) udContainer.entity ).chem;
 
                 float dist = fixture.computeDistance(center, 0, new Vec2(0, 0));
-                //System.out.println("Dist: " + dist);
 
                 b[0] += cc.getProtein() * cc.getStrength() / dist;
                 b[1] += cc.getStarch() * cc.getStrength() / dist;

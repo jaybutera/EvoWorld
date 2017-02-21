@@ -126,9 +126,11 @@ public class SimConnector {
 
         int[] scores = new int[fr.size()];
 
+        System.out.println("Fitness scores");
         for (int i = 0; i < fr.size(); i++) {
             Tuple<Creature, Float> record = fr.get(i);
-            scores[i] = Score.createScore(builder, record.x.getId(), (float)record.y);
+            scores[i] = Score.createScore(builder, record.x.getId(), record.y);
+            System.out.println(record.x.getId() + " | " + record.y);
         }
 
         int scores_offset = Epoch.createScoresVector(builder, scores);

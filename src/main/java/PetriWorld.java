@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Random;
 
 public class PetriWorld {
-	private BodyDef bodyDef;
     private AABB worldAABB; // Boundaries for world
     private World world;
     private float timeStep = 1f/60f; // 60 frames per second
@@ -17,6 +16,7 @@ public class PetriWorld {
     private int num_food = 20;
     private FitnessRecords fitnessRecords; // Used to track dead creatures and their fitness scores
     private CreatureFactory creatureFactory;
+    private long local_iter;
 
     final public int worldSize = 1000;
 
@@ -24,7 +24,6 @@ public class PetriWorld {
     private ArrayList<Creature> dead_creatures;
 
     public Creature[] creatures;
-    //public Food[] food;
     public FoodManager foodManager;
 
     public PetriWorld (int[] creature_ids) {
@@ -33,7 +32,8 @@ public class PetriWorld {
         //food           = new Food[num_food];
         dead_creatures = new ArrayList<>();
         fitnessRecords = new FitnessRecords();
-        foodManager = new FoodManager();
+        foodManager    = new FoodManager();
+        local_iter     = 0;
 
         // Define world boundaries
         worldAABB = new AABB();
@@ -54,24 +54,11 @@ public class PetriWorld {
         world.setContactListener(mouthSensorContactListener);
     }
 
-    public void step (long iteration) {
+    public void step () {
         // Clean out dead creatures
-        removeDeadCreatures(iteration);
+        removeDeadCreatures();
 
-        // Remove food
-        /*
-        int j = 0;
-        for (int i = 0; i < foodManager.food.length; i++) {
-            if ( !foodManager.foodToRemove.contains(foodManager.food[i]) && j < tmp_creatures.length ) {
-                tmp_creatures[j++] = creatures[i];
-            }
-            else {
-                // Destroy creature body
-                //world.destroyBody( creatures[i].body );
-            }
-        }
-        */
-
+        // Food management
         for (Food f : foodManager.foodToRemove) {
             world.destroyBody(f.body);
         }
@@ -79,6 +66,7 @@ public class PetriWorld {
 
         // Perform a time step in the physics simulation
         world.step(timeStep, 7, 7);
+        local_iter++;
     }
 
     public void applyActions(HashMap<Integer, float[]> actions) {
@@ -116,10 +104,10 @@ public class PetriWorld {
         return creatureObservations;
     }
 
-    private void removeDeadCreatures (long iteration) {
+    private void removeDeadCreatures () {
         // Record deaths
         for (Creature c : dead_creatures) {
-            Integer fit = (int)iteration;
+            Integer fit = (int)local_iter;
             fitnessRecords.addRecord(c, fit.floatValue());
         }
 
@@ -139,7 +127,6 @@ public class PetriWorld {
         creatures = tmp_creatures;
         // Reset dead creature count
         dead_creatures = new ArrayList<>();
-        // Pretty sure this is O(nk) time. Atleast it's not n^2
     }
 
     private void initEntities (int[] creature_ids) {
