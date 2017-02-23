@@ -1,10 +1,22 @@
 import gameobjects.*;
-import org.jbox2d.common.Vec2;
+import java.lang.Math;
 
-public class GroundGrid {
+public class GroundGrid extends Grid{
     private double[][] oxygen = new double[100][100]; // percent of oxygen at each grid index
     private double[][] moisture = new double[100][100]; // percent of moisture at each grid index
+    private double[][] sunlight = new double[100][100]; // percent of sunlight reaching each grid index
     private double[][] co2 = new double[100][100]; // percent of CO2 at each grid index
+
+    public GroundGrid() {
+        for(int x = 0; x < 100; x++) {
+            for(int y = 0; y < 100; y++) {
+                oxygen[x][y] = Math.random()*100;
+                moisture[x][y] = Math.random()*100;
+                sunlight[x][y] = Math.random()*100;
+                co2[x][y] = Math.random()*100;
+            }
+        }
+    }
 
     // accessors
     public double getOxygen(DynamicEntity cr) {
@@ -20,6 +32,13 @@ public class GroundGrid {
     }
 
     public double getMoisture(int length, int width) { return moisture[length][width]; }
+
+    public double getSunlight(DynamicEntity cr) {
+        int pos[] = convertCoordinates(cr);
+        return sunlight[pos[0]][pos[1]];
+    }
+
+    public double getSunlight (int length, int width) { return sunlight[length][width]; }
 
     public double getCo2(DynamicEntity cr) {
         int pos[] = convertCoordinates(cr);
@@ -42,15 +61,5 @@ public class GroundGrid {
     public void setCo2(DynamicEntity cr, double per) {
         int pos[] = convertCoordinates(cr);
         co2[pos[0]][pos[1]] = per;
-    }
-
-    // convert coordinates of where Entity is to access and change info about position's environment
-    public int[] convertCoordinates(DynamicEntity cr) {
-        Vec2 pos = cr.getPosition();
-        int x = (int)pos.x/10;
-        int y = (int)pos.y/10;
-        int arr[] = {x, y};
-
-        return arr;
     }
 }

@@ -4,7 +4,7 @@ import org.jbox2d.common.Vec2;
 import org.jbox2d.dynamics.Body;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-public class StaticEntity {
+public class StaticEntity extends Entity {
     final public Body body;
     float scale;
 
@@ -43,4 +43,6 @@ public class StaticEntity {
     public void setScale(float scale) {
         this.scale = scale;
     }
+
+    public EntityType getEntityType() { return EntityType.Food; }
 }
