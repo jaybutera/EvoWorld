@@ -14,14 +14,14 @@ public class GrassGrid extends Grid{
                 double percent = ground.getCo2(x, y);
 
                 if(ground.getMoisture(x, y) > 50) {
-                    percent = percent + (100 - ground.getMoisture(x, y));
+                    percent = percent + (100 - ground.getMoisture(x, y))*2;
                 }
                 else {
                     percent = percent + ground.getMoisture(x, y)*2;
                 }
 
                 if(ground.getSunlight(x, y) > 50) {
-                    percent = percent + (100 - ground.getSunlight(x, y));
+                    percent = percent + (100 - ground.getSunlight(x, y))*2;
                 }
                 else {
                     percent = percent + ground.getSunlight(x, y)*2;
@@ -39,6 +39,8 @@ public class GrassGrid extends Grid{
     }
 
     public double getGrass(int length, int width) { return grass[length][width]; }
+
+    public GroundGrid getGround() { return ground; }
 
     // mutator
     public void setGrass(DynamicEntity cr, double per) {
