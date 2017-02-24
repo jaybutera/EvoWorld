@@ -24,7 +24,7 @@ public class GrassGrid extends Grid{
                     percent = percent + (100 - ground.getSunlight(x, y));
                 }
                 else {
-                    percent = percent + (100 - ground.getSunlight(x, y));
+                    percent = percent + ground.getSunlight(x, y)*2;
                 }
 
                 grass[x][y] = percent/3;
@@ -38,9 +38,22 @@ public class GrassGrid extends Grid{
         return grass[pos[0]][pos[1]];
     }
 
+    public double getGrass(int length, int width) { return grass[length][width]; }
+
     // mutator
     public void setGrass(DynamicEntity cr, double per) {
         int pos[] = convertCoordinates(cr);
         grass[pos[0]][pos[1]] = per;
+    }
+
+    public void growGrass() {
+        for(int x = 0; x < 100; x++) {
+            for(int y = 0; y < 100; y++) {
+                grass[x][y] = grass[x][y]*1.1;
+                if (grass[x][y] > 100) {
+                    grass[x][y] = 100;
+                }
+            }
+        }
     }
 }
