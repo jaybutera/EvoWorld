@@ -58,4 +58,9 @@ public class GrassGrid extends Grid{
             }
         }
     }
+
+    public void eatGrass(double amnt, Creature cr) {
+        // todo - deplete grass based on cr's position
+        // processing.org
+    }
 }
