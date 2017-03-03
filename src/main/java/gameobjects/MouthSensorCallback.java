@@ -9,7 +9,7 @@ import org.jbox2d.dynamics.contacts.Contact;
 public class MouthSensorCallback implements ContactListener {
     private void creatureEatFood (Creature creature, Food food) {
         food.die();
-        creature.energy += 5f;
+        creature.energy += 15f;
     }
 
     @Override

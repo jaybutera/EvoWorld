@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameRoot {
     private ProxyConnector proxy;
-    private SimConnectorTester sim;
+    private SimConnector sim;
 
     public PetriWorld world;
     private boolean first_run = true;
@@ -22,7 +22,7 @@ public class GameRoot {
 
     public void initialize () {
         // Connect to proxy server to update player clients of game state
-        proxy = new ProxyConnector("127.0.0.1", 8000);
+        proxy = new ProxyConnectorTester("127.0.0.1", 8000);
 
         // On failure to connect to proxy, continue execution
         try {
@@ -55,10 +55,15 @@ public class GameRoot {
     public void step () {
         // Next epoch criteria
         if (epoch_iter % 7000 == 0) {
+            world.killCreatures();
+            // Allow creatures to die to get final fitness
+            sim.sendObservations( world.getObservations() );
+            world.applyActions(sim.getActions());
+            world.step();
+
             nextEpoch();
         }
         else {
-
             start_time = System.currentTimeMillis();
             sim.sendObservations( world.getObservations() );
             end_time = System.currentTimeMillis();
@@ -70,8 +75,11 @@ public class GameRoot {
             world.applyActions(sim.getActions());
             end_time = System.currentTimeMillis();
 
-            if (iteration % 100 == 0)
+            if (iteration % 100 == 0) {
+                System.out.println("Iteration " + epoch_iter);
                 System.out.println("Elapsed actions time (ms) - " + (end_time - start_time));
+                sim.resetBuilder(2048); // Clean buffer space
+            }
 
             // Perform physical update
             world.step();
@@ -95,6 +103,7 @@ public class GameRoot {
         */
 
         iteration++;
+        epoch_iter++;
     }
 
     private void nextEpoch () {

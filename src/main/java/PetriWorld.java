@@ -13,12 +13,12 @@ public class PetriWorld {
     private World world;
     private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
-    private int num_food = 20;
+    private int num_food = 115;
     private FitnessRecords fitnessRecords; // Used to track dead creatures and their fitness scores
     private CreatureFactory creatureFactory;
     private long local_iter;
 
-    final public int worldSize = 1000;
+    final public int worldSize = 3000;
 
     //public Creature[] creatures;
     public FoodManager foodManager;
@@ -49,6 +49,11 @@ public class PetriWorld {
         // Setup contact listeners
         MouthSensorCallback mouthSensorContactListener = new MouthSensorCallback();
         world.setContactListener(mouthSensorContactListener);
+    }
+
+    public void killCreatures () {
+        for (Creature c : creatureManager.creatures)
+            c.energy = 0f;
     }
 
     public void step () {

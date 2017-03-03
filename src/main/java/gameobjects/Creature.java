@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 public abstract class Creature extends DynamicEntity {
 	protected int id;
-	protected float energy;
+	public float energy;
 	public ChemicalComposition chems;
 	private CreatureManager manager;
 

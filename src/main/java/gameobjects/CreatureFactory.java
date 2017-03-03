@@ -22,7 +22,8 @@ public class CreatureFactory {
         BodyDef bodyDef = new BodyDef();
         bodyDef.type = BodyType.DYNAMIC;
         bodyDef.angle = r.nextInt(100);
-        bodyDef.position.set(x * 50+100,450);
+        //bodyDef.position.set(x * 90+100,450);
+        bodyDef.position.set(r.nextInt(3000),r.nextInt(3000));
         x++;
 
         // Body Fixture gives a shape to a body.

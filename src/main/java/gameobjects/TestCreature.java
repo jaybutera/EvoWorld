@@ -21,7 +21,8 @@ public class TestCreature extends Creature {
         Vec2 move = new Vec2(a[0], a[1]);
 
         // Deplete energy
-        energy -= .1 * (move.length());
+        energy -= .05 * (move.length());
+        energy -= .03;
 
         // Forward vector
         Vec2 forward_vec = body.getWorldVector(new Vec2(0, 1));

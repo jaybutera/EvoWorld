@@ -28,7 +28,11 @@ public class SimConnector {
 
         req = context.socket(ZMQ.REQ);
 
-        builder = new FlatBufferBuilder(1024);
+        builder = new FlatBufferBuilder(2048);
+    }
+
+    public void resetBuilder (int size) {
+        builder = new FlatBufferBuilder(size);
     }
 
     public void connect () {
@@ -97,12 +101,13 @@ public class SimConnector {
 
         /***** NEEDS OPTIMIZATION ******/
         // Tmp storage for each action vector
-        float[] a = new float[actions_fb.action(0).outputLength()];
+        float[] a ;//= new float[actions_fb.action(0).outputLength()];
 
         // Map flat buffer to dictionary (hashmap)
         //-----------------------------------
         for (int i = 0; i < num_actions; i++) {
             Move m = actions_fb.action(i);
+            a = new float[actions_fb.action(0).outputLength()];
 
             // Build action vector
             for (int j = 0; j < m.outputLength(); j++)
