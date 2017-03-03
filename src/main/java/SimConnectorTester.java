@@ -1,3 +1,4 @@
+import com.google.flatbuffers.FlatBufferBuilder;
 import gameobjects.CreatureObservation;
 import gameobjects.FitnessRecords;
 
@@ -9,6 +10,10 @@ public class SimConnectorTester {
     private int action_size = 2;
 
     public SimConnectorTester(String host, int port) {}
+
+    public void resetBuilder (int size) {
+
+    }
 
     public void connect () {}
 

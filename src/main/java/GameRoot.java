@@ -10,7 +10,7 @@ import java.util.concurrent.TimeUnit;
 
 public class GameRoot {
     private ProxyConnector proxy;
-    private SimConnector sim;
+    private SimConnectorTester sim;
 
     public PetriWorld world;
     private boolean first_run = true;
@@ -22,7 +22,7 @@ public class GameRoot {
 
     public void initialize () {
         // Connect to proxy server to update player clients of game state
-        proxy = new ProxyConnectorTester("127.0.0.1", 8000);
+        proxy = new ProxyConnector("127.0.0.1", 8000);
 
         // On failure to connect to proxy, continue execution
         try {
