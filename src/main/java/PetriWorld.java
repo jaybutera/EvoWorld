@@ -1,3 +1,4 @@
+import configurations.Config;
 import gameobjects.*;
 import org.jbox2d.collision.shapes.PolygonShape;
 import org.jbox2d.dynamics.*;
@@ -13,24 +14,25 @@ public class PetriWorld {
     private World world;
     private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
-    private int num_food = 115;
+    private int num_food = 200;
     private FitnessRecords fitnessRecords; // Used to track dead creatures and their fitness scores
     private CreatureFactory creatureFactory;
     private long local_iter;
 
-    final public int worldSize = 3000;
+    final public int worldSize;
 
     //public Creature[] creatures;
     public FoodManager foodManager;
     public CreatureManager creatureManager;
 
-    public PetriWorld (int[] creature_ids) {
+    public PetriWorld (int[] creature_ids, Config config) {
         num_bodies     = creature_ids.length;
         //creatures      = new Creature[num_bodies];
         fitnessRecords = new FitnessRecords();
         foodManager    = new FoodManager();
         creatureManager= new CreatureManager();
         local_iter     = 0;
+        worldSize      = config.world_size;
 
         // Define world boundaries
         worldAABB = new AABB();

@@ -1,3 +1,5 @@
+import configurations.Config;
+import configurations.ReadConfig;
 import gameobjects.Creature;
 import gameobjects.Food;
 import server.messages.PBCreatureOuterClass;
@@ -10,19 +12,30 @@ import java.util.concurrent.TimeUnit;
 
 public class GameRoot {
     private ProxyConnector proxy;
-    private SimConnectorTester sim;
+    private SimConnector sim;
 
     public PetriWorld world;
     private boolean first_run = true;
     private long iteration;
     private long epoch_iter;
     private long start_time, end_time;
+    private Config config;
 
     private boolean connected = false;
 
     public void initialize () {
         // Connect to proxy server to update player clients of game state
         proxy = new ProxyConnector("127.0.0.1", 8000);
+
+        // Load config file
+        try {
+            config = (new ReadConfig()).getPropValues();
+        }
+        catch (Exception e) {
+            System.out.println("Failed to load config file");
+            e.printStackTrace();
+            System.exit(0);
+        }
 
         // On failure to connect to proxy, continue execution
         try {
@@ -33,7 +46,7 @@ public class GameRoot {
         }
 
         // Connect to simulation server to get creature actions
-        sim = new SimConnectorTester("127.0.0.1", 5559);
+        sim = new SimConnector("127.0.0.1", 5559);
 
         // On failure to connect to sim server, crash
         try {
@@ -46,7 +59,7 @@ public class GameRoot {
 
         // TODO: Restructure to set creature ids
         int[] ids = sim.getIds();
-        world = new PetriWorld( ids );
+        world = new PetriWorld( ids, config );
 
         iteration = 0;
         epoch_iter = 1;
@@ -114,7 +127,7 @@ public class GameRoot {
             System.out.print(ids[i] + " | ");
         System.out.println("");
 
-        world = new PetriWorld( ids );
+        world = new PetriWorld( ids, config );
         epoch_iter = 1;
     }
 

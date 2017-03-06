@@ -6,7 +6,7 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.Properties;
 
-public class readConfig {
+public class ReadConfig {
     Config config;
     InputStream inputStream;
 
