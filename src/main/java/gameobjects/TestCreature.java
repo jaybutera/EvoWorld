@@ -52,6 +52,8 @@ public class TestCreature extends Creature {
                 (body.getMass() * vel.y) / (1f/60f)
         };
 
+        float ang_accel_obs = ( body.getMass() * body.getAngularVelocity() ) / (1f/60f);
+
         // Smell
         //---------------------------
         // Accumulate strength of each chemical for all objects in smell range
@@ -71,6 +73,6 @@ public class TestCreature extends Creature {
         }
         //System.out.println("");
 
-        return new CreatureObservation(b, accel_obs, id);
+        return new CreatureObservation(b, accel_obs, ang_accel_obs, id);
     }
 }

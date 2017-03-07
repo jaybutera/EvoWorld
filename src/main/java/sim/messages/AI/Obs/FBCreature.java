@@ -18,11 +18,13 @@ public final class FBCreature extends Table {
   public Smell smell(Smell obj) { int o = __offset(6); return o != 0 ? obj.__init(o + bb_pos, bb) : null; }
   public Vec2 accel() { return accel(new Vec2()); }
   public Vec2 accel(Vec2 obj) { int o = __offset(8); return o != 0 ? obj.__init(o + bb_pos, bb) : null; }
+  public float angAccel() { int o = __offset(10); return o != 0 ? bb.getFloat(o + bb_pos) : 0.0f; }
 
-  public static void startFBCreature(FlatBufferBuilder builder) { builder.startObject(3); }
+  public static void startFBCreature(FlatBufferBuilder builder) { builder.startObject(4); }
   public static void addId(FlatBufferBuilder builder, int id) { builder.addShort(0, (short)id, 0); }
   public static void addSmell(FlatBufferBuilder builder, int smellOffset) { builder.addStruct(1, smellOffset, 0); }
   public static void addAccel(FlatBufferBuilder builder, int accelOffset) { builder.addStruct(2, accelOffset, 0); }
+  public static void addAngAccel(FlatBufferBuilder builder, float angAccel) { builder.addFloat(3, angAccel, 0.0f); }
   public static int endFBCreature(FlatBufferBuilder builder) {
     int o = builder.endObject();
     return o;

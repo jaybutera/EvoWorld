@@ -68,6 +68,7 @@ public class SimConnector {
             FBCreature.addId(builder, creatureObservations[i].id );
             FBCreature.addSmell(builder, Smell.createSmell(builder, obs.smell[0], obs.smell[1], obs.smell[2]) );
             FBCreature.addAccel(builder, Vec2.createVec2(builder, obs.accel[0], obs.accel[0]));
+            FBCreature.addAngAccel(builder, creatureObservations[i].ang_accel);
             fb_creatures[i] = FBCreature.endFBCreature(builder);
 
         }
