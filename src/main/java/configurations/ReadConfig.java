@@ -28,7 +28,8 @@ public class ReadConfig {
             // get the property value and print it out
             config = new Config(
                     Integer.valueOf(prop.getProperty("food_count")),
-                    Integer.valueOf(prop.getProperty("world_size"))
+                    Integer.valueOf(prop.getProperty("world_size")),
+                    Float.valueOf(prop.getProperty("timestep"))
             );
 
         } catch (Exception e) {

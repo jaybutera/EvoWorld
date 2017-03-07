@@ -12,14 +12,14 @@ import java.util.Random;
 public class PetriWorld {
     private AABB worldAABB; // Boundaries for world
     private World world;
-    private float timeStep = 1f/60f; // 60 frames per second
     private int num_bodies; // Number of dynamic bodies in the scene
-    private int num_food = 200;
     private FitnessRecords fitnessRecords; // Used to track dead creatures and their fitness scores
     private CreatureFactory creatureFactory;
     private long local_iter;
 
     final public int worldSize;
+    final public int num_food;
+    private float timeStep;
 
     //public Creature[] creatures;
     public FoodManager foodManager;
@@ -33,6 +33,8 @@ public class PetriWorld {
         creatureManager= new CreatureManager();
         local_iter     = 0;
         worldSize      = config.world_size;
+        num_food       = config.food_count;
+        timeStep       = config.timestep;
 
         // Define world boundaries
         worldAABB = new AABB();
