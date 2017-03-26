@@ -7,14 +7,16 @@ import java.util.Random;
 
 public class CreatureFactory {
     private int x;
+    private int worldsize;
     private World world;
     private Random r = new Random();
     private CreatureManager manager;
 
-    public CreatureFactory (int init_pos_x, World world, CreatureManager manager) {
+    public CreatureFactory (int init_pos_x, int worldsize, World world, CreatureManager manager) {
         x = init_pos_x;
         this.world = world;
         this.manager = manager;
+        this.worldsize = worldsize;
     }
 
     public TestCreature getTestCreature(int id) {
@@ -23,7 +25,7 @@ public class CreatureFactory {
         bodyDef.type = BodyType.DYNAMIC;
         bodyDef.angle = r.nextInt(100);
         //bodyDef.position.set(x * 90+100,450);
-        bodyDef.position.set(r.nextInt(3000),r.nextInt(3000));
+        bodyDef.position.set(r.nextInt(worldsize),r.nextInt(worldsize));
         x++;
 
         // Body Fixture gives a shape to a body.

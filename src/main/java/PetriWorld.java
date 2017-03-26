@@ -45,7 +45,7 @@ public class PetriWorld {
         Vec2 gravity = new Vec2((float) 0.0, (float) 0.0);
         world = new World(gravity);
 
-        creatureFactory = new CreatureFactory(0, world, creatureManager);
+        creatureFactory = new CreatureFactory(0, worldSize, world, creatureManager);
 
         initBoundaries();
         initEntities(creature_ids);
