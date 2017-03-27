@@ -7,7 +7,6 @@ import server.messages.PBFoodOuterClass;
 import server.messages.PBGameStateOuterClass;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 public class GameRoot {
@@ -20,6 +19,8 @@ public class GameRoot {
     private long epoch_iter;
     private long start_time, end_time;
     private Config config;
+    final int TARGET_FPS = 60;
+    final long TARGET_DELTA = 1000000000 / TARGET_FPS;
 
     private boolean connected = false;
 
@@ -75,48 +76,58 @@ public class GameRoot {
             world.step();
 
             nextEpoch();
-        }
-        else {
-            start_time = System.currentTimeMillis();
-            sim.sendObservations( world.getObservations() );
-            end_time = System.currentTimeMillis();
 
-            if (iteration % 100 == 0)
-                System.out.println("Elapsed send obs time (ms) - " + (end_time - start_time));
-
-            start_time = System.currentTimeMillis();
-            world.applyActions(sim.getActions());
-            end_time = System.currentTimeMillis();
-
-            if (iteration % 100 == 0) {
-                System.out.println("Iteration " + epoch_iter);
-                System.out.println("Elapsed actions time (ms) - " + (end_time - start_time));
-                sim.resetBuilder(2048); // Clean buffer space
-            }
-
-            // Perform physical update
-            world.step();
-
-            // Update proxy server
-            if (connected)
-                send();
-
-            // Check that creatures still exist
-            if ( world.creatureManager.creatures.length == 0 )
-                nextEpoch();
+            return;
         }
 
-        /* Debugging
-        System.out.println("Creatures");
-        for (int j = 0; j < world.creatures.length; j++)
-            System.out.println(world.creatures[j].serialize().toString());
-        System.out.println("gameobjects.Food [0]");
-        //for (int j = 0; j < world.food.length; j++)
-        System.out.println(world.food[0].serialize(0).toString());
-        */
+        // Record frame start time
+        long begin_time = System.nanoTime();
+
+        start_time = System.currentTimeMillis();
+        sim.sendObservations( world.getObservations() );
+        end_time = System.currentTimeMillis();
+
+        if (iteration % 100 == 0)
+            System.out.println("Elapsed send obs time (ms) - " + (end_time - start_time));
+
+        start_time = System.currentTimeMillis();
+        world.applyActions(sim.getActions());
+        end_time = System.currentTimeMillis();
+
+        if (iteration % 100 == 0) {
+            System.out.println("Iteration " + epoch_iter);
+            System.out.println("Elapsed actions time (ms) - " + (end_time - start_time));
+            sim.resetBuilder(2048); // Clean buffer space
+        }
+
+        // Perform physical update
+        world.step();
+
+        // Update proxy server
+        if (connected)
+            send();
+
+        // Check that creatures still exist
+        if ( world.creatureManager.creatures.length == 0 )
+            nextEpoch();
 
         iteration++;
         epoch_iter++;
+
+
+        // Wait until CPU time reaches next frame
+        long next_start = begin_time + TARGET_DELTA;
+        try {
+            do {
+                Thread.sleep(0);
+            }
+            while (System.nanoTime() < next_start);
+        }
+        catch (Exception e) {
+            System.out.println("Game loop timer failed!");
+            System.out.println(e);
+            System.exit(0);
+        }
     }
 
     private void nextEpoch () {
