@@ -31,12 +31,12 @@ public class CreatureFactory {
         // Body Fixture gives a shape to a body.
         // In this case a circle
         CircleShape circleShape = new CircleShape();
-        circleShape.m_radius = 15;
+        circleShape.m_radius = 2f;
 
         // Body fixture definition
         FixtureDef circFixtureDef = new FixtureDef();
         circFixtureDef.shape = circleShape;
-        circFixtureDef.density = 1;
+        circFixtureDef.density = 1f; // Gives mass of 20
         circFixtureDef.friction = 0.4f;
         circFixtureDef.filter.categoryBits = EntityType.Creature.getCategoryBit();
         circFixtureDef.filter.maskBits = /*EntityType.Creature.getCategoryBit() & */ EntityType.Wall.getCategoryBit();
@@ -46,7 +46,7 @@ public class CreatureFactory {
 
         // Mouth shape
         CircleShape mouthShape = new CircleShape();
-        mouthShape.m_radius=16;
+        mouthShape.m_radius=2.1f;
 
         // Mouth sensor fixture definition
         FixtureDef mouthFixtureDef = new FixtureDef();

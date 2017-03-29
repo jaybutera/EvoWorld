@@ -8,16 +8,11 @@ import org.jbox2d.dynamics.World;
 import java.util.ArrayList;
 
 public class TestCreature extends Creature {
-    private final int lag_time = 60;
-    private int lag_counter;
-    private boolean lag_started;
-    private ArrayList<Vec2> lag_vel;
     private Vec2 last_vel = new Vec2(0,0);
+    private float last_rotvel = 0;
 
     public TestCreature(Body body, CreatureManager manager, float scale, int id) {
         super(body, manager, scale, id);
-
-        lag_vel = new ArrayList<>();
     }
 
     public void action(float[] a) {
@@ -55,41 +50,28 @@ public class TestCreature extends Creature {
         //---------------------------
         Vec2 vel = body.getLinearVelocity();
 
-
-        // Windowing, remove oldest record once large enough
-        lag_vel.add(vel);
-        if (lag_vel.size() > lag_time) {
-            lag_vel.remove(0);
-        }
-
         float[] accel_obs = {0f,0f};
-        //Vec2 last_vel = lag_vel.get( 0 );
 
         /*
-        System.out.println("last vel: " + (last_vel.x));
-        System.out.println("vel: " + (vel.x));
+        System.out.println(last_vel.x);
+        System.out.println(vel.x);
         System.out.println("-");
         */
 
+        // Linear acceleration
         if (vel.x != 0f)
-            accel_obs[0] = (body.getMass() * (vel.x - last_vel.x) / (1f/60f));
+            accel_obs[0] = ((last_vel.x - vel.x)) / (1f/60f);
         if (vel.y != 0f)
-            accel_obs[1] = (body.getMass() * (vel.y - last_vel.y) / (1f/60f));// / (1f/60f)
+            accel_obs[1] = ((last_vel.y - vel.y)) / (1f/60f);
 
+        // Rotational acceleration
+        float rotvel = body.getAngularVelocity();
+        float ang_accel_obs = (last_rotvel - rotvel) / (1f/60f);
+
+        // Update last vel record
         last_vel.x = vel.x;
         last_vel.y = vel.y;
-
-        //System.out.println("lag counter: " + lag_counter);
-
-        /*
-        float[] accel_obs = {
-                1f/(body.getMass() * vel.x),// / (1f/60f),
-                1f/(body.getMass() * vel.y)// / (1f/60f)
-                //this.last_move.x, this.last_move.y
-        };
-        */
-
-        float ang_accel_obs = ( body.getMass() * body.getAngularVelocity() );// / (1f/60f);
+        last_rotvel = rotvel;
 
         // Smell
         //---------------------------
