@@ -19,6 +19,7 @@ public class SimConnector {
 
     private String host;
     private int port;
+    private int iter;
 
     public SimConnector (String host, int port) {
         this.host = host;
@@ -27,6 +28,7 @@ public class SimConnector {
         context = ZMQ.context(1);
 
         req = context.socket(ZMQ.REQ);
+        iter = 0;
 
         builder = new FlatBufferBuilder(2048);
     }
@@ -62,6 +64,8 @@ public class SimConnector {
             // Build the fb observation vector
             //int fb_view_offset = sim.messages.AI.Obs.FBCreature.createViewVector(builder, creatures[i].observation() );
             CreatureObservation obs = creatureObservations[i];
+            if (iter % 100 == 0)
+                System.out.println(obs);
             //int fb_smell_offset = sim.messages.AI.Obs.Smell.createSmell(builder, obs[0], obs[1], obs[2] );
             // Build fb creature
             FBCreature.startFBCreature (builder);
@@ -73,6 +77,7 @@ public class SimConnector {
 
         }
 
+        iter++;
         int fb_obs_offset = sim.messages.AI.Obs.Observations.createObsVector(builder, fb_creatures);
 
         // Construct top level Observations message. Contains list of Creatures.
@@ -133,11 +138,11 @@ public class SimConnector {
 
         int[] scores = new int[fr.size()];
 
-        System.out.println("Fitness scores");
+        //System.out.println("Fitness scores");
         for (int i = 0; i < fr.size(); i++) {
             Tuple<Creature, Float> record = fr.get(i);
             scores[i] = Score.createScore(builder, record.x.getId(), record.y);
-            System.out.println(record.x.getId() + " | " + record.y);
+            // System.out.println(record.x.getId() + " | " + record.y);
         }
 
         int scores_offset = Epoch.createScoresVector(builder, scores);

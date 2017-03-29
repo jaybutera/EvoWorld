@@ -1,10 +1,3 @@
-import server.messages.PBCreatureOuterClass;
-import server.messages.PBFoodOuterClass;
-import server.messages.PBGameStateOuterClass;
-
-import java.util.ArrayList;
-import java.util.concurrent.TimeUnit;
-
 public class FastLoop {
     private ProxyConnector connector;
     //private PetriWorld world;

@@ -19,8 +19,9 @@ public class GameRoot {
     private long epoch_iter;
     private long start_time, end_time;
     private Config config;
-    final int TARGET_FPS = 60;
-    final long TARGET_DELTA = 1000000000 / TARGET_FPS;
+    int TARGET_FPS;
+    long TARGET_DELTA;
+    long last_worldstep_time;
 
     private boolean connected = false;
 
@@ -61,9 +62,13 @@ public class GameRoot {
         // TODO: Restructure to set creature ids
         int[] ids = sim.getIds();
         world = new PetriWorld( ids, config );
+        last_worldstep_time = System.nanoTime();
 
         iteration = 0;
         epoch_iter = 1;
+
+        TARGET_FPS = config.fps;
+        TARGET_DELTA = 1000000000 / TARGET_FPS;
     }
 
     public void step () {
@@ -73,6 +78,7 @@ public class GameRoot {
             // Allow creatures to die to get final fitness
             sim.sendObservations( world.getObservations() );
             world.applyActions(sim.getActions());
+
             world.step();
 
             nextEpoch();
@@ -102,6 +108,7 @@ public class GameRoot {
 
         // Perform physical update
         world.step();
+
 
         // Update proxy server
         if (connected)

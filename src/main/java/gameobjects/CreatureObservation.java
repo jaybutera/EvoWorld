@@ -20,4 +20,17 @@ final public class CreatureObservation {
 
         this.id = id;
     }
+
+    public String toString () {
+        String str = "";
+
+        //str += "smell: \n";
+        for (int i = 0; i < smell.length; i++)
+            str += String.valueOf( smell[i] ) + ", ";
+
+        // Add linear acceleration
+        str += "Accel: (" + this.accel[0] + ", " + this.accel[1] + ") | ang accel: " + ang_accel;
+
+        return str;
+    }
 }

@@ -34,7 +34,7 @@ public class PetriWorld {
         local_iter     = 0;
         worldSize      = config.world_size;
         num_food       = config.food_count;
-        timeStep       = config.timestep;
+        timeStep       = 1f / config.fps;
 
         // Define world boundaries
         worldAABB = new AABB();
@@ -101,7 +101,7 @@ public class PetriWorld {
 
             // Setup AABB query callback
             center = creatureManager.creatures[i].getPosition();
-            AABB smellRange = new AABB(center.add(new Vec2(-300f, -300f)), center.add(new Vec2(300f, 300f)));
+            AABB smellRange = new AABB(center.add(new Vec2(-600f, -600f)), center.add(new Vec2(300f, 300f)));
             OdorQueryCallback aabbCallback = new OdorQueryCallback();
             world.queryAABB(aabbCallback, smellRange);
 
@@ -143,7 +143,7 @@ public class PetriWorld {
             // Assign body definition to body
             Fixture new_body_fix = new_body.createFixture(boxFixtureDef);
 
-            food[i] = new Food(new_body, foodManager, 10f, i);
+            food[i] = new Food(new_body, foodManager, 5f, i);
             new_body_fix.setUserData( new UserDataContainer(food[i].getEntityType(), food[i]) );
         }
 

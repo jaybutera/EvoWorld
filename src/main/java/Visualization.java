@@ -43,6 +43,8 @@ public class Visualization extends PApplet {
                     scaleSize( cur_creat.getScale() ),
                     scaleSize( cur_creat.getScale() )
             );
+            //System.out.println(creatures[0].getPosition().x);
+
         }
 
         rectMode(CENTER);
@@ -58,5 +60,8 @@ public class Visualization extends PApplet {
                     scaleSize( scale )
             );
         }
+
+        //rectMode(CORNER);
+        //for (int i = 0; i < )
     }
 }
