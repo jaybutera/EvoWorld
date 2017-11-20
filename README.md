@@ -1,3 +1,5 @@
+![Project Architecture Overview](https://github.com/jaybutera/EvoWorld/blob/master/public/Game%20Plan.jpg)
+
 ### To compile protocol buffers
 Move to directory src/main/java/server/messages and run build_messages.h. It's
 important to actually be in the messages directory when running the script.
